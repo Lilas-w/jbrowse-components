@@ -81,6 +81,7 @@ See CONTRIBUTING.md for more info
 If you are installing JBrowse on your server, check out our quick start guides
 here https://jbrowse.org/jb2/docs/
 
+```
 packages
 ├── core
 │   ├── assemblyManager
@@ -1325,3 +1326,4 @@ plugins
     └── tsconfig.json
 
 225 directories, 784 files
+```
