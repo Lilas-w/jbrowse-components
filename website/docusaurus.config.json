@@ -9,7 +9,7 @@
   "organizationName": "GMOD",
   "projectName": "jbrowse-components",
   "customFields": {
-    "currentVersion": "v2.1.2"
+    "currentVersion": "v2.1.5"
   },
   "themeConfig": {
     "colorMode": {
@@ -91,6 +91,10 @@
             {
               "label": "Documentation",
               "to": "docs/"
+            },
+            {
+              "label": "Cancer resources",
+              "to": "cancer/"
             }
           ]
         },

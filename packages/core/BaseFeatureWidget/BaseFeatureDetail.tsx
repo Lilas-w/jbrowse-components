@@ -17,19 +17,17 @@ import isObject from 'is-object'
 import { IAnyStateTreeNode } from 'mobx-state-tree'
 
 // locals
-import { getConf } from '../configuration'
 import {
   measureText,
   measureGridWidth,
-  getSession,
   getStr,
   getUriLink,
   isUriLocation,
 } from '../util'
-import SanitizedHTML from '../ui/SanitizedHTML'
+import { ErrorMessage, SanitizedHTML } from '../ui'
 import SequenceFeatureDetails from './SequenceFeatureDetails'
 import { BaseCardProps, BaseProps } from './types'
-import { SimpleFeatureSerialized } from '../util/simpleFeature'
+import { SimpleFeatureSerializedNoId } from '../util/simpleFeature'
 import { ellipses } from './util'
 
 const MAX_FIELD_NAME_WIDTH = 170
@@ -251,7 +249,7 @@ const toLocale = (n: number) => n.toLocaleString('en-US')
 
 function CoreDetails(props: BaseProps) {
   const { feature } = props
-  const obj = feature as SimpleFeatureSerialized & {
+  const obj = feature as SimpleFeatureSerializedNoId & {
     start: number
     end: number
     strand: number
@@ -557,17 +555,13 @@ function generateTitle(name: unknown, id: unknown, type: unknown) {
 
 export const FeatureDetails = (props: {
   model: IAnyStateTreeNode
-  feature: SimpleFeatureSerialized
+  feature: SimpleFeatureSerializedNoId
   depth?: number
   omit?: string[]
   formatter?: (val: unknown, key: string) => React.ReactNode
 }) => {
   const { omit = [], model, feature, depth = 0 } = props
   const { name = '', id = '', type = '', subfeatures } = feature
-  const session = getSession(model)
-  const defaultSeqTypes = ['mRNA', 'transcript']
-  const sequenceTypes =
-    getConf(session, ['featureDetails', 'sequenceTypes']) || defaultSeqTypes
 
   return (
     <BaseCard title={generateTitle(name, id, type)}>
@@ -581,22 +575,15 @@ export const FeatureDetails = (props: {
         omit={[...omit, ...coreDetails]}
       />
 
-      {sequenceTypes.includes(feature.type) ? (
-        <ErrorBoundary
-          FallbackComponent={({ error }) => (
-            <Typography color="error">{`${error}`}</Typography>
-          )}
-        >
-          <SequenceFeatureDetails {...props} />
-        </ErrorBoundary>
-      ) : null}
+      <ErrorBoundary
+        FallbackComponent={({ error }) => <ErrorMessage error={error} />}
+      >
+        <SequenceFeatureDetails {...props} />
+      </ErrorBoundary>
 
       {subfeatures?.length ? (
-        <BaseCard
-          title="Subfeatures"
-          defaultExpanded={!sequenceTypes.includes(feature.type)}
-        >
-          {subfeatures.map((sub: any) => (
+        <BaseCard title="Subfeatures" defaultExpanded={depth < 1}>
+          {subfeatures.map(sub => (
             <FeatureDetails
               key={JSON.stringify(sub)}
               feature={sub}
@@ -610,8 +597,7 @@ export const FeatureDetails = (props: {
   )
 }
 
-const BaseFeatureDetails = observer((props: BaseInputProps) => {
-  const { model } = props
+const BaseFeatureDetails = observer(({ model }: BaseInputProps) => {
   const { featureData } = model
 
   if (!featureData) {
@@ -627,11 +613,10 @@ const BaseFeatureDetails = observer((props: BaseInputProps) => {
       typeof v === 'undefined' ? null : v,
     ),
   )
-  if (isEmpty(feature)) {
-    return null
-  }
 
-  return <FeatureDetails model={model} feature={feature} />
+  return isEmpty(feature) ? null : (
+    <FeatureDetails model={model} feature={feature} />
+  )
 })
 
 export default BaseFeatureDetails

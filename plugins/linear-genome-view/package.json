@@ -1,6 +1,6 @@
 {
   "name": "@jbrowse/plugin-linear-genome-view",
-  "version": "2.1.2",
+  "version": "2.1.5",
   "description": "JBrowse 2 linear genome view",
   "keywords": [
     "jbrowse",
@@ -58,6 +58,7 @@
     "prop-types": "^15.0.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
+    "react-error-boundary": "^3.0.0",
     "tss-react": "^3.0.0"
   },
   "publishConfig": {

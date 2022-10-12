@@ -123,6 +123,11 @@ interface CacheData {
   options: BaseOptions
 }
 
+export interface RefNameMap {
+  forwardMap: RefNameAliases
+  reverseMap: RefNameAliases
+}
+
 export interface BasicRegion {
   start: number
   end: number
@@ -133,13 +138,7 @@ export default function assemblyFactory(
   assemblyConfigType: IAnyType,
   pluginManager: PluginManager,
 ) {
-  const adapterLoads = new AbortablePromiseCache<
-    CacheData,
-    {
-      forwardMap: { [key: string]: string }
-      reverseMap: { [key: string]: string }
-    }
-  >({
+  const adapterLoads = new AbortablePromiseCache<CacheData, RefNameMap>({
     cache: new QuickLRU({ maxSize: 1000 }),
     async fill(
       args: CacheData,
@@ -179,6 +178,10 @@ export default function assemblyFactory(
         return getConf(self, 'aliases')
       },
 
+      get displayName(): string | undefined {
+        return getConf(self, 'displayName')
+      },
+
       hasName(name: string) {
         return this.allAliases.includes(name)
       },
@@ -197,6 +200,18 @@ export default function assemblyFactory(
         return !self.refNameAliases
           ? undefined
           : Object.keys(self.refNameAliases)
+      },
+
+      get lowerCaseRefNames() {
+        return !self.lowerCaseRefNameAliases
+          ? undefined
+          : Object.keys(self.lowerCaseRefNameAliases || {})
+      },
+
+      get allRefNamesWithLowerCase() {
+        return this.allRefNames && this.lowerCaseRefNames
+          ? [...new Set([...this.allRefNames, ...this.lowerCaseRefNames])]
+          : undefined
       },
       get rpcManager() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -258,12 +273,9 @@ export default function assemblyFactory(
       setRegions(regions: Region[]) {
         self.regions = regions
       },
-      setRefNameAliases(
-        refNameAliases: RefNameAliases,
-        lowerCaseRefNameAliases: RefNameAliases,
-      ) {
-        self.refNameAliases = refNameAliases
-        self.lowerCaseRefNameAliases = lowerCaseRefNameAliases
+      setRefNameAliases(aliases: RefNameAliases, lowerCase: RefNameAliases) {
+        self.refNameAliases = aliases
+        self.lowerCaseRefNameAliases = lowerCase
       },
       setCytobands(cytobands: Feature[]) {
         self.cytobands = cytobands
@@ -410,28 +422,19 @@ async function loadAssemblyReaction(
 
 async function getRefNameAliases(
   config: AnyConfigurationModel,
-  pluginManager: PluginManager,
+  pm: PluginManager,
   signal?: AbortSignal,
 ) {
-  const type = pluginManager.getAdapterType(config.type)
-  const CLASS = await type.getAdapterClass?.()
-  const adapter = new CLASS(
-    config,
-    undefined,
-    pluginManager,
-  ) as BaseRefNameAliasAdapter
-  return adapter.getRefNameAliases({
-    signal,
-  })
+  const type = pm.getAdapterType(config.type)
+  const CLASS = await type.getAdapterClass()
+  const adapter = new CLASS(config, undefined, pm) as BaseRefNameAliasAdapter
+  return adapter.getRefNameAliases({ signal })
 }
 
-async function getCytobands(
-  config: AnyConfigurationModel,
-  pluginManager: PluginManager,
-) {
-  const type = pluginManager.getAdapterType(config.type)
+async function getCytobands(config: AnyConfigurationModel, pm: PluginManager) {
+  const type = pm.getAdapterType(config.type)
   const CLASS = await type.getAdapterClass()
-  const adapter = new CLASS(config, undefined, pluginManager)
+  const adapter = new CLASS(config, undefined, pm)
 
   // @ts-ignore
   return adapter.getData()
@@ -439,12 +442,12 @@ async function getCytobands(
 
 async function getAssemblyRegions(
   config: AnyConfigurationModel,
-  pluginManager: PluginManager,
+  pm: PluginManager,
   signal?: AbortSignal,
 ) {
-  const type = pluginManager.getAdapterType(config.type)
+  const type = pm.getAdapterType(config.type)
   const CLASS = await type.getAdapterClass()
-  const adapter = new CLASS(config, undefined, pluginManager) as RegionsAdapter
+  const adapter = new CLASS(config, undefined, pm) as RegionsAdapter
   return adapter.getRegions({ signal })
 }
 

@@ -1,31 +1,21 @@
 import { fireEvent, waitFor } from '@testing-library/react'
-import { LocalFile } from 'generic-filehandle'
 
 // locals
-import { clearCache } from '@jbrowse/core/util/io/RemoteFileWithRangeCache'
-import { clearAdapterCache } from '@jbrowse/core/data_adapters/dataAdapterCache'
+import { toMatchImageSnapshot } from 'jest-image-snapshot'
 import {
   setup,
   expectCanvasMatch,
-  generateReadBuffer,
+  doBeforeEach,
   createView,
   hts,
   pc,
 } from './util'
 
+expect.extend({ toMatchImageSnapshot })
 setup()
 
 beforeEach(() => {
-  clearCache()
-  clearAdapterCache()
-  // @ts-ignore
-  fetch.resetMocks()
-  // @ts-ignore
-  fetch.mockResponse(
-    generateReadBuffer(
-      url => new LocalFile(require.resolve(`../../test_data/volvox/${url}`)),
-    ),
-  )
+  doBeforeEach()
 })
 
 const delay = { timeout: 20000 }
@@ -59,7 +49,7 @@ test('test stats estimation pileup, force load to see', async () => {
   )
 
   await findAllByText(/Requested too much data/, {}, delay)
-  const buttons = await findAllByText(/Force Load/, {}, delay)
+  const buttons = await findAllByText(/Force load/, {}, delay)
   fireEvent.click(buttons[0])
 
   expectCanvasMatch(
@@ -94,7 +84,7 @@ test('test stats estimation on vcf track, force load to see', async () => {
   fireEvent.click(await findByTestId('htsTrackEntry-variant_colors', {}, delay))
 
   await findAllByText(/Zoom in to see features/, {}, delay)
-  const buttons = await findAllByText(/Force Load/, {}, delay)
+  const buttons = await findAllByText(/Force load/, {}, delay)
   fireEvent.click(buttons[0])
   await findByTestId('box-test-vcf-605223', {}, delay)
 }, 30000)

@@ -1,6 +1,6 @@
 {
   "name": "@jbrowse/plugin-spreadsheet-view",
-  "version": "2.1.2",
+  "version": "2.1.5",
   "description": "JBrowse 2 spreadsheet view",
   "keywords": [
     "jbrowse",
@@ -39,12 +39,13 @@
   "dependencies": {
     "@gmod/bgzf-filehandle": "^1.4.3",
     "@gmod/vcf": "^5.0.5",
-    "@jbrowse/plugin-variants": "^2.1.2",
+    "@jbrowse/plugin-variants": "^2.1.5",
     "@mui/icons-material": "^5.0.1",
     "csvtojson": "^2.0.10"
   },
   "peerDependencies": {
     "@jbrowse/core": "^2.0.0",
+    "@jbrowse/plugin-linear-genome-view": "^2.0.0",
     "@mui/material": "^5.0.0",
     "mobx": "^6.0.0",
     "mobx-react": "^7.0.0",
