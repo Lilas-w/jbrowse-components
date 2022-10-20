@@ -416,26 +416,26 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
           const feat = self.contextMenuFeature
           const contextMenuItems = feat
             ? [
-                {
-                  label: 'Open feature details',
-                  icon: MenuOpenIcon,
-                  onClick: () => {
-                    self.clearFeatureSelection()
-                    if (feat) {
-                      self.selectFeature(feat)
-                    }
-                  },
+              {
+                label: 'Open feature details',
+                icon: MenuOpenIcon,
+                onClick: () => {
+                  self.clearFeatureSelection()
+                  if (feat) {
+                    self.selectFeature(feat)
+                  }
                 },
-                {
-                  label: 'Copy info to clipboard',
-                  icon: ContentCopyIcon,
-                  onClick: () => {
-                    if (feat) {
-                      self.copyFeatureToClipboard(feat)
-                    }
-                  },
+              },
+              {
+                label: 'Copy info to clipboard',
+                icon: ContentCopyIcon,
+                onClick: () => {
+                  if (feat) {
+                    self.copyFeatureToClipboard(feat)
+                  }
                 },
-              ]
+              },
+            ]
             : []
           return contextMenuItems
         },
@@ -563,7 +563,7 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
               icon: SortIcon,
               disabled: self.showSoftClipping,
               subMenu: [
-                ...['Start location', 'Read strand', 'Base pair'].map(
+                ...['Start location', 'Read strand', 'Base pair', 'Test'].map(
                   option => ({
                     label: option,
                     onClick: () => self.setSortedBy(option),
