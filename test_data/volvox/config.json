@@ -1,4 +1,8 @@
 {
+  "plugins": [
+    { "name": "UMDLocPlugin", "umdLoc": { "uri": "umd_plugin.js" } },
+    { "name": "UMDUrlPlugin", "umdUrl": "umd_plugin.js" }
+  ],
   "assemblies": [
     {
       "name": "volvox",
@@ -8,6 +12,10 @@
         "trackId": "volvox_refseq",
         "metadata": {
           "date": "2020-08-20"
+        },
+        "formatAbout": {
+          "hideUris": true,
+          "config": "jexl:{extraField:'important data'}"
         },
         "adapter": {
           "type": "TwoBitAdapter",
@@ -1638,7 +1646,7 @@
     {
       "type": "AlignmentsTrack",
       "trackId": "Deep sequencing",
-      "name": "deep_sequencing",
+      "name": "Deep sequencing",
       "category": ["Alignments"],
       "assemblyNames": ["volvox"],
       "adapter": {

@@ -1596,10 +1596,10 @@
     pump "^3.0.0"
     split2 "^4.1.0"
 
-"@gmod/gff@^1.2.0":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@gmod/gff/-/gff-1.2.1.tgz#4d1e3694f2268215aa6c7bad366be84a1449034d"
-  integrity sha512-YUqPOfoaSfVVXs3Unwph4Ap3NxQIghNtNm+57DEhf+cMeUloFU6v44dKwSUcZZ+PBgAop1BD11QUVSVzmSqNgQ==
+"@gmod/gff@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@gmod/gff/-/gff-1.2.3.tgz#ae057592a14e3cd73a0ae430e94aa6a49e4312ca"
+  integrity sha512-ONnS+otYGLmrcd/c+j8IwRfm/gw0kWNxUOpGMap5G860LlFMYr4ltlQYucnTXDXnhcUsQHJlgLrQYhBnHf4y6A==
 
 "@gmod/gtf@^0.0.6":
   version "0.0.6"
@@ -18616,7 +18616,7 @@ serialize-error@^7.0.1:
   dependencies:
     type-fest "^0.13.1"
 
-serialize-error@^8.1.0:
+serialize-error@^8.0.0, serialize-error@^8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/serialize-error/-/serialize-error-8.1.0.tgz#3a069970c712f78634942ddd50fbbc0eaebe2f67"
   integrity sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==

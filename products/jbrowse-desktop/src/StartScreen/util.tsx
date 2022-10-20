@@ -42,11 +42,11 @@ const defaultInternetAccounts = [
   },
 ]
 
-export async function loadPluginManager(filePath: string) {
-  const snap = await ipcRenderer.invoke('loadSession', filePath)
+export async function loadPluginManager(configPath: string) {
+  const snap = await ipcRenderer.invoke('loadSession', configPath)
   const pm = await createPluginManager(snap)
   // @ts-ignore
-  pm.rootModel?.setSessionPath(filePath)
+  pm.rootModel?.setSessionPath(configPath)
   return pm
 }
 
@@ -101,7 +101,7 @@ export async function createPluginManager(
     },
   })
   pluginLoader.installGlobalReExports(window)
-  const runtimePlugins = await pluginLoader.load()
+  const runtimePlugins = await pluginLoader.load(window.location.href)
   const pm = new PluginManager([
     ...corePlugins.map(P => ({
       plugin: new P(),
@@ -151,10 +151,6 @@ export async function createPluginManager(
 
   const config = rootModel.jbrowse.configuration
   const { rpc } = config
-
-  rpc.addDriverConfig('WebWorkerRpcDriver', {
-    type: 'WebWorkerRpcDriver',
-  })
   rpc.defaultDriver.set('WebWorkerRpcDriver')
 
   pm.setRootModel(rootModel)
