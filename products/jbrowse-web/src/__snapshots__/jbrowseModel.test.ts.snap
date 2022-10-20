@@ -96,6 +96,10 @@ Object {
             "type": "LinearReferenceSequenceDisplay",
           },
         ],
+        "formatAbout": Object {
+          "config": "jexl:{extraField:'important data'}",
+          "hideUris": true,
+        },
         "metadata": Object {
           "date": "2020-08-20",
         },
@@ -276,7 +280,18 @@ Object {
       "type": "GoogleDriveOAuthInternetAccount",
     },
   ],
-  "plugins": Array [],
+  "plugins": Array [
+    Object {
+      "name": "UMDLocPlugin",
+      "umdLoc": Object {
+        "uri": "umd_plugin.js",
+      },
+    },
+    Object {
+      "name": "UMDUrlPlugin",
+      "umdUrl": "umd_plugin.js",
+    },
+  ],
   "tracks": Array [
     Object {
       "adapter": Object {
@@ -3034,7 +3049,7 @@ Object {
           "type": "LinearSNPCoverageDisplay",
         },
       ],
-      "name": "deep_sequencing",
+      "name": "Deep sequencing",
       "trackId": "Deep sequencing",
       "type": "AlignmentsTrack",
     },
