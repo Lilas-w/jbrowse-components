@@ -117,10 +117,6 @@ export const sortFeature = (
 
       const baseMap = new Map(baseSortArray)
 
-      for (let i = 0; i < featuresInCenterLine.length; i++) {
-        console.log(featuresInCenterLine[i].record.data.md);
-      }
-
       featuresInCenterLine.sort((a, b) => {
         const aMismatch = baseMap.get(a.id())
         const bMismatch = baseMap.get(b.id())
@@ -128,10 +124,10 @@ export const sortFeature = (
         const bcode = aMismatch && aMismatch.base.toUpperCase()
         if (acode === bcode && acode === '*') {
           // @ts-ignore
-          return aMismatch.length - bMismatch.length // 返回值为正，a 在 b 后
+          return aMismatch.length - bMismatch.length // 升序排序
         }
         return (
-          (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0) // 等于0顺序不变
+          (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0) // 等于0顺序不变，升序排序
         )
       })
 

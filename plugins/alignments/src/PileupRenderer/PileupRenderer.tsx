@@ -65,7 +65,7 @@ function fillRect(
 function getColorBaseMap(theme: Theme) {
   const { bases } = theme.palette
   return {
-    A: bases.A.main,
+    A: bases.A.main, // 突变的颜色
     C: bases.C.main,
     G: bases.G.main,
     T: bases.T.main,
@@ -204,8 +204,7 @@ export default class PileupRenderer extends BoxRendererType {
     }
     if (feature.get('refName') !== region.refName) {
       throw new Error(
-        `feature ${feature.id()} is not on the current region's reference sequence ${
-          region.refName
+        `feature ${feature.id()} is not on the current region's reference sequence ${region.refName
         }`,
       )
     }
@@ -462,12 +461,12 @@ export default class PileupRenderer extends BoxRendererType {
 
     const probabilities = ml
       ? (typeof ml === 'string' ? ml.split(',').map(e => +e) : ml).map(
-          e => e / 255,
-        )
+        e => e / 255,
+      )
       : (getTagAlt(feature, 'MP', 'Mp') as string)
-          .split('')
-          .map(s => s.charCodeAt(0) - 33)
-          .map(elt => Math.min(1, elt / 50))
+        .split('')
+        .map(s => s.charCodeAt(0) - 33)
+        .map(elt => Math.min(1, elt / 50))
 
     const cigar = feature.get('CIGAR')
     const start = feature.get('start')
@@ -502,9 +501,9 @@ export default class PileupRenderer extends BoxRendererType {
           canvasWidth,
           prob && prob !== 1
             ? base
-                .alpha(prob + 0.1)
-                .hsl()
-                .string()
+              .alpha(prob + 0.1)
+              .hsl()
+              .string()
             : col,
         )
         probIndex++
@@ -885,12 +884,12 @@ export default class PileupRenderer extends BoxRendererType {
             !mismatchAlpha
               ? baseColor
               : mismatch.qual !== undefined
-              ? // @ts-ignore
+                ? // @ts-ignore
                 Color(baseColor)
                   .alpha(Math.min(1, mismatch.qual / 50))
                   .hsl()
                   .string()
-              : baseColor,
+                : baseColor,
           )
         }
 
@@ -902,12 +901,12 @@ export default class PileupRenderer extends BoxRendererType {
           ctx.fillStyle = !mismatchAlpha
             ? contrastColor
             : mismatch.qual !== undefined
-            ? // @ts-ignore
+              ? // @ts-ignore
               Color(contrastColor)
                 .alpha(Math.min(1, mismatch.qual / 50))
                 .hsl()
                 .string()
-            : contrastColor
+              : contrastColor
           ctx.fillText(
             mbase,
             leftPx + (widthPx - charWidth) / 2 + 1,
