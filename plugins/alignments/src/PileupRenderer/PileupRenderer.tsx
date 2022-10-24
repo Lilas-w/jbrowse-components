@@ -64,6 +64,7 @@ function fillRect(
 
 function getColorBaseMap(theme: Theme) {
   const { bases } = theme.palette
+
   return {
     A: bases.A.main, // 突变的颜色
     C: bases.C.main,
@@ -872,7 +873,14 @@ export default class PileupRenderer extends BoxRendererType {
       const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
       if (mismatch.type === 'mismatch') {
         if (!drawSNPsMuted) {
-          const baseColor = colorForBase[mismatch.base] || '#888'
+          let baseColor = '#C8C8C8' || '#888'
+          // C下面的所有T是红色，C下面的C是蓝色，G下面的A是红色，G下面的G是蓝色，其他均为灰色
+          if (mismatch.altbase === 'G' && mismatch.base === 'A') {
+            baseColor = '#f44336' // red
+          }
+          if (mismatch.altbase === 'C' && mismatch.base === 'T') {
+            baseColor = '#f44336' // red
+          }
 
           fillRect(
             ctx,
