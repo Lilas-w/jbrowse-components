@@ -42,6 +42,7 @@ import {
   PileupLayoutSessionProps,
 } from './PileupLayoutSession'
 import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
+import { foodieMatchParser } from '../BamAdapter/FoodieMatchParser'
 
 function fillRect(
   ctx: CanvasRenderingContext2D,
@@ -861,6 +862,9 @@ export default class PileupRenderer extends BoxRendererType {
     const extraHorizontallyFlippedOffset = region.reversed
       ? 1 / bpPerPx + 1
       : -1
+    const md = feature.get('md')
+    const seq = feature.get('seq')
+    console.log(foodieMatchParser(md, seq));
 
     // two pass rendering: first pass, draw all the mismatches except wide
     // insertion markers
