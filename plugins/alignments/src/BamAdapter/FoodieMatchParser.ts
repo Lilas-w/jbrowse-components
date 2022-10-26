@@ -2,10 +2,9 @@ export interface FoodieMatch {
   start: number
   base: string
 }
-export function foodieMatchParser(mdstring: string, seq: string) {
+export function getFoodieMatches(mdstring: string, seq: string) {
   const mdRegex = new RegExp(/(\d+|\^[a-z]+|[a-z])/gi)
   const md = mdstring.match(mdRegex) || []
-  console.log(md);
   let base = '';
   let pos = 0;
   const foodieMatchRecords: FoodieMatch[] = []

@@ -42,7 +42,7 @@ import {
   PileupLayoutSessionProps,
 } from './PileupLayoutSession'
 import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
-import { foodieMatchParser } from '../BamAdapter/FoodieMatchParser'
+import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
 
 function fillRect(
   ctx: CanvasRenderingContext2D,
@@ -862,9 +862,6 @@ export default class PileupRenderer extends BoxRendererType {
     const extraHorizontallyFlippedOffset = region.reversed
       ? 1 / bpPerPx + 1
       : -1
-    const md = feature.get('md')
-    const seq = feature.get('seq')
-    console.log(foodieMatchParser(md, seq));
 
     // two pass rendering: first pass, draw all the mismatches except wide
     // insertion markers
@@ -1207,6 +1204,16 @@ export default class PileupRenderer extends BoxRendererType {
         contrastForBase,
         canvasWidth,
       })
+      this.drawFoodieMatches({
+        ctx,
+        feat,
+        renderArgs,
+        minSubfeatureWidth,
+        charWidth,
+        charHeight,
+        canvasWidth,
+        drawSNPsMuted,
+      })
       if (showSoftClip) {
         this.drawSoftClipping({
           ctx,
@@ -1216,6 +1223,69 @@ export default class PileupRenderer extends BoxRendererType {
           theme,
           canvasWidth,
         })
+      }
+    }
+  }
+
+  // 将并未发生突变的C、G位点显示成蓝色 
+  drawFoodieMatches({
+    ctx,
+    feat,
+    renderArgs,
+    minSubfeatureWidth,
+    charWidth,
+    charHeight,
+    canvasWidth,
+    drawSNPsMuted,
+  }: {
+    ctx: CanvasRenderingContext2D
+    feat: LayoutFeature
+    renderArgs: RenderArgsDeserializedWithFeaturesAndLayout
+    drawSNPsMuted?: boolean
+    minSubfeatureWidth: number
+    charWidth: number
+    charHeight: number
+    canvasWidth: number
+  }) {
+    const { Color, bpPerPx, regions } = renderArgs
+    const { heightPx, topPx, feature } = feat
+    const [region] = regions
+    const start = feature.get('start')
+
+    const pxPerBp = Math.min(1 / bpPerPx, 2)
+    const md = feature.get('md')
+    const seq = feature.get('seq')
+    const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq)
+    const heightLim = charHeight - 2
+
+    // draw all the mismatches except wide insertion markers
+    for (let i = 0; i < foodieMatches.length; i += 1) {
+      const foodieMatch = foodieMatches[i]
+      const fstart = start + foodieMatch.start
+      const fbase = foodieMatch.base
+      const [leftPx, rightPx] = bpSpanPx(fstart, fstart + 1, region, bpPerPx)
+      const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
+
+      if (!drawSNPsMuted) {
+        const baseColor = '#2196f3'
+
+        fillRect(
+          ctx,
+          leftPx,
+          topPx,
+          widthPx,
+          heightPx,
+          canvasWidth,
+          baseColor,
+        )
+        if (widthPx >= charWidth && heightPx >= heightLim) {
+          ctx.fillStyle = 'white'
+          ctx.fillText(
+            fbase,
+            leftPx + (widthPx - charWidth) / 2 + 1,
+            topPx + heightPx,
+          )
+        }
       }
     }
   }
