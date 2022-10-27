@@ -66,6 +66,11 @@ export default ConfigurationSchema(
       defaultValue: false,
       description: 'Fade low quality mismatches',
     },
+    showFoodieMatches: {
+      type: 'boolean',
+      defaultValue: false,
+      description: 'Show foodieMatches',
+    },
   },
   { explicitlyTyped: true },
 )

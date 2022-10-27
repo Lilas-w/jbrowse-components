@@ -67,6 +67,7 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
         fadeLikelihood: types.maybe(types.boolean),
         trackMaxHeight: types.maybe(types.number),
         mismatchAlpha: types.maybe(types.boolean),
+        showFoodieMatches: types.maybe(types.boolean),
         sortedBy: types.maybe(
           types.model({
             type: types.string,
@@ -316,6 +317,9 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
       toggleMismatchAlpha() {
         self.mismatchAlpha = !self.mismatchAlpha
       },
+      toggleFoodieMatches() {
+        self.showFoodieMatches = !self.showFoodieMatches
+      },
 
       setConfig(configuration: AnyConfigurationModel) {
         self.configuration = configuration
@@ -380,6 +384,7 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
             noSpacing: self.noSpacing,
             maxHeight: this.maxHeight,
             mismatchAlpha: self.mismatchAlpha,
+            showFoodieMatches: self.showFoodieMatches,
           },
           getEnv(self),
         )
@@ -393,6 +398,11 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
         return self.mismatchAlpha !== undefined
           ? self.mismatchAlpha
           : readConfObject(this.rendererConfig, 'mismatchAlpha')
+      },
+      get foodieMatchesSetting() {
+        return self.showFoodieMatches !== undefined
+          ? self.showFoodieMatches
+          : readConfObject(this.rendererConfig, 'showFoodieMatches')
       },
       get featureUnderMouse() {
         return self.featureUnderMouseVolatile
@@ -692,6 +702,14 @@ const stateModelFactory = (configSchema: LinearPileupDisplayConfigModel) =>
               checked: self.mismatchAlphaSetting,
               onClick: () => {
                 self.toggleMismatchAlpha()
+              },
+            },
+            {
+              label: 'Show foodieMatches',
+              type: 'checkbox',
+              checked: self.foodieMatchesSetting,
+              onClick: () => {
+                self.toggleFoodieMatches()
               },
             },
           ]

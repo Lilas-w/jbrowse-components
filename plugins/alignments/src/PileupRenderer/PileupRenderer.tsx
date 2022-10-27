@@ -825,6 +825,7 @@ export default class PileupRenderer extends BoxRendererType {
     minSubfeatureWidth,
     largeInsertionIndicatorScale,
     mismatchAlpha,
+    showFoodieMatches,
     charWidth,
     charHeight,
     colorForBase,
@@ -839,6 +840,7 @@ export default class PileupRenderer extends BoxRendererType {
     colorForBase: { [key: string]: string }
     contrastForBase: { [key: string]: string }
     mismatchAlpha?: boolean
+    showFoodieMatches?: boolean
     drawIndels?: boolean
     drawSNPsMuted?: boolean
     minSubfeatureWidth: number
@@ -874,13 +876,13 @@ export default class PileupRenderer extends BoxRendererType {
       const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
       if (mismatch.type === 'mismatch') {
         if (!drawSNPsMuted) {
-          let baseColor = '#C8C8C8' || '#888'
-          // C下面的所有T是红色，C下面的C是蓝色，G下面的A是红色，G下面的G是蓝色，其他均为灰色
-          if (mismatch.altbase === 'G' && mismatch.base === 'A') {
-            baseColor = '#f44336' // red
-          }
-          if (mismatch.altbase === 'C' && mismatch.base === 'T') {
-            baseColor = '#f44336' // red
+          let baseColor = colorForBase[mismatch.base] || '#888'
+          // C下面的所有T，G下面的A是红色，其他base为灰色
+          if (showFoodieMatches) {
+            baseColor = "#C8C8C8"  // gray
+            if ((mismatch.base === 'T' && mismatch.altbase === 'C') || (mismatch.base === 'A' && mismatch.altbase === 'G')) {
+              baseColor = "#f44336"  // red
+            }
           }
 
           fillRect(
@@ -1132,6 +1134,71 @@ export default class PileupRenderer extends BoxRendererType {
     }
   }
 
+  // 将并未发生突变的C、G位点显示成蓝色 
+  drawFoodieMatches({
+    ctx,
+    feat,
+    renderArgs,
+    minSubfeatureWidth,
+    charWidth,
+    charHeight,
+    canvasWidth,
+    drawSNPsMuted,
+    showFoodieMatches,
+  }: {
+    ctx: CanvasRenderingContext2D
+    feat: LayoutFeature
+    renderArgs: RenderArgsDeserializedWithFeaturesAndLayout
+    drawSNPsMuted?: boolean
+    minSubfeatureWidth: number
+    charWidth: number
+    charHeight: number
+    canvasWidth: number
+    showFoodieMatches: boolean
+  }) {
+    const { Color, bpPerPx, regions } = renderArgs
+    const { heightPx, topPx, feature } = feat
+    const [region] = regions
+    const start = feature.get('start')
+
+    const pxPerBp = Math.min(1 / bpPerPx, 2)
+    const md = feature.get('md')
+    const seq = feature.get('seq')
+    const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq)
+    const heightLim = charHeight - 2
+
+    // draw all the mismatches except wide insertion markers
+    for (let i = 0; i < foodieMatches.length; i += 1) {
+      const foodieMatch = foodieMatches[i]
+      const fstart = start + foodieMatch.start
+      const fbase = foodieMatch.base
+      const [leftPx, rightPx] = bpSpanPx(fstart, fstart + 1, region, bpPerPx)
+      const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
+
+      if (!drawSNPsMuted && showFoodieMatches) {
+        const baseColor = '#2196f3'  // blue
+
+        fillRect(
+          ctx,
+          leftPx,
+          topPx,
+          widthPx,
+          heightPx,
+          canvasWidth,
+          baseColor,
+        )
+        if (widthPx >= charWidth && heightPx >= heightLim) {
+          ctx.fillStyle = 'white'
+          ctx.fillText(
+            fbase,
+            leftPx + (widthPx - charWidth) / 2 + 1,
+            topPx + heightPx,
+          )
+        }
+      }
+    }
+  }
+
   makeImageData({
     ctx,
     layoutRecords,
@@ -1151,6 +1218,7 @@ export default class PileupRenderer extends BoxRendererType {
       theme: configTheme,
     } = renderArgs
     const mismatchAlpha = readConfObject(config, 'mismatchAlpha')
+    const showFoodieMatches = readConfObject(config, 'showFoodieMatches')
     const minSubfeatureWidth = readConfObject(config, 'minSubfeatureWidth')
     const largeInsertionIndicatorScale = readConfObject(
       config,
@@ -1203,6 +1271,7 @@ export default class PileupRenderer extends BoxRendererType {
         colorForBase,
         contrastForBase,
         canvasWidth,
+        showFoodieMatches,
       })
       this.drawFoodieMatches({
         ctx,
@@ -1213,6 +1282,7 @@ export default class PileupRenderer extends BoxRendererType {
         charHeight,
         canvasWidth,
         drawSNPsMuted,
+        showFoodieMatches,
       })
       if (showSoftClip) {
         this.drawSoftClipping({
@@ -1223,69 +1293,6 @@ export default class PileupRenderer extends BoxRendererType {
           theme,
           canvasWidth,
         })
-      }
-    }
-  }
-
-  // 将并未发生突变的C、G位点显示成蓝色 
-  drawFoodieMatches({
-    ctx,
-    feat,
-    renderArgs,
-    minSubfeatureWidth,
-    charWidth,
-    charHeight,
-    canvasWidth,
-    drawSNPsMuted,
-  }: {
-    ctx: CanvasRenderingContext2D
-    feat: LayoutFeature
-    renderArgs: RenderArgsDeserializedWithFeaturesAndLayout
-    drawSNPsMuted?: boolean
-    minSubfeatureWidth: number
-    charWidth: number
-    charHeight: number
-    canvasWidth: number
-  }) {
-    const { Color, bpPerPx, regions } = renderArgs
-    const { heightPx, topPx, feature } = feat
-    const [region] = regions
-    const start = feature.get('start')
-
-    const pxPerBp = Math.min(1 / bpPerPx, 2)
-    const md = feature.get('md')
-    const seq = feature.get('seq')
-    const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq)
-    const heightLim = charHeight - 2
-
-    // draw all the mismatches except wide insertion markers
-    for (let i = 0; i < foodieMatches.length; i += 1) {
-      const foodieMatch = foodieMatches[i]
-      const fstart = start + foodieMatch.start
-      const fbase = foodieMatch.base
-      const [leftPx, rightPx] = bpSpanPx(fstart, fstart + 1, region, bpPerPx)
-      const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
-
-      if (!drawSNPsMuted) {
-        const baseColor = '#2196f3'
-
-        fillRect(
-          ctx,
-          leftPx,
-          topPx,
-          widthPx,
-          heightPx,
-          canvasWidth,
-          baseColor,
-        )
-        if (widthPx >= charWidth && heightPx >= heightLim) {
-          ctx.fillStyle = 'white'
-          ctx.fillText(
-            fbase,
-            leftPx + (widthPx - charWidth) / 2 + 1,
-            topPx + heightPx,
-          )
-        }
       }
     }
   }
