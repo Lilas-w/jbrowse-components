@@ -1,0 +1,3808 @@
+{
+  "assemblies": [
+    {
+      "name": "GRCh38",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCh38-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "aliases": [
+        "hg38"
+      ],
+      "displayName": "Human (GRCh38/hg38)"
+    },
+    {
+      "name": "CHM13v2.0",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "CHM13v2.0-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/chm13v2.0.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/chm13v2.0.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "aliases": [
+        "T2T"
+      ],
+      "displayName": "Human (T2T-CHM13 v2.0)"
+    },
+    {
+      "name": "dm6",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "dm6-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/dm6.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/dm6.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "displayName": "D. melanogaster (dm6)"
+    },
+    {
+      "name": "GRCm38",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCm38-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/mm10.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/mm10.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "aliases": [
+        "mm10"
+      ],
+      "displayName": "Mouse (GRCm38/mm10)"
+    },
+    {
+      "name": "GRCm39",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCm39-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/mm39.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/mm39.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "aliases": [
+        "mm39"
+      ],
+      "displayName": "Mouse (GRCm39/mm39)"
+    }
+  ],
+  "configuration": {},
+  "connections": [],
+  "defaultSession": {
+    "id": "NUS9qASwW",
+    "name": "New session 2022/8/4 17:22:25",
+    "margin": 0,
+    "drawerWidth": 384,
+    "views": [
+      {
+        "id": "8HAOAUGQI",
+        "type": "LinearGenomeView",
+        "offsetPx": 292714588,
+        "bpPerPx": 0.10683477106834771,
+        "displayedRegions": [
+          {
+            "refName": "chr6",
+            "start": 0,
+            "end": 170805979,
+            "reversed": false,
+            "assemblyName": "GRCh38"
+          }
+        ],
+        "tracks": [
+          {
+            "id": "tfNS5ywYS",
+            "type": "ReferenceSequenceTrack",
+            "configuration": "GRCh38-ReferenceSequenceTrack",
+            "displays": [
+              {
+                "id": "I-vdTwXRyR",
+                "type": "LinearReferenceSequenceDisplay",
+                "height": 21,
+                "configuration": "GRCh38-ReferenceSequenceTrack-LinearReferenceSequenceDisplay",
+                "showForward": true,
+                "showReverse": false,
+                "showTranslation": false
+              }
+            ]
+          },
+          {
+            "id": "-NIYtZ--M",
+            "type": "FeatureTrack",
+            "configuration": "gencode.v40.annotation.jb2.sorted.gff",
+            "displays": [
+              {
+                "id": "DUqZJ58FUl",
+                "type": "LinearBasicDisplay",
+                "height": 122,
+                "configuration": "gencode.v40.annotation.jb2.sorted.gff-LinearBasicDisplay"
+              }
+            ]
+          },
+          {
+            "id": "jR9b-qVai",
+            "type": "QuantitativeTrack",
+            "configuration": "K562_bulk.site.depth",
+            "displays": [
+              {
+                "id": "NT9yPfE4mK",
+                "type": "LinearWiggleDisplay",
+                "height": 100,
+                "configuration": "K562_bulk.site.depth-LinearWiggleDisplay",
+                "selectedRendering": "",
+                "resolution": 1,
+                "constraints": {}
+              }
+            ]
+          },
+          {
+            "id": "QI67h7BZgY",
+            "type": "QuantitativeTrack",
+            "configuration": "GM_bulk.site.depth",
+            "displays": [
+              {
+                "id": "2w7WWk3A46",
+                "type": "LinearWiggleDisplay",
+                "height": 100,
+                "configuration": "GM_bulk.site.depth-LinearWiggleDisplay",
+                "selectedRendering": "",
+                "resolution": 1,
+                "constraints": {}
+              }
+            ]
+          },
+          {
+            "id": "GLFW5FtCH",
+            "type": "QuantitativeTrack",
+            "configuration": "GM_bulk.site.ratio",
+            "displays": [
+              {
+                "id": "K11FGnZ4pN",
+                "type": "LinearWiggleDisplay",
+                "height": 100,
+                "configuration": "GM_bulk.site.ratio-LinearWiggleDisplay",
+                "selectedRendering": "",
+                "resolution": 1,
+                "constraints": {}
+              }
+            ]
+          },
+          {
+            "id": "zgoN2qW7BF",
+            "type": "FeatureTrack",
+            "configuration": "GM_bulk.co.0.7.jb2.bed",
+            "displays": [
+              {
+                "id": "-EgndQILd_",
+                "type": "LinearArcDisplay",
+                "height": 100,
+                "configuration": "GM_bulk_co_sites_0.7_arc_color"
+              }
+            ]
+          },
+          {
+            "id": "KuRkOFufl",
+            "type": "FeatureTrack",
+            "configuration": "GM_TFC1_ML.bed",
+            "displays": [
+              {
+                "id": "X98RmkA3WL",
+                "type": "LinearBasicDisplay",
+                "height": 100,
+                "configuration": "GM_TFC1_ML.bed-LinearBasicDisplay"
+              }
+            ]
+          }
+        ],
+        "hideHeader": false,
+        "hideHeaderOverview": false,
+        "hideNoTracksActive": false,
+        "trackSelectorType": "hierarchical",
+        "trackLabels": "overlapping",
+        "showCenterLine": false,
+        "showCytobandsSetting": true
+      }
+    ],
+    "widgets": {
+      "hierarchicalTrackSelector": {
+        "id": "hierarchicalTrackSelector",
+        "type": "HierarchicalTrackSelectorWidget",
+        "collapsed": {
+          "GRCh38-ReferenceSequenceTrack": false,
+          "K562_bulk.site.depth": false,
+          "GM_bulk.site.depth": false,
+          "GM_bulk.site.ratio": false,
+          "GM_bulk.co.0.7.jb2.bed": false,
+          "GM_TFC1_ML.bed": false,
+          "GM_bulk.co.jb2.bed": false,
+          "gencode.v40.annotation.jb2.sorted.gff": false
+        },
+        "filterText": "",
+        "view": "8HAOAUGQI"
+      }
+    },
+    "activeWidgets": {
+      "hierarchicalTrackSelector": "hierarchicalTrackSelector"
+    },
+    "connectionInstances": [],
+    "sessionTracks": [],
+    "sessionConnections": [],
+    "sessionAssemblies": [],
+    "sessionPlugins": [],
+    "minimized": false,
+    "drawerPosition": "right"
+  },
+  "tracks": [
+    {
+      "type": "FeatureTrack",
+      "trackId": "gencode.v40.annotation.jb2.sorted.gff",
+      "name": "GENCODE_v40",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "../DATA/GENE/gencode.v40.annotation.jb2.sorted.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/GENE/gencode.v40.annotation.jb2.sorted.gff.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_bulk.site.ratio",
+      "name": "K562_bulk_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_bulk.site.depth",
+      "name": "K562_bulk_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk.site.ratio",
+      "name": "GM_bulk_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk.site.depth",
+      "name": "GM_bulk_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_GM.site.ratio.diff",
+      "name": "K562_GM_site_ratio_diff",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/K562_GM.site.ratio.diff.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_bulk.co.jb2.bed",
+      "name": "K562_bulk_co_sites",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.co.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_bulk.co.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "K562_bulk_co_sites_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "K562_bulk_co_sites_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_bulk.co.jb2.bed",
+      "name": "GM_bulk_co_sites",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.co.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_bulk.co.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "GM_bulk_co_sites_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "GM_bulk_co_sites_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_bulk.co.0.7.jb2.bed",
+      "name": "K562_bulk_co_sites_0.7",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.co.0.7.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_bulk.co.0.7.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "K562_bulk_co_sites_0.7_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "K562_bulk_co_sites_0.7_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_bulk.co.0.7.jb2.bed",
+      "name": "GM_bulk_co_sites_0.7",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.co.0.7.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_bulk.co.0.7.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "GM_bulk_co_sites_0.7_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "GM_bulk_co_sites_0.7_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_bulk.q5.chr",
+      "name": "K562_bulk_reads",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.q5.chr.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_bulk.q5.chr.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "GM_bulk.q5.chr",
+      "name": "GM_bulk_reads",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.q5.chr.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_bulk.q5.chr.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_bulk.q5.chr.depth",
+      "name": "K562_bulk_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.q5.chr.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk.q5.chr.depth",
+      "name": "GM_bulk_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.q5.chr.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_TFC1_rules.bed",
+      "name": "K562_bulk_TFC1_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_TFC1_rules.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_TFC1_rules.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_TFC2_rules.bed",
+      "name": "K562_bulk_TFC2_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_TFC2_rules.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_TFC2_rules.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_TFC1_ML.bed",
+      "name": "K562_bulk_TFC1_ML",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_TFC1_ML.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_TFC1_ML.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_TFC1_rules.bed",
+      "name": "GM_bulk_TFC1_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_TFC1_rules.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_TFC1_rules.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_TFC2_rules.bed",
+      "name": "GM_bulk_TFC2_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_TFC2_rules.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_TFC2_rules.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_TFC1_ML.bed",
+      "name": "GM_bulk_TFC1_ML",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_TFC1_ML.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_TFC1_ML.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_c3_wCtrl",
+      "name": "K562_c3_wCtrl",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/Fiber_GRCh38/k562c3.wCtrl.tracks.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Fiber_GRCh38/k562c3.wCtrl.tracks.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_Fiber"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_c3_woCtrl",
+      "name": "K562_c3_woCtrl",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/Fiber_GRCh38/k562c3.woCtrl.tracks.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Fiber_GRCh38/k562c3.woCtrl.tracks.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_Fiber"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_c4_wCtrl",
+      "name": "K562_c4_wCtrl",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/Fiber_GRCh38/k562c4.wCtrl.tracks.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Fiber_GRCh38/k562c4.wCtrl.tracks.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_Fiber"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_c4_woCtrl",
+      "name": "K562_c4_woCtrl",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/Fiber_GRCh38/k562c4.woCtrl.tracks.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Fiber_GRCh38/k562c4.woCtrl.tracks.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_Fiber"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_Iso_TSS_count_norm.bed",
+      "name": "K562_Iso_TSS_count_norm",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/ENCODE/K562_Iso_TSS_count_norm.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/K562_Iso_TSS_count_norm.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_Iso_TSS_count_norm.bed",
+      "name": "GM_Iso_TSS_count_norm",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/ENCODE/GM_Iso_TSS_count_norm.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/GM_Iso_TSS_count_norm.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF082GOI",
+      "name": "K562_CTCF_ChIP-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF082GOI.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF511URZ",
+      "name": "GM_CTCF_ChIP-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF511URZ.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF327DFG",
+      "name": "K562_DNase-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF327DFG.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF412PRG",
+      "name": "GM_DNase-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF412PRG.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF414OGC",
+      "name": "K562_DNase-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF414OGC.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF960FMM",
+      "name": "GM_DNase-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF960FMM.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF086JCJ",
+      "name": "K562_ATAC-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF086JCJ.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF285BIH",
+      "name": "GM_ATAC-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF285BIH.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF357GNC",
+      "name": "K562_ATAC-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF357GNC.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF667MDI",
+      "name": "GM_ATAC-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF667MDI.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "ENCFF534DCE",
+      "name": "K562_ATAC-seq_reads",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF534DCE.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/ENCFF534DCE.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "ENCFF804MXV",
+      "name": "K562_ATAC-seq_reads_unfil",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF804MXV.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/ENCFF804MXV.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "hg38.phastCons100way",
+      "name": "phastCons_vertebrates",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/hg38.phastCons100way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "hg38.phyloP100way",
+      "name": "phyloP_vertebrates",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/hg38.phyloP100way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "hg38.phastCons30way",
+      "name": "phastCons_primates",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/hg38.phastCons30way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "hg38.phyloP30way",
+      "name": "phyloP_primates",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/hg38.phyloP30way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hg38.archetype_motifs.v1.0",
+      "name": "Archetype_motifs_v1",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/MOTIF/hg38.archetype_motifs.v1.0.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Motif"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hg38.all_motifs.v1.0",
+      "name": "All_motifs_v1",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/MOTIF/hg38.all_motifs.v1.0.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Motif"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk_FOODIE2.site.ratio",
+      "name": "GM_Cpro_Tn5_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_bulk_FOODIE2.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk_FOODIE2.site.depth",
+      "name": "GM_Cpro_Tn5_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_bulk_FOODIE2.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "GM_bulk_FOODIE2",
+      "name": "GM_Cpro_Tn5_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/GM_bulk_FOODIE2.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/GM_bulk_FOODIE2.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.site.ratio",
+      "name": "GM_Cpro_sonic_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.site.depth",
+      "name": "GM_Cpro_sonic_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.deduplicated.sorted",
+      "name": "GM_Cpro_sonic_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_Snc_S11_L003.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.site.ratio",
+      "name": "GM_Cpro_enzymatic_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.site.depth",
+      "name": "GM_Cpro_enzymatic_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.deduplicated.sorted",
+      "name": "GM_Cpro_enzymatic_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Gwg_EF_S13_L003.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "GM_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.site.ratio",
+      "name": "K562_Cpro_Tn5_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.site.depth",
+      "name": "K562_Cpro_Tn5_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.deduplicated.sorted",
+      "name": "K562_Cpro_Tn5_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_T_S8_L002.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.site.ratio",
+      "name": "K562_Cpro_sonic_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.site.depth",
+      "name": "K562_Cpro_sonic_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.deduplicated.sorted",
+      "name": "K562_Cpro_sonic_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_Snc_S9_L002.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.site.ratio",
+      "name": "K562_Cpro_enzymatic_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.site.depth",
+      "name": "K562_Cpro_enzymatic_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.deduplicated.sorted",
+      "name": "K562_Cpro_enzymatic_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_WZ_Cpro_Kwg_EF_S10_L002.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_LC_FDN_1_1wK_0d1U_2.site.ratio",
+      "name": "K562_Cpro_DNase_10k_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_1_1wK_0d1U_2.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_LC_FDN_1_1wK_0d1U_2.site.depth",
+      "name": "K562_Cpro_DNase_10k_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_1_1wK_0d1U_2.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_LC_FDN_1_1wK_0d1U_2.deduplicated.sorted",
+      "name": "K562_Cpro_DNase_10k_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_1_1wK_0d1U_2.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_1_1wK_0d1U_2.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.site.ratio",
+      "name": "K562_Cpro_DNase_15k_site_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.site.depth",
+      "name": "K562_Cpro_DNase_15k_site_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.deduplicated.sorted",
+      "name": "K562_Cpro_DNase_15k_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.deduplicated.sorted.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/PD10_XXL_LC_FDN_2_1d5wK_0d1U_2.deduplicated.sorted.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_Cpro"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hg38.phastConsElements100way.bed",
+      "name": "Conserved_Elements_vertebrates",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/UCSC/hg38.phastConsElements100way.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/UCSC/hg38.phastConsElements100way.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "hg38.phastConsElements30way.bed",
+      "name": "Conserved_Elements_primates",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/UCSC/hg38.phastConsElements30way.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/UCSC/hg38.phastConsElements30way.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_bulk.co.depth50.1e-9.jb2.bed",
+      "name": "K562_bulk_co_sites_filtered",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.co.depth50.1e-9.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/K562_bulk.co.depth50.1e-9.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "K562_bulk_co_sites_filtered_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "K562_bulk_co_sites_filtered_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_bulk.co.depth50.1e-9.jb2.bed",
+      "name": "GM_bulk_co_sites_filtered",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.co.depth50.1e-9.jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/GM_bulk.co.depth50.1e-9.jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "displays": [
+        {
+          "type": "LinearArcDisplay",
+          "displayId": "GM_bulk_co_sites_filtered_arc_color",
+          "renderer": {
+            "type": "ArcRenderer",
+            "color": "jexl:get(feature, 'itemRgb')"
+          }
+        },
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "GM_bulk_co_sites_filtered_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(parent(feature), 'itemRgb')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ML.K562.depth50.1e-9.DNase.co.bed",
+      "name": "K562_TFC2_co",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/ML.K562.depth50.1e-9.DNase.co.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/ML.K562.depth50.1e-9.DNase.co.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ML.GM.depth50.1e-9.DNase.co.bed",
+      "name": "GM_TFC2_co",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/FOODIE/ML.GM.depth50.1e-9.DNase.co.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/FOODIE/ML.GM.depth50.1e-9.DNase.co.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_bulk.site.ratio.corrected",
+      "name": "K562_bulk_site_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/K562_bulk.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_bulk.site.ratio.corrected",
+      "name": "GM_bulk_site_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "../DATA/FOODIE/GM_bulk.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_bulk"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_Tn5_DddB.site.ratio",
+      "name": "K562_Tn5_DddB_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_Tn5_DddB.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_Tn5_DddB.site.depth",
+      "name": "K562_Tn5_DddB_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_Tn5_DddB.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_Tn5_DddB",
+      "name": "K562_Tn5_DddB_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/K562_Tn5_DddB.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/K562_Tn5_DddB.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffers_DddB.site.ratio",
+      "name": "K562_buffers_DddB_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffers_DddB.site.depth",
+      "name": "K562_buffers_DddB_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_buffers_DddB",
+      "name": "K562_buffers_DddB_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF268ZPN",
+      "name": "K562_CTCF_ChIP-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF268ZPN.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF680XUD",
+      "name": "GM_CTCF_ChIP-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF680XUD.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_Tn5_DddB.site.ratio",
+      "name": "GM_Tn5_DddB_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_Tn5_DddB.site.depth",
+      "name": "GM_Tn5_DddB_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "GM_Tn5_DddB",
+      "name": "GM_Tn5_DddB_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffers_DddB.site.ratio.corrected",
+      "name": "K562_buffers_DddB_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_Tn5_DddB.site.ratio.corrected",
+      "name": "GM_Tn5_DddB_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_buffers_DddB.bs.count.bed",
+      "name": "K562_buffers_DddB_occupancy_count",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.count.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.count.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_buffers_DddB.bs.ratio.bed",
+      "name": "K562_buffers_DddB_occupancy_ratio",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.ratio.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.ratio.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_Tn5_DddB.bs.count.bed",
+      "name": "GM_Tn5_DddB_occupancy_count",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.count.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.count.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_Tn5_DddB.bs.ratio.bed",
+      "name": "GM_Tn5_DddB_occupancy_ratio",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.ratio.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.ratio.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_buffers_DddB.bs.TF.bed",
+      "name": "K562_buffers_DddB_TFC1_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.TF.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_buffers_DddB.bs.TF.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "GM_Tn5_DddB.bs.TF.bed",
+      "name": "GM_Tn5_DddB_TFC1_rules",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.TF.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/GM_Tn5_DddB.bs.TF.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_K562_bo05_jb2.bed",
+      "name": "K562_buffers_DddB_footprint",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_GM_bo05_jb2.bed",
+      "name": "GM_Tn5_DddB_footprint",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_jb2.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_jb2.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "fantom5_p1_CG_hg38_sorted.bed",
+      "name": "TSS_categories",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "../DATA/Other/fantom5_p1_CG_hg38_sorted.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Other/fantom5_p1_CG_hg38_sorted.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "interval.all.obs",
+      "name": "K562_DNase-seq_observed",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.obs.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "interval.all.exp",
+      "name": "K562_DNase-seq_expected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.exp.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "interval.all.fps.0.05",
+      "name": "K562_DNase-seq_footprints_0.05",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.fps.0.05.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "interval.all.fps.0.01",
+      "name": "K562_DNase-seq_footprints_0.01",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.fps.0.01.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "interval.all.fps.0.001",
+      "name": "K562_DNase-seq_footprints_0.001",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.fps.0.001.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "interval.all.fps.0.0001",
+      "name": "K562_DNase-seq_footprints_0.0001",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/interval.all.fps.0.0001.bb",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_DNase_CTCF_pred.bed",
+      "name": "K562_DNase-seq_CTCF_pred",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/ENCODE/K562_DNase_CTCF_pred.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/K562_DNase_CTCF_pred.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_CTCF_pred.bed",
+      "name": "K562_buffers_DddB_CTCF_pred",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_CTCF_pred.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_CTCF_pred.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF954GIJ",
+      "name": "K562_FOXA1_ChIP-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF954GIJ.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF397QRA",
+      "name": "K562_FOXA1_ChIP-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF397QRA.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_K562_bo05_or_count.bed",
+      "name": "K562_buffers_DddB_footprint_count",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_or_count.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_or_count.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_GM_bo05_or_count.bed",
+      "name": "GM_Tn5_DddB_footprint_count",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_or_count.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_or_count.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_K562_bo05_or_TSS_up250_rel_sorted.bed",
+      "name": "K562_buffers_DddB_footprint_TSS250_rate",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_or_TSS_up250_rel_sorted.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_K562_bo05_or_TSS_up250_rel_sorted.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "footprints_DNase_GM_bo05_or_TSS_up250_rel_sorted.bed",
+      "name": "GM_Tn5_DddB_footprint_TSS250_rate",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_or_TSS_up250_rel_sorted.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/footprints_DNase_GM_bo05_or_TSS_up250_rel_sorted.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "GM12878_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_ML_bf_3TF.bed",
+      "name": "K562_FOODIE2_ML_bf_3TF",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_3TF.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_3TF.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "VariantTrack",
+      "trackId": "K562_WGS_hg38_sorted.vcf",
+      "name": "K562_WGS_small_variants",
+      "adapter": {
+        "type": "VcfTabixAdapter",
+        "vcfGzLocation": {
+          "uri": "/JDATA/ENCODE/K562_WGS_hg38_sorted.vcf.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/K562_WGS_hg38_sorted.vcf.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "Control"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "VariantTrack",
+      "trackId": "NA12878.vcf",
+      "name": "GM_WGS_small_variants",
+      "adapter": {
+        "type": "VcfTabixAdapter",
+        "vcfGzLocation": {
+          "uri": "../DATA/Other/NA12878.vcf.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/Other/NA12878.vcf.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "Control"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_DddB_merged.site.ratio",
+      "name": "K562_DddB_merged_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.site.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_DddB_merged.site.depth",
+      "name": "K562_DddB_merged_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_DddB_merged.site.ratio.corrected",
+      "name": "K562_DddB_merged_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_DddB_merged.footprint.DNase.bo05.bed",
+      "name": "K562_DddB_merged_footprint",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.footprint.DNase.bo05.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_DddB_merged.footprint.DNase.bo05.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_DddB_merged.footprint.corrected.DNase.bo05.bed",
+      "name": "K562_DddB_merged_footprint_corrected",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.footprint.corrected.DNase.bo05.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_DddB_merged.footprint.corrected.DNase.bo05.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_ML_bf_3TF_ChIP.bed",
+      "name": "K562_FOODIE2_ML_bf_3TF_ChIP",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_3TF_ChIP.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_3TF_ChIP.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_ML_bf_1TF_ChIP.bed",
+      "name": "K562_FOODIE2_ML_bf_1TF_ChIP",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_1TF_ChIP.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_1TF_ChIP.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "gencode.vM25.annotation.jb2.sorted.gff",
+      "name": "GENCODE_vM25",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "../DATA/GENE/gencode.vM25.annotation.jb2.sorted.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/GENE/gencode.vM25.annotation.jb2.sorted.gff.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "gencode.vM30.annotation.jb2.sorted.gff",
+      "name": "GENCODE_vM30",
+      "adapter": {
+        "type": "Gff3TabixAdapter",
+        "gffGzLocation": {
+          "uri": "../DATA/GENE/gencode.vM30.annotation.jb2.sorted.gff.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "../DATA/GENE/gencode.vM30.annotation.jb2.sorted.gff.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": [
+        "GRCm39"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF417WLQ",
+      "name": "splenic_B_cell_DNase-seq",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF417WLQ.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF433ETL",
+      "name": "splenic_B_cell_DNase-seq_signal",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF433ETL.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "ENCFF120QAU",
+      "name": "splenic_B_cell_DNase-seq_footprint",
+      "adapter": {
+        "type": "BigBedAdapter",
+        "bigBedLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF120QAU.bigBed",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "naive_B_exp1.depth",
+      "name": "splenic_naive_B_exp1_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/mouse_B_cell/naive_B_exp1.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "B_cell"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "naive_B_exp1.ratio",
+      "name": "splenic_naive_B_exp1_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/mouse_B_cell/naive_B_exp1.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "B_cell"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "naive_B_exp2.depth",
+      "name": "splenic_naive_B_exp2_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/mouse_B_cell/naive_B_exp2.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "B_cell"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "naive_B_exp2.ratio",
+      "name": "splenic_naive_B_exp2_ratio",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/mouse_B_cell/naive_B_exp2.ratio.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "B_cell"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_DddB_merged",
+      "name": "K562_DddB_merged_reads",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "/JDATA/FOODIE2/K562_DddB_merged.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "../DATA/REF/GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "PF_ChIP_K562.motif.bed",
+      "name": "PF_ChIP_K562_motifs_v1",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/MOTIF/PF_ChIP_K562.motif.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/MOTIF/PF_ChIP_K562.motif.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "Motif"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "PF_ChIP_K562_narrowPeak.bed",
+      "name": "K562_PF_ChIP-seq",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/ENCODE/PF_ChIP_K562_narrowPeak.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/ENCODE/PF_ChIP_K562_narrowPeak.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "ENCFF985UVT",
+      "name": "K562_RUNX1_ChIP-seq_signal_ENCFF985UVT",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/ENCODE/ENCFF985UVT.bigWig",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "ENCODE"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "mm10.phastCons60way",
+      "name": "phastCons_placental",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/mm10.phastCons60way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "mm10.phyloP60way",
+      "name": "phyloP_placental",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/UCSC/mm10.phyloP60way.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "mm10.phastConsElements60way.bed",
+      "name": "Conserved_Elements_placental",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/UCSC/mm10.phastConsElements60way.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/UCSC/mm10.phastConsElements60way.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "UCSC_Conservation"
+      ],
+      "assemblyNames": [
+        "GRCm38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "SK-N-AS.site.depth",
+      "name": "SK-N-AS_DddB_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/SK-N-AS.site.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "SK-N-AS_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "SK-N-AS.site.ratio.corrected",
+      "name": "SK-N-AS_DddB_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/SK-N-AS.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "SK-N-AS_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_0.sites.depth",
+      "name": "K562_42_0_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_0.sites.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_0.sites.ratio.corrected",
+      "name": "K562_42_0_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_0.sites.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_45.sites.depth",
+      "name": "K562_42_45_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_45.sites.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_45.sites.ratio.corrected",
+      "name": "K562_42_45_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_45.sites.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_90.sites.depth",
+      "name": "K562_42_90_depth",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_90.sites.depth.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_42_90.sites.ratio.corrected",
+      "name": "K562_42_90_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_42_90.sites.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Heat_shock_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffer1_1.site.ratio.corrected",
+      "name": "K562_buffer1_1_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffer1_1.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffer1_2.1.site.ratio.corrected",
+      "name": "K562_buffer1_2.1_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffer1_2.1.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffer2_1.site.ratio.corrected",
+      "name": "K562_buffer2_1_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffer2_1.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "K562_buffer2_2.3.site.ratio.corrected",
+      "name": "K562_buffer2_2.3_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/K562_buffer2_2.3.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_3_1.site.ratio.corrected",
+      "name": "GM_3_1_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_3_1.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_3_2.1.site.ratio.corrected",
+      "name": "GM_3_2.1_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_3_2.1.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_ML_1TF_ChIP_only.bed",
+      "name": "K562_FOODIE2_ML_1TF_ChIP_only",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_1TF_ChIP_only.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_1TF_ChIP_only.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "QuantitativeTrack",
+      "trackId": "GM_3_3.4.site.ratio.corrected",
+      "name": "GM_3_3.4_ratio_corrected",
+      "adapter": {
+        "type": "BigWigAdapter",
+        "bigWigLocation": {
+          "uri": "/JDATA/FOODIE2/GM_3_3.4.site.ratio.corrected.bw",
+          "locationType": "UriLocation"
+        }
+      },
+      "category": [
+        "Depth_effect_chr6"
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_FOODIE2_ML_bf_1TF_ChIP_color_DNase.bed",
+      "name": "K562_FOODIE2_ML_bf_1TF_ChIP_color_DNase",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_1TF_ChIP_color_DNase.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "/JDATA/FOODIE2/K562_FOODIE2_ML_bf_1TF_ChIP_color_DNase.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "category": [
+        "K562_DddB"
+      ],
+      "displays": [
+        {
+          "type": "LinearBasicDisplay",
+          "displayId": "K562_FOODIE2_ML_bf_1TF_ChIP_color_DNase_basic_color",
+          "renderer": {
+            "type": "SvgFeatureRenderer",
+            "color1": "jexl:get(feature, 'field8')"
+          }
+        }
+      ],
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    }
+  ],
+  "aggregateTextSearchAdapters": [
+    {
+      "type": "TrixTextSearchAdapter",
+      "textSearchAdapterId": "GRCh38-index",
+      "ixFilePath": {
+        "uri": "trix/GRCh38.ix",
+        "locationType": "UriLocation"
+      },
+      "ixxFilePath": {
+        "uri": "trix/GRCh38.ixx",
+        "locationType": "UriLocation"
+      },
+      "metaFilePath": {
+        "uri": "trix/GRCh38_meta.json",
+        "locationType": "UriLocation"
+      },
+      "assemblyNames": [
+        "GRCh38"
+      ]
+    }
+  ]
+}
