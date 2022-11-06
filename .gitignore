@@ -18,4 +18,5 @@ yalc.lock
 lerna-debug.log
 .yarn
 .yarnrc
+yarn.lock
 *.tsbuildinfo
