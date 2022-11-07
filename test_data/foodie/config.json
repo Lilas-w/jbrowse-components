@@ -30,14 +30,17 @@
             "trackId": "K562_DddB_merged_TRNAU1AP",
             "name": "K562_DddB_merged_TRNAU1AP",
             "adapter": {
-                "type": "CramAdapter",
-                "cramLocation": {
-                    "uri": "K562_DddB_merged_TRNAU1AP.cram",
+                "type": "BamAdapter",
+                "bamLocation": {
+                    "uri": "K562_DddB_merged_TRNAU1AP.bam",
                     "locationType": "UriLocation"
                 },
-                "craiLocation": {
-                    "uri": "K562_DddB_merged_TRNAU1AP.cram.crai",
-                    "locationType": "UriLocation"
+                "index": {
+                    "location": {
+                        "uri": "K562_DddB_merged_TRNAU1AP.bam.bai",
+                        "locationType": "UriLocation"
+                    },
+                    "indexType": "BAI"
                 },
                 "sequenceAdapter": {
                     "type": "IndexedFastaAdapter",
