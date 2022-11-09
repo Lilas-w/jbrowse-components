@@ -2,7 +2,7 @@ export interface FoodieMatch {
   start: number
   base: string
 }
-export function getFoodieMatches(mdstring: string, seq: string) {
+export function getFoodieMatches(mdstring: string, seq: string, xg: string) {
   const mdRegex = new RegExp(/(\d+|\^[a-z]+|[a-z])/gi)
   const md = mdstring.match(mdRegex) || []
   let base = '';
@@ -17,7 +17,7 @@ export function getFoodieMatches(mdstring: string, seq: string) {
         const s = pos
         const start = s + j
         base = seq[start]
-        if (base === 'G' || base === 'C') {
+        if ((base === 'G' && xg === 'GA') || (base === 'C' && xg === 'CT')) {
           foodieMatchRecords.push({ start, base })
         }
       }
