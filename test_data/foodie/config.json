@@ -19,7 +19,11 @@
             }
         }
     ],
-    "configuration": {},
+    "configuration": {
+        "logoPath": {
+            "uri": "test_data/foodie/foodieIcon.png"
+        }
+    },
     "connections": [],
     "defaultSession": {
         "name": "New Session"

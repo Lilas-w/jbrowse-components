@@ -159,7 +159,7 @@ const AppToolbar = observer(
         <div className={classes.grow} />
         <div style={{ width: 150, maxHeight: 48 }}>
           {/* 右上角logo */}
-          {/* <Logo session={session} /> */}
+          <Logo session={session} />
         </div>
       </Toolbar>
     )

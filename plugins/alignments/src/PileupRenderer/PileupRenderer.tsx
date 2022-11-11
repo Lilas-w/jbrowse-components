@@ -32,6 +32,7 @@ import {
 } from '../BamAdapter/MismatchParser'
 import { sortFeature } from './sortUtil'
 import {
+  getTag,
   getTagAlt,
   orientationTypes,
   fetchSequence,
@@ -879,9 +880,12 @@ export default class PileupRenderer extends BoxRendererType {
           let baseColor = colorForBase[mismatch.base] || '#888'
           // C下面的所有T，G下面的A是红色，其他base为灰色
           if (showFoodieMatches) {
-            baseColor = "#C8C8C8"  // gray
-            if ((mismatch.base === 'T' && mismatch.altbase === 'C') || (mismatch.base === 'A' && mismatch.altbase === 'G')) {
-              baseColor = "#f44336"  // red
+            baseColor = '#C8C8C8' // gray
+            if (
+              (mismatch.base === 'T' && mismatch.altbase === 'C') ||
+              (mismatch.base === 'A' && mismatch.altbase === 'G')
+            ) {
+              baseColor = '#f44336' // red
             }
           }
 
@@ -1156,15 +1160,14 @@ export default class PileupRenderer extends BoxRendererType {
     canvasWidth: number
     showFoodieMatches: boolean
   }) {
-    const { Color, bpPerPx, regions } = renderArgs
+    const { bpPerPx, regions } = renderArgs
     const { heightPx, topPx, feature } = feat
     const [region] = regions
     const start = feature.get('start')
 
-    const pxPerBp = Math.min(1 / bpPerPx, 2)
     const md = feature.get('md')
     const seq = feature.get('seq')
-    const xg = feature.record.data.xg
+    const xg = getTag(feature, 'xg')
     const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq, xg)
     const heightLim = charHeight - 2
 
@@ -1179,15 +1182,7 @@ export default class PileupRenderer extends BoxRendererType {
       if (!drawSNPsMuted && showFoodieMatches) {
         const baseColor = '#2196f3'  // blue
 
-        fillRect(
-          ctx,
-          leftPx,
-          topPx,
-          widthPx,
-          heightPx,
-          canvasWidth,
-          baseColor,
-        )
+        fillRect(ctx, leftPx, topPx, widthPx, heightPx, canvasWidth, baseColor)
         if (widthPx >= charWidth && heightPx >= heightLim) {
           ctx.fillStyle = 'white'
           ctx.fillText(
