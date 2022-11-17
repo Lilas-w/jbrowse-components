@@ -207,7 +207,8 @@ export default class PileupRenderer extends BoxRendererType {
     }
     if (feature.get('refName') !== region.refName) {
       throw new Error(
-        `feature ${feature.id()} is not on the current region's reference sequence ${region.refName
+        `feature ${feature.id()} is not on the current region's reference sequence ${
+          region.refName
         }`,
       )
     }
@@ -460,12 +461,12 @@ export default class PileupRenderer extends BoxRendererType {
 
     const probabilities = ml
       ? (typeof ml === 'string' ? ml.split(',').map(e => +e) : ml).map(
-        e => e / 255,
-      )
+          e => e / 255,
+        )
       : (getTagAlt(feature, 'MP', 'Mp') as string)
-        .split('')
-        .map(s => s.charCodeAt(0) - 33)
-        .map(elt => Math.min(1, elt / 50))
+          .split('')
+          .map(s => s.charCodeAt(0) - 33)
+          .map(elt => Math.min(1, elt / 50))
 
     const cigar = feature.get('CIGAR')
     const start = feature.get('start')
@@ -500,9 +501,9 @@ export default class PileupRenderer extends BoxRendererType {
           canvasWidth,
           prob && prob !== 1
             ? base
-              .alpha(prob + 0.1)
-              .hsl()
-              .string()
+                .alpha(prob + 0.1)
+                .hsl()
+                .string()
             : col,
         )
         probIndex++
@@ -895,12 +896,12 @@ export default class PileupRenderer extends BoxRendererType {
             !mismatchAlpha
               ? baseColor
               : mismatch.qual !== undefined
-                ? // @ts-ignore
+              ? // @ts-ignore
                 Color(baseColor)
                   .alpha(Math.min(1, mismatch.qual / 50))
                   .hsl()
                   .string()
-                : baseColor,
+              : baseColor,
           )
         }
 
@@ -912,12 +913,12 @@ export default class PileupRenderer extends BoxRendererType {
           ctx.fillStyle = !mismatchAlpha
             ? contrastColor
             : mismatch.qual !== undefined
-              ? // @ts-ignore
+            ? // @ts-ignore
               Color(contrastColor)
                 .alpha(Math.min(1, mismatch.qual / 50))
                 .hsl()
                 .string()
-              : contrastColor
+            : contrastColor
           ctx.fillText(
             mbase,
             leftPx + (widthPx - charWidth) / 2 + 1,
@@ -1134,7 +1135,7 @@ export default class PileupRenderer extends BoxRendererType {
     }
   }
 
-  // 将并未发生突变的C、G位点显示成蓝色 
+  // 将并未发生突变的C、G位点显示成蓝色
   drawFoodieMatches({
     ctx,
     feat,
@@ -1144,7 +1145,6 @@ export default class PileupRenderer extends BoxRendererType {
     charHeight,
     canvasWidth,
     drawSNPsMuted,
-    showFoodieMatches,
   }: {
     ctx: CanvasRenderingContext2D
     feat: LayoutFeature
@@ -1154,7 +1154,6 @@ export default class PileupRenderer extends BoxRendererType {
     charWidth: number
     charHeight: number
     canvasWidth: number
-    showFoodieMatches: boolean
   }) {
     const { bpPerPx, regions } = renderArgs
     const { heightPx, topPx, feature } = feat
@@ -1175,8 +1174,8 @@ export default class PileupRenderer extends BoxRendererType {
       const [leftPx, rightPx] = bpSpanPx(fstart, fstart + 1, region, bpPerPx)
       const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
 
-      if (!drawSNPsMuted && showFoodieMatches) {
-        const baseColor = '#2196f3'  // blue
+      if (!drawSNPsMuted) {
+        const baseColor = '#2196f3' // blue
 
         fillRect(ctx, leftPx, topPx, widthPx, heightPx, canvasWidth, baseColor)
         if (widthPx >= charWidth && heightPx >= heightLim) {
@@ -1265,17 +1264,18 @@ export default class PileupRenderer extends BoxRendererType {
         canvasWidth,
         showFoodieMatches,
       })
-      this.drawFoodieMatches({
-        ctx,
-        feat,
-        renderArgs,
-        minSubfeatureWidth,
-        charWidth,
-        charHeight,
-        canvasWidth,
-        drawSNPsMuted,
-        showFoodieMatches,
-      })
+      if (showFoodieMatches) {
+        this.drawFoodieMatches({
+          ctx,
+          feat,
+          renderArgs,
+          minSubfeatureWidth,
+          charWidth,
+          charHeight,
+          canvasWidth,
+          drawSNPsMuted,
+        })
+      }
       if (showSoftClip) {
         this.drawSoftClipping({
           ctx,

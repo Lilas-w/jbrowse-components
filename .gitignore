@@ -1,6 +1,8 @@
 **/node_modules/
 **/.vscode/
 **/coverage/
+**/test_data/*
+yarn.lock
 yarn-error.log
 *.swp
 *.swo
