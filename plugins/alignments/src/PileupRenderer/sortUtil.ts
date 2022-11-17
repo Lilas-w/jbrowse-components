@@ -14,7 +14,7 @@ export const sortFeature = (
   const featureArray = Array.from(features.values())
   const featuresInCenterLine: Feature[] = []
   const featuresOutsideCenter: Feature[] = []
-  const { pos, type } = sortedBy
+  const { pos, type } = sortedBy  // pos是center line的位置坐标
 
   // only sort on features that intersect center line, append those outside post-sort
   featureArray.forEach(innerArray => {
@@ -95,6 +95,42 @@ export const sortFeature = (
       featuresInCenterLine.sort((a, b) =>
         a.get('strand') <= b.get('strand') ? 1 : -1,
       )
+      break
+    }
+
+    case 'Test': {
+      const baseSortArray: [string, Mismatch][] = []
+      featuresInCenterLine.forEach(feature => {
+        const mismatches: Mismatch[] = feature.get('mismatches') // 当前read上所有突变位点的集合
+        mismatches.forEach(mismatch => {
+          const start = feature.get('start')
+          const offset = start + mismatch.start + 1
+          const consuming =
+            mismatch.type === 'insertion' || mismatch.type === 'softclip'
+          const len = consuming ? 0 : mismatch.length
+          if (pos >= offset && pos < offset + len) {
+            // 当前待排序位置pos有突变
+            baseSortArray.push([feature.id(), mismatch])
+          }
+        })
+      })
+
+      const baseMap = new Map(baseSortArray)
+
+      featuresInCenterLine.sort((a, b) => {
+        const aMismatch = baseMap.get(a.id())
+        const bMismatch = baseMap.get(b.id())
+        const acode = bMismatch && bMismatch.base.toUpperCase()
+        const bcode = aMismatch && aMismatch.base.toUpperCase()
+        if (acode === bcode && acode === '*') {
+          // @ts-ignore
+          return aMismatch.length - bMismatch.length // 升序排序
+        }
+        return (
+          (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0) // 等于0顺序不变，升序排序
+        )
+      })
+
       break
     }
   }

@@ -56,11 +56,11 @@ function PileupRendering(props: {
       const [leftPx, rightPx] = bpSpanPx(leftBp, rightBp, region, bpPerPx)
       const rectTop = Math.round(topPx)
       const rectHeight = Math.round(bottomPx - topPx)
-      ctx.shadowColor = '#222266'
+      ctx.shadowColor = '#222266' // Midnight Blue
       ctx.shadowBlur = 10
       ctx.lineJoin = 'bevel'
       ctx.lineWidth = 2
-      ctx.strokeStyle = '#00b8ff'
+      ctx.strokeStyle = '#00b8ff' // Deep Sky Blue
       ctx.strokeRect(
         leftPx - 2,
         rectTop - 2,
@@ -177,11 +177,10 @@ function PileupRendering(props: {
   return (
     <div
       className="PileupRendering"
-      data-testid={`pileup-${
-        sortedBy || colorBy
-          ? `${sortedBy?.type || ''}${colorBy?.type || ''}${colorBy?.tag || ''}`
-          : 'normal'
-      }`}
+      data-testid={`pileup-${sortedBy || colorBy
+        ? `${sortedBy?.type || ''}${colorBy?.type || ''}${colorBy?.tag || ''}`
+        : 'normal'
+        }`}
       style={{ position: 'relative', width: canvasWidth, height }}
     >
       <PrerenderedCanvas
@@ -204,8 +203,8 @@ function PileupRendering(props: {
         onMouseMove={event => mouseMove(event)}
         onClick={event => onClick(event)}
         onContextMenu={event => onContextMenu(event)}
-        onFocus={() => {}}
-        onBlur={() => {}}
+        onFocus={() => { }}
+        onBlur={() => { }}
       />
     </div>
   )

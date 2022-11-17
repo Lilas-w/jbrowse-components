@@ -95,7 +95,7 @@ export default class SNPCoverageRenderer extends WiggleBaseRenderer {
 
     const { bases } = theme.palette
     const colorForBase: { [key: string]: string } = {
-      A: bases.A.main,
+      A: bases.A.main, // 突变上方对应的颜色 
       C: bases.C.main,
       G: bases.G.main,
       T: bases.T.main,

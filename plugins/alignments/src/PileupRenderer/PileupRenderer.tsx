@@ -32,6 +32,7 @@ import {
 } from '../BamAdapter/MismatchParser'
 import { sortFeature } from './sortUtil'
 import {
+  getTag,
   getTagAlt,
   orientationTypes,
   fetchSequence,
@@ -42,6 +43,7 @@ import {
   PileupLayoutSessionProps,
 } from './PileupLayoutSession'
 import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
+import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
 
 function fillRect(
   ctx: CanvasRenderingContext2D,
@@ -64,8 +66,9 @@ function fillRect(
 
 function getColorBaseMap(theme: Theme) {
   const { bases } = theme.palette
+
   return {
-    A: bases.A.main,
+    A: bases.A.main, // 突变的颜色
     C: bases.C.main,
     G: bases.G.main,
     T: bases.T.main,
@@ -204,8 +207,7 @@ export default class PileupRenderer extends BoxRendererType {
     }
     if (feature.get('refName') !== region.refName) {
       throw new Error(
-        `feature ${feature.id()} is not on the current region's reference sequence ${
-          region.refName
+        `feature ${feature.id()} is not on the current region's reference sequence ${region.refName
         }`,
       )
     }
@@ -458,12 +460,12 @@ export default class PileupRenderer extends BoxRendererType {
 
     const probabilities = ml
       ? (typeof ml === 'string' ? ml.split(',').map(e => +e) : ml).map(
-          e => e / 255,
-        )
+        e => e / 255,
+      )
       : (getTagAlt(feature, 'MP', 'Mp') as string)
-          .split('')
-          .map(s => s.charCodeAt(0) - 33)
-          .map(elt => Math.min(1, elt / 50))
+        .split('')
+        .map(s => s.charCodeAt(0) - 33)
+        .map(elt => Math.min(1, elt / 50))
 
     const cigar = feature.get('CIGAR')
     const start = feature.get('start')
@@ -498,9 +500,9 @@ export default class PileupRenderer extends BoxRendererType {
           canvasWidth,
           prob && prob !== 1
             ? base
-                .alpha(prob + 0.1)
-                .hsl()
-                .string()
+              .alpha(prob + 0.1)
+              .hsl()
+              .string()
             : col,
         )
         probIndex++
@@ -820,6 +822,7 @@ export default class PileupRenderer extends BoxRendererType {
     minSubfeatureWidth,
     largeInsertionIndicatorScale,
     mismatchAlpha,
+    showFoodieMatches,
     charWidth,
     charHeight,
     colorForBase,
@@ -834,6 +837,7 @@ export default class PileupRenderer extends BoxRendererType {
     colorForBase: { [key: string]: string }
     contrastForBase: { [key: string]: string }
     mismatchAlpha?: boolean
+    showFoodieMatches?: boolean
     drawIndels?: boolean
     drawSNPsMuted?: boolean
     minSubfeatureWidth: number
@@ -869,7 +873,17 @@ export default class PileupRenderer extends BoxRendererType {
       const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
       if (mismatch.type === 'mismatch') {
         if (!drawSNPsMuted) {
-          const baseColor = colorForBase[mismatch.base] || '#888'
+          let baseColor = colorForBase[mismatch.base] || '#888'
+          // C下面的所有T，G下面的A是红色，其他base为灰色
+          if (showFoodieMatches) {
+            baseColor = '#C8C8C8' // gray
+            if (
+              (mismatch.base === 'T' && mismatch.altbase === 'C') ||
+              (mismatch.base === 'A' && mismatch.altbase === 'G')
+            ) {
+              baseColor = '#f44336' // red
+            }
+          }
 
           fillRect(
             ctx,
@@ -881,12 +895,12 @@ export default class PileupRenderer extends BoxRendererType {
             !mismatchAlpha
               ? baseColor
               : mismatch.qual !== undefined
-              ? // @ts-ignore
+                ? // @ts-ignore
                 Color(baseColor)
                   .alpha(Math.min(1, mismatch.qual / 50))
                   .hsl()
                   .string()
-              : baseColor,
+                : baseColor,
           )
         }
 
@@ -898,12 +912,12 @@ export default class PileupRenderer extends BoxRendererType {
           ctx.fillStyle = !mismatchAlpha
             ? contrastColor
             : mismatch.qual !== undefined
-            ? // @ts-ignore
+              ? // @ts-ignore
               Color(contrastColor)
                 .alpha(Math.min(1, mismatch.qual / 50))
                 .hsl()
                 .string()
-            : contrastColor
+              : contrastColor
           ctx.fillText(
             mbase,
             leftPx + (widthPx - charWidth) / 2 + 1,
@@ -1120,6 +1134,63 @@ export default class PileupRenderer extends BoxRendererType {
     }
   }
 
+  // 将并未发生突变的C、G位点显示成蓝色 
+  drawFoodieMatches({
+    ctx,
+    feat,
+    renderArgs,
+    minSubfeatureWidth,
+    charWidth,
+    charHeight,
+    canvasWidth,
+    drawSNPsMuted,
+    showFoodieMatches,
+  }: {
+    ctx: CanvasRenderingContext2D
+    feat: LayoutFeature
+    renderArgs: RenderArgsDeserializedWithFeaturesAndLayout
+    drawSNPsMuted?: boolean
+    minSubfeatureWidth: number
+    charWidth: number
+    charHeight: number
+    canvasWidth: number
+    showFoodieMatches: boolean
+  }) {
+    const { bpPerPx, regions } = renderArgs
+    const { heightPx, topPx, feature } = feat
+    const [region] = regions
+    const start = feature.get('start')
+
+    const md = feature.get('md')
+    const seq = feature.get('seq')
+    const xg = getTag(feature, 'xg')
+    const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq, xg)
+    const heightLim = charHeight - 2
+
+    // draw all the mismatches except wide insertion markers
+    for (let i = 0; i < foodieMatches.length; i += 1) {
+      const foodieMatch = foodieMatches[i]
+      const fstart = start + foodieMatch.start
+      const fbase = foodieMatch.base
+      const [leftPx, rightPx] = bpSpanPx(fstart, fstart + 1, region, bpPerPx)
+      const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
+
+      if (!drawSNPsMuted && showFoodieMatches) {
+        const baseColor = '#2196f3'  // blue
+
+        fillRect(ctx, leftPx, topPx, widthPx, heightPx, canvasWidth, baseColor)
+        if (widthPx >= charWidth && heightPx >= heightLim) {
+          ctx.fillStyle = 'white'
+          ctx.fillText(
+            fbase,
+            leftPx + (widthPx - charWidth) / 2 + 1,
+            topPx + heightPx,
+          )
+        }
+      }
+    }
+  }
+
   makeImageData({
     ctx,
     layoutRecords,
@@ -1139,6 +1210,7 @@ export default class PileupRenderer extends BoxRendererType {
       theme: configTheme,
     } = renderArgs
     const mismatchAlpha = readConfObject(config, 'mismatchAlpha')
+    const showFoodieMatches = readConfObject(config, 'showFoodieMatches')
     const minSubfeatureWidth = readConfObject(config, 'minSubfeatureWidth')
     const largeInsertionIndicatorScale = readConfObject(
       config,
@@ -1191,6 +1263,18 @@ export default class PileupRenderer extends BoxRendererType {
         colorForBase,
         contrastForBase,
         canvasWidth,
+        showFoodieMatches,
+      })
+      this.drawFoodieMatches({
+        ctx,
+        feat,
+        renderArgs,
+        minSubfeatureWidth,
+        charWidth,
+        charHeight,
+        canvasWidth,
+        drawSNPsMuted,
+        showFoodieMatches,
       })
       if (showSoftClip) {
         this.drawSoftClipping({

@@ -64,10 +64,10 @@ export const orientationTypes = {
 export function getColorWGBS(strand: number, base: string) {
   if (strand === 1) {
     if (base === 'C') {
-      return '#f00'
+      return '#f00'  // red
     }
     if (base === 'T') {
-      return '#00f'
+      return '#00f' // blue
     }
   } else if (strand === -1) {
     if (base === 'G') {
@@ -77,7 +77,7 @@ export function getColorWGBS(strand: number, base: string) {
       return '#00f'
     }
   }
-  return '#888'
+  return '#888' // gray
 }
 
 export async function fetchSequence(
