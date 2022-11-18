@@ -1160,13 +1160,12 @@ export default class PileupRenderer extends BoxRendererType {
     const [region] = regions
     const start = feature.get('start')
 
-    const md = feature.get('md')
-    const seq = feature.get('seq')
-    const xg = getTag(feature, 'xg')
-    const foodieMatches: FoodieMatch[] = getFoodieMatches(md, seq, xg)
+    const xg = getTag(feature, 'XG')
+    const mismatches = feature.get('mismatches') as Mismatch[]
+    const seq = feature.get('seq') as string
+    const foodieMatches: FoodieMatch[] = getFoodieMatches(mismatches, seq, xg)
     const heightLim = charHeight - 2
 
-    // draw all the mismatches except wide insertion markers
     for (let i = 0; i < foodieMatches.length; i += 1) {
       const foodieMatch = foodieMatches[i]
       const fstart = start + foodieMatch.start

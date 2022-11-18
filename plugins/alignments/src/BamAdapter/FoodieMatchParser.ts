@@ -1,30 +1,30 @@
+import { Mismatch } from './MismatchParser'
+
 export interface FoodieMatch {
   start: number
   base: string
 }
-export function getFoodieMatches(mdstring: string, seq: string, xg: string) {
-  const mdRegex = new RegExp(/(\d+|\^[a-z]+|[a-z])/gi)
-  const md = mdstring.match(mdRegex) || []
-  let base = '';
-  let pos = 0;
+export function getFoodieMatches(
+  mismatches: Mismatch[],
+  seq: string,
+  xg: string,
+) {
+  const seqArr = seq.split('')
+  const len = seqArr.length
   const foodieMatchRecords: FoodieMatch[] = []
-  for (let i = 0; i < md.length; i++) {
-    const token = md[i]
-    const num = +token
-    if (!Number.isNaN(num)) {
-      // 当前token是数字
-      for (let j = 0; j < num; j++) {
-        const s = pos
-        const start = s + j
-        base = seq[start]
-        if ((base === 'G' && xg === 'GA') || (base === 'C' && xg === 'CT')) {
-          foodieMatchRecords.push({ start, base })
-        }
-      }
-      pos += num
-    } else {
-      pos += 1
+  const mismatchesPos = []
+  for (let i = 0; i < mismatches.length; i++) {
+    mismatchesPos.push(mismatches[i].start)
+  }
+  let base = ''
+  for (let start = 0; start < len; start++) {
+    base = seq[start]
+    if (start === mismatchesPos[0]) {
+      mismatches.shift()
+      continue
+    } else if ((base === 'G' && xg === 'GA') || (base === 'C' && xg === 'CT')) {
+      foodieMatchRecords.push({ start, base })
     }
   }
   return foodieMatchRecords
-} 
+}
