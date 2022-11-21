@@ -1,0 +1,64 @@
+{
+  "assemblies": [
+    {
+      "name": "GRCh38.chr",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "GRCh38.chr-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    }
+  ],
+  "configuration": {
+    "logoPath": {
+      "uri": "test_data/foodie/foodieIcon.png"
+    }
+  },
+  "connections": [],
+  "defaultSession": {
+    "name": "New Session"
+  },
+  "tracks": [
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_DddB_merged_TRNAU1AP",
+      "name": "K562_DddB_merged_TRNAU1AP",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "K562_DddB_merged_TRNAU1AP.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "K562_DddB_merged_TRNAU1AP.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["GRCh38.chr"]
+    }
+  ]
+}

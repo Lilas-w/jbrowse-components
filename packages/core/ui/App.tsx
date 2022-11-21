@@ -162,6 +162,7 @@ const AppToolbar = observer(
         {HeaderButtons}
         <div className={classes.grow} />
         <div style={{ width: 150, maxHeight: 48 }}>
+          {/* 右上角logo */}
           <Logo session={session} />
         </div>
       </Toolbar>

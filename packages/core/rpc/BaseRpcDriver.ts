@@ -48,7 +48,7 @@ export async function watchWorker(
       setTimeout(async () => {
         try {
           await worker.call('ping', [], {
-            timeout: pingTime * 2,
+            timeout: 500 * 60 * 1000, // 原pingTime*2,影响debug时长，改成500min
             rpcDriverClassName,
           })
           delay()
@@ -72,7 +72,7 @@ function detectHardwareConcurrency() {
 class LazyWorker {
   workerP?: Promise<WorkerHandle> | undefined
 
-  constructor(public driver: BaseRpcDriver) {}
+  constructor(public driver: BaseRpcDriver) { }
 
   async getWorker() {
     if (!this.workerP) {
@@ -165,7 +165,7 @@ export default abstract class BaseRpcDriver {
     worker.call(
       functionName,
       { signalId },
-      { timeout: 1000000, rpcDriverClassName: this.name },
+      { timeout: 500 * 60 * 1000, rpcDriverClassName: this.name }, // 原1000000，影响debug，改成500min
     )
   }
 
@@ -225,7 +225,7 @@ export default abstract class BaseRpcDriver {
     // now actually call the worker
     const callP = worker
       .call(functionName, filteredAndSerializedArgs, {
-        timeout: 5 * 60 * 1000, // 5 minutes
+        timeout: 500 * 60 * 1000, // 500 minutes 原5min，影响debug的时长
         statusCallback: args.statusCallback,
         rpcDriverClassName: this.name,
         ...options,

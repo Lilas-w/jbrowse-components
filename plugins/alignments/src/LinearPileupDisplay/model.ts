@@ -95,9 +95,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
          * #property
          */
         mismatchAlpha: types.maybe(types.boolean),
-        /**
-         * #property
-         */
+        showFoodieMatches: types.maybe(types.boolean),
         sortedBy: types.maybe(
           types.model({
             type: types.string,
@@ -405,6 +403,9 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
       toggleMismatchAlpha() {
         self.mismatchAlpha = !self.mismatchAlpha
       },
+      toggleFoodieMatches() {
+        self.showFoodieMatches = !self.showFoodieMatches
+      },
 
       /**
        * #action
@@ -485,6 +486,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
             noSpacing: self.noSpacing,
             maxHeight: this.maxHeight,
             mismatchAlpha: self.mismatchAlpha,
+            showFoodieMatches: self.showFoodieMatches,
           },
           getEnv(self),
         )
@@ -506,9 +508,11 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
           ? self.mismatchAlpha
           : readConfObject(this.rendererConfig, 'mismatchAlpha')
       },
-      /**
-       * #getter
-       */
+      get foodieMatchesSetting() {
+        return self.showFoodieMatches !== undefined
+          ? self.showFoodieMatches
+          : readConfObject(this.rendererConfig, 'showFoodieMatches')
+      },
       get featureUnderMouse() {
         return self.featureUnderMouseVolatile
       },
@@ -694,7 +698,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
               icon: SortIcon,
               disabled: self.showSoftClipping,
               subMenu: [
-                ...['Start location', 'Read strand', 'Base pair'].map(
+                ...['Start location', 'Read strand', 'Base pair', 'Test'].map(
                   option => ({
                     label: option,
                     onClick: () => self.setSortedBy(option),
@@ -809,6 +813,14 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
               type: 'checkbox',
               checked: self.mismatchAlphaSetting,
               onClick: () => self.toggleMismatchAlpha(),
+            },
+            {
+              label: 'Show foodieMatches',
+              type: 'checkbox',
+              checked: self.foodieMatchesSetting,
+              onClick: () => {
+                self.toggleFoodieMatches()
+              },
             },
           ]
         },

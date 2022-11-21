@@ -77,6 +77,7 @@ function Translation(props: {
   const render = 1 / bpPerPx >= 12
   const width = (region.end - region.start) / bpPerPx
 
+  // Light gray, gray, dark gray
   const map = ['#d8d8d8', '#adadad', '#8f8f8f'].reverse()
   return (
     <>
@@ -99,8 +100,8 @@ function Translation(props: {
                 defaultStarts.includes(codon)
                   ? theme.palette.startCodon
                   : defaultStops.includes(codon)
-                  ? theme.palette.stopCodon
-                  : map[Math.abs(frame)]
+                    ? theme.palette.stopCodon
+                    : map[Math.abs(frame)]
               }
             />
             {render ? (
@@ -207,19 +208,19 @@ const SequenceSVG = ({
         translation is on the top */}
       {showTranslation && (region.reversed ? showReverse : showForward)
         ? [2, 1, 0].map(index => (
-            <Translation
-              key={`translation-${index}`}
-              seq={seq}
-              y={(currY += 20)}
-              codonTable={codonTable}
-              frame={index}
-              bpPerPx={bpPerPx}
-              region={region}
-              theme={theme}
-              height={height}
-              reverse={region.reversed}
-            />
-          ))
+          <Translation
+            key={`translation-${index}`}
+            seq={seq}
+            y={(currY += 20)}
+            codonTable={codonTable}
+            frame={index}
+            bpPerPx={bpPerPx}
+            region={region}
+            theme={theme}
+            height={height}
+            reverse={region.reversed}
+          />
+        ))
         : null}
 
       {showForward ? (
@@ -250,19 +251,19 @@ const SequenceSVG = ({
         translation is on the bottom */}
       {showTranslation && (region.reversed ? showForward : showReverse)
         ? [0, -1, -2].map(index => (
-            <Translation
-              key={`rev-translation-${index}`}
-              seq={seq}
-              y={(currY += 20)}
-              codonTable={codonTable}
-              frame={index}
-              bpPerPx={bpPerPx}
-              region={region}
-              theme={theme}
-              height={height}
-              reverse={!region.reversed}
-            />
-          ))
+          <Translation
+            key={`rev-translation-${index}`}
+            seq={seq}
+            y={(currY += 20)}
+            codonTable={codonTable}
+            frame={index}
+            bpPerPx={bpPerPx}
+            region={region}
+            theme={theme}
+            height={height}
+            reverse={!region.reversed}
+          />
+        ))
         : null}
     </>
   )
