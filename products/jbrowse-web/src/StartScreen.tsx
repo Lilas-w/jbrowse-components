@@ -58,7 +58,7 @@ const DeleteSessionDialog = ({
 }) => {
   const [deleteSession, setDeleteSession] = useState(false)
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         if (deleteSession) {
           setDeleteSession(false)
@@ -118,7 +118,7 @@ export default function StartScreen({
   const [reset, setReset] = useState(false)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         if (sessionToLoad) {
           rootModel.activateSession(sessionToLoad)
@@ -130,7 +130,7 @@ export default function StartScreen({
   }, [rootModel, sessionToLoad])
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       try {
         if (updateSessionsList) {
           setUpdateSessionsList(false)
@@ -180,7 +180,7 @@ export default function StartScreen({
         <SettingsIcon />
       </IconButton>
       <Container maxWidth="md">
-        <img src="test_data/foodie/Foodie.png" alt="pkulogo" />
+        <LogoFull />
         <div className={classes.newSession}>
           <Typography variant="h5" className={classes.header}>
             Start a new session

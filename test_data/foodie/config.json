@@ -21,7 +21,7 @@
   ],
   "configuration": {
     "logoPath": {
-      "uri": "test_data/foodie/foodieIcon.png"
+      "uri": ""
     }
   },
   "connections": [],
@@ -45,6 +45,34 @@
             "locationType": "UriLocation"
           },
           "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "GRCh38.chr.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "GRCh38.chr.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["GRCh38.chr"]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "K562_DddB_merged_TRNAU1AP_cram",
+      "name": "K562_DddB_merged_TRNAU1AP_cram",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "K562_DddB_merged_TRNAU1AP_cram.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "K562_DddB_merged_TRNAU1AP_cram.cram.crai",
+          "locationType": "UriLocation"
         },
         "sequenceAdapter": {
           "type": "IndexedFastaAdapter",
