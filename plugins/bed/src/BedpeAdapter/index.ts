@@ -1,14 +1,15 @@
-import { AdapterType } from '@jbrowse/core/pluggableElementTypes'
 import PluginManager from '@jbrowse/core/PluginManager'
+import AdapterType from '@jbrowse/core/pluggableElementTypes/AdapterType'
+
 import configSchema from './configSchema'
 
 export default (pluginManager: PluginManager) => {
   pluginManager.addAdapterType(
     () =>
       new AdapterType({
-        name: 'Gff3Adapter',
+        name: 'BedpeAdapter',
         configSchema,
-        getAdapterClass: () => import('./Gff3Adapter').then(r => r.default),
+        getAdapterClass: () => import('./BedpeAdapter').then(r => r.default),
       }),
   )
 }
