@@ -698,12 +698,15 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
               icon: SortIcon,
               disabled: self.showSoftClipping,
               subMenu: [
-                ...['Start location', 'Read strand', 'Base pair', 'Test'].map(
-                  option => ({
-                    label: option,
-                    onClick: () => self.setSortedBy(option),
-                  }),
-                ),
+                ...[
+                  'Start location',
+                  'Read strand',
+                  'Base pair',
+                  'Foodie sort',
+                ].map(option => ({
+                  label: option,
+                  onClick: () => self.setSortedBy(option),
+                })),
                 {
                   label: 'Sort by tag...',
                   onClick: () => {
