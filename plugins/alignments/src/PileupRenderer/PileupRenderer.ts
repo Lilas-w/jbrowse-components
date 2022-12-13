@@ -823,7 +823,6 @@ export default class PileupRenderer extends BoxRendererType {
     minSubfeatureWidth,
     largeInsertionIndicatorScale,
     mismatchAlpha,
-    showFoodieMatches,
     charWidth,
     charHeight,
     colorForBase,
@@ -831,6 +830,7 @@ export default class PileupRenderer extends BoxRendererType {
     canvasWidth,
     drawSNPsMuted,
     drawIndels = true,
+    showFoodieMatches,
   }: {
     ctx: CanvasRenderingContext2D
     feat: LayoutFeature
@@ -879,15 +879,8 @@ export default class PileupRenderer extends BoxRendererType {
       if (mismatch.type === 'mismatch') {
         if (!drawSNPsMuted) {
           let baseColor = colorForBase[mismatch.base] || '#888'
-          // C下面的所有T，G下面的A是红色，其他base为灰色
           if (showFoodieMatches) {
-            baseColor = '#C8C8C8' // gray
-            if (
-              (mismatch.base === 'T' && mismatch.altbase === 'C') ||
-              (mismatch.base === 'A' && mismatch.altbase === 'G')
-            ) {
-              baseColor = '#f44336' // red
-            }
+            baseColor = '#C8C8C8'
           }
 
           fillRect(
@@ -909,7 +902,11 @@ export default class PileupRenderer extends BoxRendererType {
           )
         }
 
-        if (widthPx >= charWidth && heightPx >= heightLim) {
+        if (
+          widthPx >= charWidth &&
+          heightPx >= heightLim &&
+          !showFoodieMatches
+        ) {
           // normal SNP coloring
           const contrastColor = drawSNPsMuted
             ? 'black'
@@ -1168,7 +1165,13 @@ export default class PileupRenderer extends BoxRendererType {
       const widthPx = Math.max(minSubfeatureWidth, Math.abs(leftPx - rightPx))
 
       if (!drawSNPsMuted) {
-        const baseColor = '#2196f3' // blue
+        let baseColor = '#C8C8C8'
+        // C->T，G->A是红色，C->C G->G是蓝色，其他base为灰色
+        if (fbase === 'T' || fbase === 'A') {
+          baseColor = '#f44336' // red
+        } else {
+          baseColor = '#2196f3' // blue
+        }
 
         fillRect(ctx, leftPx, topPx, widthPx, heightPx, canvasWidth, baseColor)
         if (widthPx >= charWidth && heightPx >= heightLim) {
