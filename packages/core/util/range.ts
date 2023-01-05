@@ -74,3 +74,14 @@ export function isContainedWithin(
   //      |------|
   return left2 <= left1 && right2 >= right1
 }
+
+// export function isInFoodieSort(
+//   pos: number,
+//   range: number,
+//   start: number,
+//   end: number,
+// ) {
+//   const left = Math.abs(pos - range);
+//   const right = pos + range;
+//   return doesIntersect2(left, right, start, end)
+// }

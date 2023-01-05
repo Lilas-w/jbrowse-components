@@ -167,10 +167,11 @@ export const sortFeature = (
     //   break
     // }
     case 'Foodie sort': {
-      const foodieSortMap = new Map()
-      features.forEach(feature => {
-        const start = feature.get('start')
-        const name = feature.get('name')
+      // const foodieSortMap = new Map()
+      const foodieSortMatrix: number[][] = []
+      featuresInCenterLine.forEach(feature => {
+        // const start = feature.get('start')
+        // const name = feature.get('name')
         const xg = getTag(feature, 'XG')
         const mismatches = feature.get('mismatches') as Mismatch[]
         const seq = feature.get('seq') as string
@@ -179,19 +180,47 @@ export const sortFeature = (
           seq,
           xg,
         )
-        const baseArray: number[][] = []
-        for (let i = 0; i < foodieMatches.length; i += 1) {
-          const foodieMatch = foodieMatches[i]
-          const fstart = start + foodieMatch.start
-          const fbase = foodieMatch.base
-          if (fbase === 'T' || fbase === 'A') {
-            baseArray.push([fstart, 1])
+        // 未填充-1的情况
+        // // const baseArray: number[][] = []
+        // const baseArray: number[] = []
+        // for (let i = 0; i < foodieMatches.length; i += 1) {
+        //   const foodieMatch = foodieMatches[i]
+        //   // const fstart = start + foodieMatch.start
+        //   const fbase = foodieMatch.base
+        //   if (fbase === 'T' || fbase === 'A') {
+        //     // baseArray.push([fstart, 1])
+        //     baseArray.push(1)
+        //   } else {
+        //     // baseArray.push([fstart, 0])
+        //     baseArray.push(0)
+        //   }
+        // }
+        // // foodieSortMap.set(name, baseArray)
+        const baseArray: number[] = []
+        const seqArr = seq.split('')
+        const len = seqArr.length
+        const foodieMatchesPos = []
+        for (let i = 0; i < foodieMatches.length; i++) {
+          foodieMatchesPos.push(foodieMatches[i].start)
+        }
+        let base = ''
+        for (let i = 0; i < len; i++) {
+          if (i === foodieMatchesPos[0]) {
+            base = seq[foodieMatchesPos[0]]
+            if (base === 'T' || base === 'A') {
+              baseArray.push(1)
+            } else {
+              baseArray.push(0)
+            }
+            foodieMatchesPos.shift()
           } else {
-            baseArray.push([fstart, 0])
+            baseArray.push(-1)
           }
         }
-        foodieSortMap.set(name, baseArray)
+        foodieSortMatrix.push(baseArray)
       })
+      // console.log(foodieSortMap) 
+      // console.log(foodieSortMatrix);
     }
   }
 
