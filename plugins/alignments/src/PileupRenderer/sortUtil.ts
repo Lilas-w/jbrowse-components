@@ -110,7 +110,8 @@ export const sortFeature = (
         // 只看CT reads
         if (xg === 'CT') {
           const start = feature.get('start')
-          const name = feature.get('name')
+          // const name = feature.get('name')
+          const id = feature.id()
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
           const foodieMatches: FoodieMatch[] = getFoodieMatches(
@@ -139,13 +140,14 @@ export const sortFeature = (
             } else {
               baseArray.push([fstart, 0])
             }
-            foodieSortMap.set(name, baseArray)
+            foodieSortMap.set(id, baseArray)
           }
         }
       })
       const matrixLen = max - min + 1
       console.log(foodieSortMap);
       // create a matrix
+
     }
   }
 
