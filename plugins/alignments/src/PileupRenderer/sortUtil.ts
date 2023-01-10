@@ -103,6 +103,8 @@ export const sortFeature = (
 
     case 'Foodie sort': {
       const foodieSortMap = new Map()
+      let min = Infinity
+      let max = 0
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
         // 只看CT reads
@@ -120,6 +122,12 @@ export const sortFeature = (
           for (let i = 0; i < foodieMatches.length; i += 1) {
             const foodieMatch = foodieMatches[i]
             const fstart = start + foodieMatch.start
+            if (i === 0) {
+              min = fstart < min ? fstart : min
+            }
+            if (i === foodieMatches.length - 1) {
+              max = fstart > max ? fstart : max
+            }
             const fbase = foodieMatch.base
             // if (fbase === 'T' || fbase === 'A') {
             //   baseArray.push([fstart, 1])
@@ -135,7 +143,9 @@ export const sortFeature = (
           }
         }
       })
+      const matrixLen = max - min + 1
       console.log(foodieSortMap);
+      // create a matrix
     }
   }
 
