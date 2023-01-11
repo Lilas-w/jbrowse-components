@@ -110,7 +110,6 @@ export const sortFeature = (
         // 只看CT reads
         if (xg === 'CT') {
           const start = feature.get('start')
-          // const name = feature.get('name')
           const id = feature.id()
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
@@ -136,18 +135,32 @@ export const sortFeature = (
             //   baseArray.push([fstart, 0])
             // }
             if (fbase === 'T') {
-              baseArray.push([fstart, 1])
+              baseArray.push([foodieMatch.start, 1])
             } else {
-              baseArray.push([fstart, 0])
+              baseArray.push([foodieMatch.start, 0])
             }
             foodieSortMap.set(id, baseArray)
           }
         }
       })
       const matrixLen = max - min + 1
-      console.log(foodieSortMap);
-      // create a matrix
-
+      const matrix: number[][] = []
+      const matrixKey = Array.from(foodieSortMap.keys())
+      for (let i = 0; i < matrixKey.length; i++) {
+        const id = matrixKey[i]
+        const baseArray = foodieSortMap.get(id)
+        const matrixArr: number[] = []
+        for (let j = 0; j < matrixLen; j++) {
+          if (baseArray.length > 0 && baseArray[0][0] === j) {
+            matrixArr.push(baseArray[0][1])
+            baseArray.shift()
+          } else {
+            matrixArr.push(-1)
+          }
+        }
+        matrix.push(matrixArr)
+      }
+      // console.log(matrix);
     }
   }
 
