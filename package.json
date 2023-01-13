@@ -146,7 +146,8 @@
     "wait-on": "^6.0.0",
     "web-encoding": "^1.1.5",
     "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.7.3"
+    "webpack-dev-server": "^4.7.3",
+    "ml-hclust": "^3.1.0"
   },
   "version": "0.0.0",
   "dependencies": {}

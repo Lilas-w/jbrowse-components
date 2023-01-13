@@ -161,6 +161,18 @@ export const sortFeature = (
         matrix.push(matrixArr)
       }
       // console.log(matrix);
+      const { agnes } = require('ml-hclust')
+
+      const tree = agnes(matrix, {
+        method: 'ward',
+      });
+
+      const indexArray = tree.indices()
+
+      for (let i = 0; i < indexArray.length; i++) {
+        const targetIndex: number = indexArray[i];
+        [featuresInCenterLine[targetIndex], featuresInCenterLine[i]] = [featuresInCenterLine[i], featuresInCenterLine[targetIndex]];
+      }
     }
   }
 
