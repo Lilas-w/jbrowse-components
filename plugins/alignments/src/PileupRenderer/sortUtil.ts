@@ -143,6 +143,8 @@ export const sortFeature = (
           }
         }
       })
+      // console.log('before:', featuresInCenterLine[100])
+
       const matrixLen = max - min + 1
       const matrix: number[][] = []
       const matrixKey = Array.from(foodieSortMap.keys())
@@ -165,15 +167,53 @@ export const sortFeature = (
 
       const tree = agnes(matrix, {
         method: 'ward',
-      });
+      })
 
       const indexArray = tree.indices()
 
+      // for (let i = 0; i < indexArray.length; i++) {
+      //   const targetIndex: number = indexArray[i];
+
+      // }
+
+      // function nextone(cur: number, n: number) {
+      //   if (cur < n / 2) {
+      //     return 1 + cur * 2;
+      //   } else {
+      //     return (n - cur - 1) * 2;
+      //   }
+      // }
+      // function reorder(nums: []) {
+      //   const n = nums.length;
+      //   let count = 0;
+      //   for (let start = n - 1; count < n; start--) {
+      //     let cur = start;
+      //     let pre = nums[start];
+      //     while (start !== cur) {
+      //       const next = nextone(cur, n);
+      //       const tmp = nums[next];
+      //       nums[next] = pre;
+      //       pre = tmp;
+      //       cur = next;
+      //       count++;
+      //     };
+      //   }
+      //   return;
+      // }
+
+      // reorder()
+
+      // reorder featuresInCenterLine according to indexArray
+      const tempArray = []
+      for (let i = 0; i < featuresInCenterLine.length; i++) {
+        tempArray.push(featuresInCenterLine[i])
+      }
+      featuresInCenterLine.length = 0
       for (let i = 0; i < indexArray.length; i++) {
-        const targetIndex: number = indexArray[i];
-        [featuresInCenterLine[targetIndex], featuresInCenterLine[i]] = [featuresInCenterLine[i], featuresInCenterLine[targetIndex]];
+        featuresInCenterLine[indexArray[i]] = tempArray[i]
       }
     }
+    // console.log('sorted:', featuresInCenterLine[100])
   }
 
   const sortedMap = new Map(
