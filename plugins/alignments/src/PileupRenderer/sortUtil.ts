@@ -118,7 +118,6 @@ export const sortFeature = (
             seq,
             xg,
           )
-          // matrix item: baseArray
           const baseArray: number[][] = [];
           for (let i = 0; i < foodieMatches.length; i += 1) {
             const foodieMatch = foodieMatches[i];
@@ -169,21 +168,13 @@ export const sortFeature = (
       // ml-hclust.js
       const { agnes } = require('ml-hclust');
 
-      // 将矩阵切片
+      // 将矩阵切片：宽度为two pairs / one pair进行测试
       const thinMatrix: number[][] = [];
       const position = pos - min;
       for (let i = 0; i < matrix.length; i++) {
-        thinMatrix.push([matrix[i][position]])
+        thinMatrix.push([matrix[i][position + 1]])
       }
       console.log(thinMatrix);
-
-      // 生成two base pair二维数组
-      // featuresInCenterLine.forEach(feature => {
-      //   let start = feature.get('start');
-      //   let postion = pos - start;
-      //   thinMatrix.push()
-      // })
-
 
       const tree = agnes(thinMatrix, {
         method: 'ward',
@@ -193,6 +184,7 @@ export const sortFeature = (
 
       // let arr: [] = [];
 
+      // 试用node-kmeans包
       // const kmeans = require('node-kmeans');
       // kmeans.clusterize(matrix, { k: 2 }, (err: any, res: any) => {
       //   if (err) {
