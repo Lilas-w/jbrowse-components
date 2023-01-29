@@ -118,6 +118,7 @@ export const sortFeature = (
             seq,
             xg,
           )
+          // matrix item: baseArray
           const baseArray: number[][] = [];
           for (let i = 0; i < foodieMatches.length; i += 1) {
             const foodieMatch = foodieMatches[i];
@@ -145,6 +146,7 @@ export const sortFeature = (
       })
       // console.log('before:', featuresInCenterLine[100])
 
+      // 生成矩阵
       const matrixLen = max - min + 1;
       const matrix: number[][] = [];
       const matrixKey = Array.from(foodieSortMap.keys());
@@ -167,7 +169,23 @@ export const sortFeature = (
       // ml-hclust.js
       const { agnes } = require('ml-hclust');
 
-      const tree = agnes(matrix, {
+      // 将矩阵切片
+      const thinMatrix: number[][] = [];
+      const position = pos - min;
+      for (let i = 0; i < matrix.length; i++) {
+        thinMatrix.push([matrix[i][position]])
+      }
+      console.log(thinMatrix);
+
+      // 生成two base pair二维数组
+      // featuresInCenterLine.forEach(feature => {
+      //   let start = feature.get('start');
+      //   let postion = pos - start;
+      //   thinMatrix.push()
+      // })
+
+
+      const tree = agnes(thinMatrix, {
         method: 'ward',
       })
 
@@ -196,7 +214,6 @@ export const sortFeature = (
         featuresInCenterLine[indexArray[i]] = tempArray[i];
       }
     }
-    // console.log('sorted:', featuresInCenterLine[100])
   }
 
   const sortedMap = new Map(
