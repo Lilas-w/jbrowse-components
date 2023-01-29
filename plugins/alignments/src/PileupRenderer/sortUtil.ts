@@ -103,114 +103,97 @@ export const sortFeature = (
 
     case 'Foodie sort': {
       const foodieSortMap = new Map()
-      let min = Infinity
-      let max = 0
+      let min = Infinity;
+      let max = 0;
       featuresInCenterLine.forEach(feature => {
-        const xg = getTag(feature, 'XG')
+        const xg = getTag(feature, 'XG');
         // 只看CT reads
         if (xg === 'CT') {
-          const start = feature.get('start')
-          const id = feature.id()
-          const mismatches = feature.get('mismatches') as Mismatch[]
-          const seq = feature.get('seq') as string
+          const start = feature.get('start');
+          const id = feature.id();
+          const mismatches = feature.get('mismatches') as Mismatch[];
+          const seq = feature.get('seq') as string;
           const foodieMatches: FoodieMatch[] = getFoodieMatches(
             mismatches,
             seq,
             xg,
           )
-          const baseArray: number[][] = []
+          const baseArray: number[][] = [];
           for (let i = 0; i < foodieMatches.length; i += 1) {
-            const foodieMatch = foodieMatches[i]
-            const fstart = start + foodieMatch.start
+            const foodieMatch = foodieMatches[i];
+            const fstart = start + foodieMatch.start;
             if (i === 0) {
-              min = fstart < min ? fstart : min
+              min = fstart < min ? fstart : min;
             }
             if (i === foodieMatches.length - 1) {
-              max = fstart > max ? fstart : max
+              max = fstart > max ? fstart : max;
             }
-            const fbase = foodieMatch.base
+            const fbase = foodieMatch.base;
             // if (fbase === 'T' || fbase === 'A') {
             //   baseArray.push([fstart, 1])
             // } else {
             //   baseArray.push([fstart, 0])
             // }
             if (fbase === 'T') {
-              baseArray.push([foodieMatch.start, 1])
+              baseArray.push([foodieMatch.start, 1]);
             } else {
-              baseArray.push([foodieMatch.start, 0])
+              baseArray.push([foodieMatch.start, 0]);
             }
-            foodieSortMap.set(id, baseArray)
+            foodieSortMap.set(id, baseArray);
           }
         }
       })
       // console.log('before:', featuresInCenterLine[100])
 
-      const matrixLen = max - min + 1
-      const matrix: number[][] = []
-      const matrixKey = Array.from(foodieSortMap.keys())
+      const matrixLen = max - min + 1;
+      const matrix: number[][] = [];
+      const matrixKey = Array.from(foodieSortMap.keys());
       for (let i = 0; i < matrixKey.length; i++) {
-        const id = matrixKey[i]
-        const baseArray = foodieSortMap.get(id)
-        const matrixArr: number[] = []
+        const id = matrixKey[i];
+        const baseArray = foodieSortMap.get(id);
+        const matrixArr: number[] = [];
         for (let j = 0; j < matrixLen; j++) {
           if (baseArray.length > 0 && baseArray[0][0] === j) {
-            matrixArr.push(baseArray[0][1])
-            baseArray.shift()
+            matrixArr.push(baseArray[0][1]);
+            baseArray.shift();
           } else {
-            matrixArr.push(-1)
+            matrixArr.push(-1);
           }
         }
-        matrix.push(matrixArr)
+        matrix.push(matrixArr);
       }
-      // console.log(matrix);
-      const { agnes } = require('ml-hclust')
+      // console.log('matrix:' + matrix.length);
+
+      // ml-hclust.js
+      const { agnes } = require('ml-hclust');
 
       const tree = agnes(matrix, {
         method: 'ward',
       })
 
-      const indexArray = tree.indices()
+      const indexArray = tree.indices();
 
-      // for (let i = 0; i < indexArray.length; i++) {
-      //   const targetIndex: number = indexArray[i];
+      // let arr: [] = [];
 
-      // }
-
-      // function nextone(cur: number, n: number) {
-      //   if (cur < n / 2) {
-      //     return 1 + cur * 2;
+      // const kmeans = require('node-kmeans');
+      // kmeans.clusterize(matrix, { k: 2 }, (err: any, res: any) => {
+      //   if (err) {
+      //     console.error(err);
       //   } else {
-      //     return (n - cur - 1) * 2;
+      //     // eslint-disable-next-line no-console
+      //     arr = res[0].clusterInd.concat(res[1].clusterInd);
+      //     console.log(res, arr);
       //   }
-      // }
-      // function reorder(nums: []) {
-      //   const n = nums.length;
-      //   let count = 0;
-      //   for (let start = n - 1; count < n; start--) {
-      //     let cur = start;
-      //     let pre = nums[start];
-      //     while (start !== cur) {
-      //       const next = nextone(cur, n);
-      //       const tmp = nums[next];
-      //       nums[next] = pre;
-      //       pre = tmp;
-      //       cur = next;
-      //       count++;
-      //     };
-      //   }
-      //   return;
-      // }
-
-      // reorder()
+      // });
 
       // reorder featuresInCenterLine according to indexArray
-      const tempArray = []
+      const tempArray = [];
       for (let i = 0; i < featuresInCenterLine.length; i++) {
-        tempArray.push(featuresInCenterLine[i])
+        tempArray.push(featuresInCenterLine[i]);
       }
-      featuresInCenterLine.length = 0
+      featuresInCenterLine.length = 0;
       for (let i = 0; i < indexArray.length; i++) {
-        featuresInCenterLine[indexArray[i]] = tempArray[i]
+        featuresInCenterLine[indexArray[i]] = tempArray[i];
       }
     }
     // console.log('sorted:', featuresInCenterLine[100])
@@ -222,5 +205,5 @@ export const sortFeature = (
       .map(feature => [feature.id(), feature]),
   )
 
-  return sortedMap
+  return sortedMap;
 }
