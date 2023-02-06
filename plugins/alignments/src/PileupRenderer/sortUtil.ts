@@ -134,6 +134,7 @@ export const sortFeature = (
             // } else {
             //   baseArray.push([fstart, 0])
             // }
+            // 
             if (fbase === 'T') {
               baseArray.push([foodieMatch.start, 1]);
             } else {
@@ -145,7 +146,6 @@ export const sortFeature = (
       })
       // console.log('before:', featuresInCenterLine[100])
 
-      // 生成矩阵
       const matrixLen = max - min + 1;
       const matrix: number[][] = [];
       const matrixKey = Array.from(foodieSortMap.keys());
@@ -165,25 +165,21 @@ export const sortFeature = (
       }
       // console.log('matrix:' + matrix.length);
 
-      // ml-hclust.js
-      const { agnes } = require('ml-hclust');
-
-      // 将矩阵切片：宽度为two pairs / one pair进行测试
-      const thinMatrix: number[][] = [];
-      const position = pos - min;
-      for (let i = 0; i < matrix.length; i++) {
-        thinMatrix.push([matrix[i][position + 1]])
-      }
-      console.log(thinMatrix);
-
-      const tree = agnes(thinMatrix, {
-        method: 'ward',
-      })
-
-      const indexArray = tree.indices();
+      // // ml-hclust.js
+      // const { agnes } = require('ml-hclust');
+      // // // 将矩阵切片：宽度为two pairs / one pair进行测试
+      // // const thinMatrix: number[][] = [];
+      // // const position = pos - min;
+      // // for (let i = 0; i < matrix.length; i++) {
+      // //   thinMatrix.push([matrix[i][position + 1], matrix[i][position + 1]]);
+      // // }
+      // // console.log(thinMatrix);
+      // const tree = agnes(matrix, {
+      //   method: 'ward',
+      // })
+      // const indexArray = tree.indices();
 
       // let arr: [] = [];
-
       // 试用node-kmeans包
       // const kmeans = require('node-kmeans');
       // kmeans.clusterize(matrix, { k: 2 }, (err: any, res: any) => {
@@ -195,6 +191,11 @@ export const sortFeature = (
       //     console.log(res, arr);
       //   }
       // });
+
+      // // cluster包，没有indexArray
+      // const clusterfck = require('clusterfck')
+      // // Calculate clusters.
+      // const clusters = clusterfck.kmeans(matrix, 2);
 
       // reorder featuresInCenterLine according to indexArray
       const tempArray = [];
