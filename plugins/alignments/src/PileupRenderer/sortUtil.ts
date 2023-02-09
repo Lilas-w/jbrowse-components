@@ -3,6 +3,7 @@ import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
 import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
+import { kMeans } from '../PileupRenderer/foodieSort'
 
 interface SortObject {
   pos: number
@@ -197,6 +198,10 @@ export const sortFeature = (
       // // Calculate clusters.
       // const clusters = clusterfck.kmeans(matrix, 2);
 
+      const result = kMeans(matrix, 2);
+      const indexArray = result.indices.flat(1);
+      console.log(indexArray);
+      
       // reorder featuresInCenterLine according to indexArray
       const tempArray = [];
       for (let i = 0; i < featuresInCenterLine.length; i++) {
