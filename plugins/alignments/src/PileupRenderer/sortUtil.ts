@@ -164,7 +164,7 @@ export const sortFeature = (
         }
         matrix.push(matrixArr);
       }
-      // console.log('matrix:' + matrix.length);
+      console.log('matrix:' + matrix.length);
 
       // // ml-hclust.js
       // const { agnes } = require('ml-hclust');
@@ -198,9 +198,9 @@ export const sortFeature = (
       // // Calculate clusters.
       // const clusters = clusterfck.kmeans(matrix, 2);
 
-      const result = kMeans(matrix, 2);
-      const indexArray = result.indices.flat(1);
-      console.log(indexArray);
+      const result = kMeans(matrix, 4);
+      const indexArray = result.rawIndex.flat(1);
+      console.log(result.rawIndex);
       
       // reorder featuresInCenterLine according to indexArray
       const tempArray = [];

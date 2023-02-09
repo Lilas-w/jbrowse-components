@@ -35,15 +35,16 @@ function avgPoint(points: Point[]): Point {
 export function kMeans(
   data: Point[],
   k: number,
-): { means: Point[]; indices: number[][] } {
-  const indices: number[][] = Array(k)
-    .fill(null)
-    .map(() => [])
+): { means: Point[]; rawIndex: number[][] } {
+  let rawIndex: number[][] = []
   const assignments: number[] = []
   const means = data.slice(0, k)
 
   let changed = true
   while (changed) {
+    const indices: number[][] = Array(k)
+      .fill(null)
+      .map(() => [])
     changed = false
     const clusters: Point[][] = Array(k)
       .fill(null)
@@ -74,7 +75,8 @@ export function kMeans(
         means[i] = newMean
       }
     }
+    rawIndex = indices
   }
 
-  return { means, indices }
+  return { means, rawIndex }
 }
