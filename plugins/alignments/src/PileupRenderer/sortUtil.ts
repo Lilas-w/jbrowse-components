@@ -173,7 +173,7 @@ export const sortFeature = (
         // }
         // matrix.push(matrixArr)
 
-        // 所有reads中每条含有的最小红色数量和最小蓝色数量
+        // 所有reads中每条含有的最大红色数量和最大蓝色数量
         let CNum = 0
         let TNum = 0
         for (let i = 0; i < baseArray.length; i++) {
