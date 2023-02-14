@@ -157,8 +157,8 @@ export const sortFeature = (
       // const matrixLen = max - min + 1
       const matrix: number[][] = []
       const matrixKey = Array.from(foodieSortMap.keys())
-      let minCNum = Infinity
-      let minTNum = Infinity
+      let maxCNum = 0
+      let maxTNum = 0
       for (let i = 0; i < matrixKey.length; i++) {
         const id = matrixKey[i]
         const baseArray = foodieSortMap.get(id)
@@ -183,15 +183,14 @@ export const sortFeature = (
             TNum += 1
           }
         }
-        if (minCNum > CNum) {
-          minCNum = CNum
+        if (maxCNum < CNum) {
+          maxCNum = CNum
         }
-        if (minTNum > TNum) {
-          minTNum = TNum
+        if (maxTNum < TNum) {
+          maxTNum = TNum
         }
       }
-      console.log(minCNum, minTNum);
-      
+      console.log(maxCNum, maxTNum);
 
       // // ml-hclust.js
       // const { agnes } = require('ml-hclust');
