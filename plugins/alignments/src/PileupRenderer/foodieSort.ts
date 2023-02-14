@@ -1,6 +1,12 @@
 type Point = number[]
 
-function vectDistance(a: Point, b: Point): number {
+interface Cluster {
+  centroid: Point
+  points: Point[]
+  rawArrayIndices: number[]
+}
+
+const vectDistance = (a: Point, b: Point): number => {
   let total = 0
   for (let i = 0; i < a.length; i++) {
     if (a[i] === b[i]) {
@@ -12,71 +18,71 @@ function vectDistance(a: Point, b: Point): number {
   return Math.sqrt(total)
 }
 
-function avgPoint(points: Point[]): Point {
-  let numDimensions = 0
-  if (points[0]) {
-    numDimensions = points[0].length
-  }
-  const avg = Array.from({ length: numDimensions }, () => 0)
-
-  for (const p of points) {
-    for (let i = 0; i < numDimensions; i++) {
-      avg[i] += p[i]
+const avgPoint = (points: Point[]): Point => {
+  const avg: Point = new Array(points[0].length).fill(0)
+  for (const point of points) {
+    for (let i = 0; i < point.length; i++) {
+      avg[i] += point[i]
     }
   }
-
-  for (let i = 0; i < numDimensions; i++) {
+  for (let i = 0; i < avg.length; i++) {
     avg[i] /= points.length
   }
-
   return avg
 }
 
-export function kMeans(
-  data: Point[],
+export const kMeans = (
+  points: Point[],
   k: number,
-): { means: Point[]; rawIndex: number[][] } {
-  let rawIndex: number[][] = []
-  const assignments: number[] = []
-  const means = data.slice(0, k)
+  maxIterations = 100,
+  // between 0.0001 and 0.001 as a starting point
+  epsilon = 0.0001,
+): [Cluster[], number[]] => {
+  const n = points.length
+  const clusters: Cluster[] = []
+  const rawArrayIndices: number[] = Array.from({ length: n }, (_, i) => i)
 
+  for (let i = 0; i < k; i++) {
+    const randomIndex = Math.floor(Math.random() * rawArrayIndices.length)
+    const centroid = points[rawArrayIndices[randomIndex]]
+    clusters.push({ centroid, points: [], rawArrayIndices: [] })
+    rawArrayIndices.splice(randomIndex, 1)
+  }
+
+  let iterations = 0
   let changed = true
-  while (changed) {
-    const indices: number[][] = Array(k)
-      .fill(null)
-      .map(() => [])
-    changed = false
-    const clusters: Point[][] = Array(k)
-      .fill(null)
-      .map(() => [])
 
-    for (let i = 0; i < data.length; i++) {
-      let minDistance = Infinity
-      let meanIndex = 0
+  while (changed && iterations < maxIterations) {
+    changed = false
+    for (let i = 0; i < n; i++) {
+      const point = points[i]
+      let minDistance = Number.MAX_SAFE_INTEGER
+      let closestClusterIndex = -1
       for (let j = 0; j < k; j++) {
-        const distance = vectDistance(data[i], means[j])
+        const distance = vectDistance(point, clusters[j].centroid)
         if (distance < minDistance) {
           minDistance = distance
-          meanIndex = j
+          closestClusterIndex = j
         }
       }
-      if (assignments[i] !== meanIndex) {
+      const closestCluster = clusters[closestClusterIndex]
+      if (!closestCluster.points.includes(point)) {
+        closestCluster.points.push(point)
+        closestCluster.rawArrayIndices.push(i)
         changed = true
-        assignments[i] = meanIndex
       }
-      indices[meanIndex].push(i)
-      clusters[meanIndex].push(data[i])
     }
 
     for (let i = 0; i < k; i++) {
-      const newMean = avgPoint(clusters[i])
-      if (vectDistance(means[i], newMean) > 1e-6) {
+      const cluster = clusters[i]
+      const oldCentroid = cluster.centroid
+      const newCentroid = avgPoint(cluster.points)
+      cluster.centroid = newCentroid
+      if (vectDistance(oldCentroid, newCentroid) > epsilon) {
         changed = true
-        means[i] = newMean
       }
     }
-    rawIndex = indices
+    iterations++
   }
-
-  return { means, rawIndex }
+  return [clusters, rawArrayIndices]
 }

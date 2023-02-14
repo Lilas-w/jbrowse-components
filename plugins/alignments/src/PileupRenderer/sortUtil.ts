@@ -4,6 +4,7 @@ import { Mismatch } from '../BamAdapter/MismatchParser'
 import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 import { kMeans } from '../PileupRenderer/foodieSort'
+import { log } from 'console'
 
 interface SortObject {
   pos: number
@@ -104,67 +105,93 @@ export const sortFeature = (
 
     case 'Foodie sort': {
       const foodieSortMap = new Map()
-      let min = Infinity;
-      let max = 0;
+      let min = Infinity
+      let max = 0
       featuresInCenterLine.forEach(feature => {
-        const xg = getTag(feature, 'XG');
+        const xg = getTag(feature, 'XG')
         // 只看CT reads
         if (xg === 'CT') {
-          const start = feature.get('start');
-          const id = feature.id();
-          const mismatches = feature.get('mismatches') as Mismatch[];
-          const seq = feature.get('seq') as string;
+          const start = feature.get('start')
+          const id = feature.id()
+          const mismatches = feature.get('mismatches') as Mismatch[]
+          const seq = feature.get('seq') as string
           const foodieMatches: FoodieMatch[] = getFoodieMatches(
             mismatches,
             seq,
             xg,
           )
-          const baseArray: number[][] = [];
+          const baseArray: number[][] = []
           for (let i = 0; i < foodieMatches.length; i += 1) {
-            const foodieMatch = foodieMatches[i];
-            const fstart = start + foodieMatch.start;
+            const foodieMatch = foodieMatches[i]
+            const fstart = start + foodieMatch.start
             if (i === 0) {
-              min = fstart < min ? fstart : min;
+              min = fstart < min ? fstart : min
             }
             if (i === foodieMatches.length - 1) {
-              max = fstart > max ? fstart : max;
+              max = fstart > max ? fstart : max
             }
-            const fbase = foodieMatch.base;
+            const fbase = foodieMatch.base
             // if (fbase === 'T' || fbase === 'A') {
             //   baseArray.push([fstart, 1])
             // } else {
             //   baseArray.push([fstart, 0])
             // }
-            // 
+            // 只看C的1 0矩阵
+            // if (fbase === 'T') {
+            //   baseArray.push([foodieMatch.start, 1])
+            // } else {
+            //   baseArray.push([foodieMatch.start, 0])
+            // }
+            // 使用绝对位置和reads中最少的红base数量、最少的蓝base数量拼接的矩阵
             if (fbase === 'T') {
-              baseArray.push([foodieMatch.start, 1]);
+              baseArray.push([fstart, 1])
             } else {
-              baseArray.push([foodieMatch.start, 0]);
+              baseArray.push([fstart, 0])
             }
-            foodieSortMap.set(id, baseArray);
+            foodieSortMap.set(id, baseArray)
           }
         }
       })
       // console.log('before:', featuresInCenterLine[100])
 
-      const matrixLen = max - min + 1;
-      const matrix: number[][] = [];
-      const matrixKey = Array.from(foodieSortMap.keys());
+      // const matrixLen = max - min + 1
+      const matrix: number[][] = []
+      const matrixKey = Array.from(foodieSortMap.keys())
+      let minCNum = Infinity
+      let minTNum = Infinity
       for (let i = 0; i < matrixKey.length; i++) {
-        const id = matrixKey[i];
-        const baseArray = foodieSortMap.get(id);
-        const matrixArr: number[] = [];
-        for (let j = 0; j < matrixLen; j++) {
-          if (baseArray.length > 0 && baseArray[0][0] === j) {
-            matrixArr.push(baseArray[0][1]);
-            baseArray.shift();
+        const id = matrixKey[i]
+        const baseArray = foodieSortMap.get(id)
+        const matrixArr: number[] = []
+        // for (let j = 0; j < matrixLen; j++) {
+        //   if (baseArray.length > 0 && baseArray[0][0] === j) {
+        //     matrixArr.push(baseArray[0][1])
+        //     baseArray.shift()
+        //   } else {
+        //     matrixArr.push(-1)
+        //   }
+        // }
+        // matrix.push(matrixArr)
+
+        // 所有reads中每条含有的最小红色数量和最小蓝色数量
+        let CNum = 0
+        let TNum = 0
+        for (let i = 0; i < baseArray.length; i++) {
+          if (baseArray[i][1] === 0) {
+            CNum += 1
           } else {
-            matrixArr.push(-1);
+            TNum += 1
           }
         }
-        matrix.push(matrixArr);
+        if (minCNum > CNum) {
+          minCNum = CNum
+        }
+        if (minTNum > TNum) {
+          minTNum = TNum
+        }
       }
-      console.log('matrix:' + matrix.length);
+      console.log(minCNum, minTNum);
+      
 
       // // ml-hclust.js
       // const { agnes } = require('ml-hclust');
@@ -198,19 +225,37 @@ export const sortFeature = (
       // // Calculate clusters.
       // const clusters = clusterfck.kmeans(matrix, 2);
 
-      const result = kMeans(matrix, 4);
-      const indexArray = result.rawIndex.flat(1);
-      console.log(result.rawIndex);
-      
+      // skmeans包试用
+      // const skmeans = require('skmeans')
+      // const vectDistance = (a: number[], b: number[]): number => {
+      //   let total = 0
+      //   for (let i = 0; i < a.length; i++) {
+      //     if (a[i] === b[i]) {
+      //       total += 0
+      //     } else {
+      //       total += 1
+      //     }
+      //   }
+      //   const res = total / a.length
+      //   return res
+      // }
+      // const res = skmeans(matrix, 2, null, null, vectDistance)
+      // console.log(res)
+
+      // foodieSort试用
+      // const result = kMeans(matrix, 4);
+      // const indexArray = result[0][2];
+      // console.log(result[0]);
+
       // reorder featuresInCenterLine according to indexArray
-      const tempArray = [];
+      const tempArray = []
       for (let i = 0; i < featuresInCenterLine.length; i++) {
-        tempArray.push(featuresInCenterLine[i]);
+        tempArray.push(featuresInCenterLine[i])
       }
-      featuresInCenterLine.length = 0;
-      for (let i = 0; i < indexArray.length; i++) {
-        featuresInCenterLine[indexArray[i]] = tempArray[i];
-      }
+      featuresInCenterLine.length = 0
+      //   for (let i = 0; i < indexArray.length; i++) {
+      //     featuresInCenterLine[indexArray[i]] = tempArray[i];
+      //   }
     }
   }
 
@@ -220,5 +265,5 @@ export const sortFeature = (
       .map(feature => [feature.id(), feature]),
   )
 
-  return sortedMap;
+  return sortedMap
 }
