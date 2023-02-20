@@ -3,8 +3,6 @@ import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
 import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
-import { kMeans } from '../PileupRenderer/foodieSort'
-import { log } from 'console'
 
 interface SortObject {
   pos: number
@@ -137,60 +135,60 @@ export const sortFeature = (
             //   baseArray.push([fstart, 0])
             // }
             // 只看C的1 0矩阵
-            // if (fbase === 'T') {
-            //   baseArray.push([foodieMatch.start, 1])
-            // } else {
-            //   baseArray.push([foodieMatch.start, 0])
-            // }
-            // 使用绝对位置和reads中最少的红base数量、最少的蓝base数量拼接的矩阵
             if (fbase === 'T') {
-              baseArray.push([fstart, 1])
+              baseArray.push([foodieMatch.start, 1])
             } else {
-              baseArray.push([fstart, 0])
+              baseArray.push([foodieMatch.start, 0])
             }
+            // // 使用绝对位置和reads中最大的红base数量、最大的蓝base数量拼接的矩阵（待填充）
+            // if (fbase === 'T') {
+            //   baseArray.push([fstart, 1])
+            // } else {
+            //   baseArray.push([fstart, 0])
+            // }
             foodieSortMap.set(id, baseArray)
           }
         }
       })
       // console.log('before:', featuresInCenterLine[100])
 
-      // const matrixLen = max - min + 1
+      const matrixLen = max - min + 1
       const matrix: number[][] = []
       const matrixKey = Array.from(foodieSortMap.keys())
-      let maxCNum = 0
-      let maxTNum = 0
+      // let maxCNum = 0
+      // let maxTNum = 0
       for (let i = 0; i < matrixKey.length; i++) {
         const id = matrixKey[i]
         const baseArray = foodieSortMap.get(id)
         const matrixArr: number[] = []
-        // for (let j = 0; j < matrixLen; j++) {
-        //   if (baseArray.length > 0 && baseArray[0][0] === j) {
-        //     matrixArr.push(baseArray[0][1])
-        //     baseArray.shift()
-        //   } else {
-        //     matrixArr.push(-1)
-        //   }
-        // }
-        // matrix.push(matrixArr)
-
-        // 所有reads中每条含有的最大红色数量和最大蓝色数量
-        let CNum = 0
-        let TNum = 0
-        for (let i = 0; i < baseArray.length; i++) {
-          if (baseArray[i][1] === 0) {
-            CNum += 1
+        for (let j = 0; j < matrixLen; j++) {
+          if (baseArray.length > 0 && baseArray[0][0] === j) {
+            matrixArr.push(baseArray[0][1])
+            baseArray.shift()
           } else {
-            TNum += 1
+            matrixArr.push(-1)
           }
         }
-        if (maxCNum < CNum) {
-          maxCNum = CNum
-        }
-        if (maxTNum < TNum) {
-          maxTNum = TNum
-        }
+        matrix.push(matrixArr)
+
+        // // 所有reads中每条含有的最大红色数量和最大蓝色数量
+        // let CNum = 0
+        // let TNum = 0
+        // for (let i = 0; i < baseArray.length; i++) {
+        //   if (baseArray[i][1] === 0) {
+        //     CNum += 1
+        //   } else {
+        //     TNum += 1
+        //   }
+        // }
+        // if (maxCNum < CNum) {
+        //   maxCNum = CNum
+        // }
+        // if (maxTNum < TNum) {
+        //   maxTNum = TNum
+        // }
       }
-      console.log(maxCNum, maxTNum);
+      // console.log(maxCNum, maxTNum);
 
       // // ml-hclust.js
       // const { agnes } = require('ml-hclust');
@@ -246,15 +244,19 @@ export const sortFeature = (
       // const indexArray = result[0][2];
       // console.log(result[0]);
 
+      // // greenelab/hclust试用 can't resolve hclust
+      // const { clusters, distances, order, clustersGivenK } = clusterData({ matrix })
+      // console.log(order);
+
       // reorder featuresInCenterLine according to indexArray
       const tempArray = []
       for (let i = 0; i < featuresInCenterLine.length; i++) {
         tempArray.push(featuresInCenterLine[i])
       }
       featuresInCenterLine.length = 0
-      //   for (let i = 0; i < indexArray.length; i++) {
-      //     featuresInCenterLine[indexArray[i]] = tempArray[i];
-      //   }
+      // for (let i = 0; i < order.length; i++) {
+      //   featuresInCenterLine[order[i]] = tempArray[i];
+      // }
     }
   }
 
