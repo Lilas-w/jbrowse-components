@@ -121,6 +121,7 @@ export const sortFeature = (
           const baseArray: number[][] = []
           for (let i = 0; i < foodieMatches.length; i += 1) {
             const foodieMatch = foodieMatches[i]
+            // absolute position
             const fstart = start + foodieMatch.start
             if (i === 0) {
               min = fstart < min ? fstart : min
@@ -129,124 +130,41 @@ export const sortFeature = (
               max = fstart > max ? fstart : max
             }
             const fbase = foodieMatch.base
-            // if (fbase === 'T' || fbase === 'A') {
-            //   baseArray.push([fstart, 1])
-            // } else {
-            //   baseArray.push([fstart, 0])
-            // }
-            // 只看C的1 0矩阵
             if (fbase === 'T') {
-              baseArray.push([foodieMatch.start, 1])
+              baseArray.push([fstart, foodieMatch.start, 1])
             } else {
-              baseArray.push([foodieMatch.start, 0])
+              baseArray.push([fstart, foodieMatch.start, 0])
             }
-            // // 使用绝对位置和reads中最大的红base数量、最大的蓝base数量拼接的矩阵（待填充）
-            // if (fbase === 'T') {
-            //   baseArray.push([fstart, 1])
-            // } else {
-            //   baseArray.push([fstart, 0])
-            // }
             foodieSortMap.set(id, baseArray)
           }
         }
       })
-      // console.log('before:', featuresInCenterLine[100])
 
       const matrixLen = max - min + 1
       const matrix: number[][] = []
       const matrixKey = Array.from(foodieSortMap.keys())
-      // let maxCNum = 0
-      // let maxTNum = 0
       for (let i = 0; i < matrixKey.length; i++) {
         const id = matrixKey[i]
         const baseArray = foodieSortMap.get(id)
         const matrixArr: number[] = []
+        // 绝对位置填充0的矩阵（无法区分红T蓝C）
         for (let j = 0; j < matrixLen; j++) {
-          if (baseArray.length > 0 && baseArray[0][0] === j) {
-            matrixArr.push(baseArray[0][1])
+          if (baseArray.length > 0 && baseArray[0][1] === j) {
+            matrixArr.push(baseArray[0][0])
             baseArray.shift()
           } else {
-            matrixArr.push(-1)
+            matrixArr.push(0)
           }
         }
         matrix.push(matrixArr)
-
-        // // 所有reads中每条含有的最大红色数量和最大蓝色数量
-        // let CNum = 0
-        // let TNum = 0
-        // for (let i = 0; i < baseArray.length; i++) {
-        //   if (baseArray[i][1] === 0) {
-        //     CNum += 1
-        //   } else {
-        //     TNum += 1
-        //   }
-        // }
-        // if (maxCNum < CNum) {
-        //   maxCNum = CNum
-        // }
-        // if (maxTNum < TNum) {
-        //   maxTNum = TNum
-        // }
       }
-      // console.log(maxCNum, maxTNum);
 
-      // // ml-hclust.js
-      // const { agnes } = require('ml-hclust');
-      // // // 将矩阵切片：宽度为two pairs / one pair进行测试
-      // // const thinMatrix: number[][] = [];
-      // // const position = pos - min;
-      // // for (let i = 0; i < matrix.length; i++) {
-      // //   thinMatrix.push([matrix[i][position + 1], matrix[i][position + 1]]);
-      // // }
-      // // console.log(thinMatrix);
-      // const tree = agnes(matrix, {
-      //   method: 'ward',
-      // })
-      // const indexArray = tree.indices();
-
-      // let arr: [] = [];
-      // 试用node-kmeans包
-      // const kmeans = require('node-kmeans');
-      // kmeans.clusterize(matrix, { k: 2 }, (err: any, res: any) => {
-      //   if (err) {
-      //     console.error(err);
-      //   } else {
-      //     // eslint-disable-next-line no-console
-      //     arr = res[0].clusterInd.concat(res[1].clusterInd);
-      //     console.log(res, arr);
-      //   }
-      // });
-
-      // // cluster包，没有indexArray
-      // const clusterfck = require('clusterfck')
-      // // Calculate clusters.
-      // const clusters = clusterfck.kmeans(matrix, 2);
-
-      // skmeans包试用
-      // const skmeans = require('skmeans')
-      // const vectDistance = (a: number[], b: number[]): number => {
-      //   let total = 0
-      //   for (let i = 0; i < a.length; i++) {
-      //     if (a[i] === b[i]) {
-      //       total += 0
-      //     } else {
-      //       total += 1
-      //     }
-      //   }
-      //   const res = total / a.length
-      //   return res
-      // }
-      // const res = skmeans(matrix, 2, null, null, vectDistance)
-      // console.log(res)
-
-      // foodieSort试用
-      // const result = kMeans(matrix, 4);
-      // const indexArray = result[0][2];
-      // console.log(result[0]);
-
-      // // greenelab/hclust试用 can't resolve hclust
-      // const { clusters, distances, order, clustersGivenK } = clusterData({ matrix })
-      // console.log(order);
+      // ml-hclust.js
+      const { agnes } = require('ml-hclust');
+      const tree = agnes(matrix, {
+        method: 'ward',
+      })
+      const indexArray = tree.indices();
 
       // reorder featuresInCenterLine according to indexArray
       const tempArray = []
@@ -254,9 +172,9 @@ export const sortFeature = (
         tempArray.push(featuresInCenterLine[i])
       }
       featuresInCenterLine.length = 0
-      // for (let i = 0; i < order.length; i++) {
-      //   featuresInCenterLine[order[i]] = tempArray[i];
-      // }
+      for (let i = 0; i < indexArray.length; i++) {
+        featuresInCenterLine[indexArray[i]] = tempArray[i];
+      }
     }
   }
 
