@@ -1,7 +1,12 @@
 import { Feature } from '@jbrowse/core/util/simpleFeature'
 import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
-import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
+import {
+  FoodieMatch,
+  getFoodieMatches,
+  getFoodieRange,
+  getFoodieCluster,
+} from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 
 interface SortObject {
@@ -15,9 +20,10 @@ export const sortFeature = (
   sortedBy: SortObject,
 ) => {
   const featureArray = Array.from(features.values())
-  const featuresInCenterLine: Feature[] = []
+  let featuresInCenterLine: Feature[] = []
   const featuresOutsideCenter: Feature[] = []
   const { pos, type } = sortedBy // pos是center line的位置坐标
+  
 
   // only sort on features that intersect center line, append those outside post-sort
   featureArray.forEach(innerArray => {
@@ -102,9 +108,12 @@ export const sortFeature = (
     }
 
     case 'Foodie sort': {
-      const foodieSortMap = new Map()
-      let min = Infinity
-      let max = 0
+      // const foodieSortMap = new Map()
+      // 计算矩阵起止
+      // let min = Infinity
+      // let max = 0
+      const featuresHasFoodie: Feature[] = []
+      const featuresHasNoFoodie: Feature[] = []
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
         // 只看CT reads
@@ -113,68 +122,86 @@ export const sortFeature = (
           const id = feature.id()
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
-          const foodieMatches: FoodieMatch[] = getFoodieMatches(
+          // const foodieMatches: FoodieMatch[] = getFoodieMatches(
+          //   mismatches,
+          //   seq,
+          //   xg,
+          // )
+          const [foodieRange1, foodieRange2] = getFoodieRange(
             mismatches,
+            start,
             seq,
             xg,
+            28552923,
+            28552950,
+            28553003,
+            28553023,
           )
-          const baseArray: number[][] = []
-          for (let i = 0; i < foodieMatches.length; i += 1) {
-            const foodieMatch = foodieMatches[i]
-            // absolute position
-            const fstart = start + foodieMatch.start
-            if (i === 0) {
-              min = fstart < min ? fstart : min
-            }
-            if (i === foodieMatches.length - 1) {
-              max = fstart > max ? fstart : max
-            }
-            const fbase = foodieMatch.base
-            if (fbase === 'T') {
-              baseArray.push([fstart, foodieMatch.start, 1])
-            } else {
-              baseArray.push([fstart, foodieMatch.start, 0])
-            }
-            foodieSortMap.set(id, baseArray)
-          }
-        }
-      })
+          const flag = getFoodieCluster(xg, foodieRange1, foodieRange2)
 
-      const matrixLen = max - min + 1
-      const matrix: number[][] = []
-      const matrixKey = Array.from(foodieSortMap.keys())
-      for (let i = 0; i < matrixKey.length; i++) {
-        const id = matrixKey[i]
-        const baseArray = foodieSortMap.get(id)
-        const matrixArr: number[] = []
-        // 绝对位置填充0的矩阵（无法区分红T蓝C）
-        for (let j = 0; j < matrixLen; j++) {
-          if (baseArray.length > 0 && baseArray[0][1] === j) {
-            matrixArr.push(baseArray[0][0])
-            baseArray.shift()
+          if (flag) {
+            featuresHasFoodie.push(feature)
           } else {
-            matrixArr.push(0)
+            featuresHasNoFoodie.push(feature)
           }
+
+          // const baseArray: number[][] = []
+          // for (let i = 0; i < foodieMatches.length; i += 1) {
+          //   const foodieMatch = foodieMatches[i]
+          //   // absolute position
+          //   const fstart = start + foodieMatch.start
+          //   if (i === 0) {
+          //     min = fstart < min ? fstart : min
+          //   }
+          //   if (i === foodieMatches.length - 1) {
+          //     max = fstart > max ? fstart : max
+          //   }
+          //   const fbase = foodieMatch.base
+          //   if (fbase === 'T') {
+          //     baseArray.push([fstart, foodieMatch.start, 1])
+          //   } else {
+          //     baseArray.push([fstart, foodieMatch.start, 0])
+          //   }
+          //   foodieSortMap.set(id, baseArray)
+          // }
         }
-        matrix.push(matrixArr)
-      }
-
-      // ml-hclust.js
-      const { agnes } = require('ml-hclust');
-      const tree = agnes(matrix, {
-        method: 'ward',
       })
-      const indexArray = tree.indices();
+      featuresInCenterLine = featuresHasFoodie.concat(featuresHasNoFoodie)
+      // const matrixLen = max - min + 1
+      // const matrix: number[][] = []
+      // const matrixKey = Array.from(foodieSortMap.keys())
+      // for (let i = 0; i < matrixKey.length; i++) {
+      //   const id = matrixKey[i]
+      //   const baseArray = foodieSortMap.get(id)
+      //   const matrixArr: number[] = []
+      //   // 绝对位置填充0的矩阵（无法区分红T蓝C）
+      //   for (let j = 0; j < matrixLen; j++) {
+      //     if (baseArray.length > 0 && baseArray[0][1] === j) {
+      //       matrixArr.push(baseArray[0][0])
+      //       baseArray.shift()
+      //     } else {
+      //       matrixArr.push(0)
+      //     }
+      //   }
+      //   matrix.push(matrixArr)
+      // }
 
-      // reorder featuresInCenterLine according to indexArray
-      const tempArray = []
-      for (let i = 0; i < featuresInCenterLine.length; i++) {
-        tempArray.push(featuresInCenterLine[i])
-      }
-      featuresInCenterLine.length = 0
-      for (let i = 0; i < indexArray.length; i++) {
-        featuresInCenterLine[indexArray[i]] = tempArray[i];
-      }
+      // // ml-hclust.js
+      // const { agnes } = require('ml-hclust');
+      // const tree = agnes(matrix, {
+      //   method: 'ward',
+      // })
+      // const indexArray = tree.indices();
+
+      // // reorder featuresInCenterLine according to indexArray
+      // const tempArray = []
+      // for (let i = 0; i < featuresInCenterLine.length; i++) {
+      //   tempArray.push(featuresInCenterLine[i])
+      // }
+      // featuresInCenterLine.length = 0
+      // for (let i = 0; i < indexArray.length; i++) {
+      //   featuresInCenterLine[indexArray[i]] = tempArray[i];
+      // }
     }
   }
 
