@@ -104,7 +104,11 @@ export function getFoodieRange(
   return [foodieRange1, foodieRange2]
 }
 
-export function getFoodieCluster(xg: string, foodieRange1: string[], foodieRange2: string[]) {
+export function getFoodieCluster(
+  xg: string,
+  foodieRange1: string[],
+  foodieRange2: string[],
+) {
   if (xg === 'CT') {
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]

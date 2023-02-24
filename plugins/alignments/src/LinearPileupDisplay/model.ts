@@ -41,6 +41,7 @@ import { SimpleFeatureSerialized } from '@jbrowse/core/util/simpleFeature'
 const ColorByTagDlg = lazy(() => import('./components/ColorByTag'))
 const FilterByTagDlg = lazy(() => import('./components/FilterByTag'))
 const SortByTagDlg = lazy(() => import('./components/SortByTag'))
+const SortByFoodieDlg = lazy(() => import('./components/SortByFoodie'))
 const SetFeatureHeightDlg = lazy(() => import('./components/SetFeatureHeight'))
 const SetMaxHeightDlg = lazy(() => import('./components/SetMaxHeight'))
 const ModificationsDlg = lazy(() => import('./components/ColorByModifications'))
@@ -715,6 +716,15 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                       { model: self, handleClose },
                     ])
                   },
+                },
+                {
+                  label: 'Sort by foodie TFBS',
+                  onClick: () => {
+                    getSession(self).queueDialog(handleClose => [
+                      SortByFoodieDlg,
+                      { model: self, handleClose },
+                    ])
+                  }
                 },
                 {
                   label: 'Clear sort',

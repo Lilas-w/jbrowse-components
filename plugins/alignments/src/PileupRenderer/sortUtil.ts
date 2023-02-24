@@ -2,8 +2,6 @@ import { Feature } from '@jbrowse/core/util/simpleFeature'
 import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
 import {
-  FoodieMatch,
-  getFoodieMatches,
   getFoodieRange,
   getFoodieCluster,
 } from '../BamAdapter/FoodieMatchParser'
@@ -119,7 +117,6 @@ export const sortFeature = (
         // 只看CT reads
         if (xg === 'CT') {
           const start = feature.get('start')
-          const id = feature.id()
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
           // const foodieMatches: FoodieMatch[] = getFoodieMatches(
