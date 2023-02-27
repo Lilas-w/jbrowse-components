@@ -106,7 +106,17 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
             assemblyName: types.string,
           }),
         ),
-
+        sortFoodieBy: types.maybe(
+          types.model({
+            type: types.string,
+            pos: types.number,
+            left1: types.number,
+            right1: types.number,
+            left2: types.number,
+            right2: types.number,
+            probability: types.number,
+          })
+        ),
         /**
          * #property
          */

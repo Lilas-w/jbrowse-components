@@ -61,7 +61,7 @@ function SortByFoodieDlg(props: {
         <Box
           component="form"
           sx={{
-            '& > :not(style)': { m: 1, width: '25ch', height:'7ch' },
+            '& > :not(style)': { m: 1, width: '25ch', height: '7ch' },
           }}
           noValidate
           autoComplete="off"
