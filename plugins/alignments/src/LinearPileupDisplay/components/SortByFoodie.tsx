@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Box,
   TextField,
   Typography,
 } from '@mui/material'
@@ -34,6 +35,11 @@ function SortByFoodieDlg(props: {
   const { classes } = useStyles()
   const { model, handleClose } = props
   const [left1, setLeft1] = useState('')
+  const [right1, setRight1] = useState('')
+  const [left2, setLeft2] = useState('')
+  const [right2, setRight2] = useState('')
+  const [probability, setProbability] = useState('')
+
   return (
     <Dialog open onClose={handleClose}>
       <DialogTitle>
@@ -47,24 +53,84 @@ function SortByFoodieDlg(props: {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Typography>Set ranges and probability</Typography>
+        <Typography>Set ranges</Typography>
         <Typography color="textSecondary">
-          Set left1 and right1 for site Range1, set Range2 in the same way. Set
-          the probability of C/G base pair (blue) to Probability (reserve one
+          Set Transcription Factor Binding site range by entering left pos and
+          right pos.
+        </Typography>
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '25ch', height:'7ch' },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField
+            value={left1}
+            onChange={event => setLeft1(event.target.value)}
+            label="left1"
+            placeholder="Enter left pos of range1"
+            inputProps={{
+              'data-testid': 'sort-foodie-left1-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-left1"
+          />
+          <TextField
+            value={right1}
+            onChange={event => setRight1(event.target.value)}
+            label="right1"
+            placeholder="Enter right pos of range1"
+            inputProps={{
+              'data-testid': 'sort-foodie-right1-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-right1"
+          />
+          <TextField
+            value={left2}
+            onChange={event => setLeft2(event.target.value)}
+            placeholder="Enter left pos of range2"
+            label="left2"
+            inputProps={{
+              'data-testid': 'sort-foodie-left2-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-left2"
+          />
+          <TextField
+            value={right2}
+            onChange={event => setRight2(event.target.value)}
+            label="right2"
+            placeholder="Enter right pos of range2"
+            inputProps={{
+              'data-testid': 'sort-foodie-right2-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-right2"
+          />
+        </Box>
+
+        <Typography>Set probability</Typography>
+        <Typography color="textSecondary">
+          Set the probability of C/G appearing in the input range (reserve one
           decimal, such as 0.5)
         </Typography>
         <TextField
-          value={left1}
-          onChange={event => setLeft1(event.target.value)}
-          placeholder="Enter left pos of range1"
+          value={probability}
+          onChange={event => setProbability(event.target.value)}
+          placeholder="Enter probability of C/G"
           inputProps={{
-            'data-testid': 'sort-foodie-left1-input',
+            'data-testid': 'sort-foodie-probability-input',
           }}
           // 还需要看是否是中心位置周边的pos
-          error={!Number.isFinite(left1)}
-          helperText={!Number.isFinite(left1) ? 'Not a valid number' : ''}
           autoComplete="off"
-          data-testid="sort-foodie-left1"
+          data-testid="sort-foodie-probability"
         />
         <DialogActions>
           <Button
