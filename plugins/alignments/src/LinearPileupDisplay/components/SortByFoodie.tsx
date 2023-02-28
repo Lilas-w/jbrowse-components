@@ -39,7 +39,6 @@ function SortByFoodieDlg(props: {
   const [left2, setLeft2] = useState('')
   const [right2, setRight2] = useState('')
   const [probability, setProbability] = useState('')
-
   return (
     <Dialog open onClose={handleClose}>
       <DialogTitle>
@@ -139,7 +138,15 @@ function SortByFoodieDlg(props: {
             type="submit"
             autoFocus
             onClick={() => {
-              //   model.setSortedBy('tag', tag)
+              model.setSortedBy(
+                'Foodie sort',
+                '',
+                left1,
+                right1,
+                left2,
+                right2,
+                probability,
+              )
               handleClose()
             }}
           >

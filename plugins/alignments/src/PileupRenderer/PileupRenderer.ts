@@ -95,6 +95,11 @@ export interface RenderArgsDeserialized extends BoxRenderArgsDeserialized {
     refName: string
     assemblyName: string
     tag?: string
+    left1?: number
+    right1?: number
+    left2?: number
+    right2?: number
+    probability?: number
   }
   showSoftClip: boolean
   highResolutionScaling: number

@@ -104,18 +104,12 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
             tag: types.maybe(types.string),
             refName: types.string,
             assemblyName: types.string,
+            left1: types.maybe(types.number),
+            right1: types.maybe(types.number),
+            left2: types.maybe(types.number),
+            right2: types.maybe(types.number),
+            probability: types.maybe(types.number),
           }),
-        ),
-        sortFoodieBy: types.maybe(
-          types.model({
-            type: types.string,
-            pos: types.number,
-            left1: types.number,
-            right1: types.number,
-            left2: types.number,
-            right2: types.number,
-            probability: types.number,
-          })
         ),
         /**
          * #property
@@ -428,7 +422,15 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
       /**
        * #action
        */
-      setSortedBy(type: string, tag?: string) {
+      setSortedBy(
+        type: string,
+        tag?: string,
+        left1?: number,
+        right1?: number,
+        left2?: number,
+        right2?: number,
+        probability?: number,
+      ) {
         const { centerLineInfo } = getContainingView(self) as LGV
         if (!centerLineInfo) {
           return
@@ -446,6 +448,11 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
           refName,
           assemblyName,
           tag,
+          left1,
+          right1,
+          left2,
+          right2,
+          probability,
         }
         self.ready = false
       },
@@ -713,7 +720,6 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                   'Start location',
                   'Read strand',
                   'Base pair',
-                  'Foodie sort',
                 ].map(option => ({
                   label: option,
                   onClick: () => self.setSortedBy(option),
@@ -728,13 +734,13 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                   },
                 },
                 {
-                  label: 'Sort by foodie TFBS',
+                  label: 'Foodie sort',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
                       SortByFoodieDlg,
                       { model: self, handleClose },
                     ])
-                  }
+                  },
                 },
                 {
                   label: 'Clear sort',
