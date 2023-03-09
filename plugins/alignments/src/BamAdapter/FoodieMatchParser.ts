@@ -52,10 +52,10 @@ function getBaseProbability(xg: string, arr: string[]): number[] {
       Acount += 1
     }
   }
-  const CProbability = Number((Ccount / arr.length).toFixed(1))
-  const TProbability = Number((Tcount / arr.length).toFixed(1))
-  const GProbability = Number((Gcount / arr.length).toFixed(1))
-  const AProbability = Number((Acount / arr.length).toFixed(1))
+  const CProbability = Number((Ccount / arr.length).toFixed(2))
+  const TProbability = Number((Tcount / arr.length).toFixed(2))
+  const GProbability = Number((Gcount / arr.length).toFixed(2))
+  const AProbability = Number((Acount / arr.length).toFixed(2))
   if (xg === 'CT') {
     return [CProbability, TProbability]
   } else {
@@ -104,7 +104,7 @@ export function getFoodieRange(
   return [foodieRange1, foodieRange2]
 }
 
-export function getFoodieCluster(
+export function getFoodieCluster1(
   xg: string,
   foodieRange1: string[],
   foodieRange2: string[],
@@ -124,6 +124,50 @@ export function getFoodieCluster(
 
     // const AProbability = getBaseProbability(xg, foodieRange)[1]
     if (GProbability1 >= 0.5 && GProbability2 >= 0.5) {
+      return true
+    }
+  }
+  return false
+}
+
+export function getFoodieCluster2(
+  xg: string,
+  foodieRange1: string[],
+  foodieRange2: string[],
+) {
+  if (xg === 'CT') {
+    const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
+
+    // const TProbability = getBaseProbability(xg, foodieRange)[1]
+    if (CProbability1 >= 0.8) {
+      return true
+    }
+  }
+  if (xg === 'GA') {
+    const GProbability1 = getBaseProbability(xg, foodieRange2)[0]
+
+    // const AProbability = getBaseProbability(xg, foodieRange)[1]
+    if (GProbability1 >= 0.5) {
+      return true
+    }
+  }
+  return false
+}
+
+export function getFoodieCluster3(xg: string, foodieRange2: string[]) {
+  if (xg === 'CT') {
+    const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
+
+    // const TProbability = getBaseProbability(xg, foodieRange)[1]
+    if (CProbability2 >= 0.8) {
+      return true
+    }
+  }
+  if (xg === 'GA') {
+    const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
+
+    // const AProbability = getBaseProbability(xg, foodieRange)[1]
+    if (GProbability2 >= 0.5) {
       return true
     }
   }

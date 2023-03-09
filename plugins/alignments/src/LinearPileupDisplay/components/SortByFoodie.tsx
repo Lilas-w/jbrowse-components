@@ -117,8 +117,8 @@ function SortByFoodieDlg(props: {
 
         <Typography>Set probability</Typography>
         <Typography color="textSecondary">
-          Set the probability of C/G appearing in the input range (reserve one
-          decimal, such as 0.5)
+          Set the probability of C/G appearing in the input range (use decimal
+          form, eg.0.5)
         </Typography>
         <TextField
           value={probability}

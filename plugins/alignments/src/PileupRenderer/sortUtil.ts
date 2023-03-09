@@ -3,7 +3,9 @@ import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
 import {
   getFoodieRange,
-  getFoodieCluster,
+  getFoodieCluster1,
+  getFoodieCluster2,
+  getFoodieCluster3,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 
@@ -110,7 +112,9 @@ export const sortFeature = (
       // 计算矩阵起止
       // let min = Infinity
       // let max = 0
-      const featuresHasFoodie: Feature[] = []
+      const featuresHasFoodie1: Feature[] = []
+      const featuresHasFoodie2: Feature[] = []
+      const featuresHasFoodie3: Feature[] = []
       const featuresHasNoFoodie: Feature[] = []
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
@@ -134,10 +138,17 @@ export const sortFeature = (
             28553003,
             28553023,
           )
-          const flag = getFoodieCluster(xg, foodieRange1, foodieRange2)
+          const flag1 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
+          const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
+          const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
 
-          if (flag) {
-            featuresHasFoodie.push(feature)
+
+          if (flag1) {
+            featuresHasFoodie1.push(feature)
+          } else if (flag2) {
+            featuresHasFoodie2.push(feature)
+          } else if (flag3) {
+            featuresHasFoodie3.push(feature)
           } else {
             featuresHasNoFoodie.push(feature)
           }
@@ -163,7 +174,11 @@ export const sortFeature = (
           // }
         }
       })
-      featuresInCenterLine = featuresHasFoodie.concat(featuresHasNoFoodie)
+      featuresInCenterLine = featuresHasFoodie1
+        .concat(featuresHasFoodie2)
+        .concat(featuresHasFoodie3)
+        .concat(featuresHasNoFoodie)
+
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
       // const matrixKey = Array.from(foodieSortMap.keys())
