@@ -3,6 +3,8 @@ import { doesIntersect2 } from '@jbrowse/core/util/range'
 import { Mismatch } from '../BamAdapter/MismatchParser'
 import {
   getFoodieRange,
+  getFoodieRangeOne,
+  getFoodieClusterOne,
   getFoodieCluster1,
   getFoodieCluster2,
   getFoodieCluster3,
@@ -128,6 +130,20 @@ export const sortFeature = (
           //   seq,
           //   xg,
           // )
+          // const foodieRangeOne = getFoodieRangeOne(
+          //   mismatches,
+          //   start,
+          //   seq,
+          //   xg,
+          //   28552923,
+          //   28552950,)
+          const foodieRangeOne = getFoodieRangeOne(
+            mismatches,
+            start,
+            seq,
+            xg,
+            28553003,
+            28553023,)
           const [foodieRange1, foodieRange2] = getFoodieRange(
             mismatches,
             start,
@@ -142,16 +158,24 @@ export const sortFeature = (
           const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
           const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
 
+          const flagOne = getFoodieClusterOne(xg, foodieRangeOne)
+          
 
+          // if (flag1) {
+          //   featuresHasFoodie1.push(feature)
+          // } else if (flag2) {
+          //   featuresHasFoodie2.push(feature)
+          // } else if (flag3) {
+          //   featuresHasFoodie3.push(feature)
+          // } else {
+          //   featuresHasNoFoodie.push(feature)
+          // }
           if (flag1) {
             featuresHasFoodie1.push(feature)
-          } else if (flag2) {
-            featuresHasFoodie2.push(feature)
-          } else if (flag3) {
-            featuresHasFoodie3.push(feature)
           } else {
             featuresHasNoFoodie.push(feature)
           }
+
 
           // const baseArray: number[][] = []
           // for (let i = 0; i < foodieMatches.length; i += 1) {
@@ -174,10 +198,7 @@ export const sortFeature = (
           // }
         }
       })
-      featuresInCenterLine = featuresHasFoodie1
-        .concat(featuresHasFoodie2)
-        .concat(featuresHasFoodie3)
-        .concat(featuresHasNoFoodie)
+      featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
 
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
