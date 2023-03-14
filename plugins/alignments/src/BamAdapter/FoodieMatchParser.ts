@@ -135,7 +135,7 @@ export function getFoodieClusterOne(xg: string, foodieRange1: string[]) {
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= 0.45 ) {
+    if (CProbability1 >= 0.5 ) {
       return true
     }
   }
@@ -185,7 +185,7 @@ export function getFoodieCluster2(
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= 0.8) {
+    if (CProbability1 >= 0.5) {
       return true
     }
   }
@@ -205,7 +205,7 @@ export function getFoodieCluster3(xg: string, foodieRange2: string[]) {
     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability2 >= 0.8) {
+    if (CProbability2 >= 0.5) {
       return true
     }
   }

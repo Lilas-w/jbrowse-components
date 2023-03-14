@@ -140,7 +140,6 @@ function SortByFoodieDlg(props: {
             onClick={() => {
               model.setSortedBy(
                 'Foodie sort',
-                '',
                 left1,
                 right1,
                 left2,

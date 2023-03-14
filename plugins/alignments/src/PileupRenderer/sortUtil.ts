@@ -142,8 +142,9 @@ export const sortFeature = (
             start,
             seq,
             xg,
-            28553003,
-            28553023,)
+            28552923,
+            28552950,
+            )
           const [foodieRange1, foodieRange2] = getFoodieRange(
             mismatches,
             start,
@@ -158,9 +159,15 @@ export const sortFeature = (
           const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
           const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
 
-          const flagOne = getFoodieClusterOne(xg, foodieRangeOne)
-          
+          // single bind
+          // const flagOne = getFoodieClusterOne(xg, foodieRangeOne)
+          // if (flagOne) {
+          //   featuresHasFoodie1.push(feature)
+          // } else {
+          //   featuresHasNoFoodie.push(feature)
+          // }
 
+          // 4 clusters
           // if (flag1) {
           //   featuresHasFoodie1.push(feature)
           // } else if (flag2) {
@@ -170,6 +177,8 @@ export const sortFeature = (
           // } else {
           //   featuresHasNoFoodie.push(feature)
           // }
+
+          // co-binding
           if (flag1) {
             featuresHasFoodie1.push(feature)
           } else {

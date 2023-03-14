@@ -720,7 +720,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                   'Start location',
                   'Read strand',
                   'Base pair',
-                  'Foodie sort',
+                  // 'Foodie sort',
                 ].map(option => ({
                   label: option,
                   onClick: () => self.setSortedBy(option),
@@ -734,7 +734,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                     ])
                   },
                 },
-                /**{
+               {
                   label: 'Foodie sort',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
@@ -742,7 +742,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                       { model: self, handleClose },
                     ])
                   },
-                },**/
+                },
                 {
                   label: 'Clear sort',
                   onClick: () => self.clearSelected(),
