@@ -130,37 +130,38 @@ export function getFoodieRange(
   return [foodieRange1, foodieRange2]
 }
 
-export function getFoodieClusterOne(xg: string, foodieRange1: string[]) {
-  if (xg === 'CT') {
-    const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
+// export function getFoodieClusterOne(xg: string, foodieRange1: string[]) {
+//   if (xg === 'CT') {
+//     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= 0.5 ) {
-      return true
-    }
-  }
-  if (xg === 'GA') {
-    const GProbability1 = getBaseProbability(xg, foodieRange1)[0]
+//     // const TProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (CProbability1 >= 0.5 ) {
+//       return true
+//     }
+//   }
+//   if (xg === 'GA') {
+//     const GProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
-    if (GProbability1 >= 0.5) {
-      return true
-    }
-  }
-  return false
-}
+//     // const AProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (GProbability1 >= 0.5) {
+//       return true
+//     }
+//   }
+//   return false
+// }
 
 export function getFoodieCluster1(
   xg: string,
   foodieRange1: string[],
   foodieRange2: string[],
+  probability: number,
 ) {
   if (xg === 'CT') {
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= 0.5 && CProbability2 >= 0.5) {
+    if (CProbability1 >= probability && CProbability2 >= probability) {
       return true
     }
   }
@@ -169,7 +170,7 @@ export function getFoodieCluster1(
     const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
     // const AProbability = getBaseProbability(xg, foodieRange)[1]
-    if (GProbability1 >= 0.5 && GProbability2 >= 0.5) {
+    if (GProbability1 >= probability && GProbability2 >= probability) {
       return true
     }
   }

@@ -4,17 +4,22 @@ import { Mismatch } from '../BamAdapter/MismatchParser'
 import {
   getFoodieRange,
   getFoodieRangeOne,
-  getFoodieClusterOne,
   getFoodieCluster1,
   getFoodieCluster2,
   getFoodieCluster3,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
+import { constants } from 'buffer'
 
 interface SortObject {
   pos: number
   type: string
   tag?: string
+  left1: number
+  right1: number
+  left2: number
+  right2: number
+  probability: number
 }
 
 export const sortFeature = (
@@ -115,9 +120,14 @@ export const sortFeature = (
       // let min = Infinity
       // let max = 0
       const featuresHasFoodie1: Feature[] = []
-      const featuresHasFoodie2: Feature[] = []
-      const featuresHasFoodie3: Feature[] = []
+      // const featuresHasFoodie2: Feature[] = []
+      // const featuresHasFoodie3: Feature[] = []
       const featuresHasNoFoodie: Feature[] = []
+      const left1 = sortedBy.left1
+      const left2 = sortedBy.left2
+      const right1 = sortedBy.right1
+      const right2 = sortedBy.right2
+      const probability = sortedBy.probability
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
         // 只看CT reads
@@ -125,11 +135,13 @@ export const sortFeature = (
           const start = feature.get('start')
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
+
           // const foodieMatches: FoodieMatch[] = getFoodieMatches(
           //   mismatches,
           //   seq,
           //   xg,
           // )
+
           // const foodieRangeOne = getFoodieRangeOne(
           //   mismatches,
           //   start,
@@ -137,27 +149,36 @@ export const sortFeature = (
           //   xg,
           //   28552923,
           //   28552950,)
-          const foodieRangeOne = getFoodieRangeOne(
-            mismatches,
-            start,
-            seq,
-            xg,
-            28552923,
-            28552950,
-            )
+
+          // const [foodieRange1, foodieRange2] = getFoodieRange(
+          //   mismatches,
+          //   start,
+          //   seq,
+          //   xg,
+          //   28552923,
+          //   28552950,
+          //   28553003,
+          //   28553023,
+          // )
+
           const [foodieRange1, foodieRange2] = getFoodieRange(
             mismatches,
             start,
             seq,
             xg,
-            28552923,
-            28552950,
-            28553003,
-            28553023,
+            left1,
+            right1,
+            left2,
+            right2,
           )
-          const flag1 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
-          const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
-          const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
+          const flag1 = getFoodieCluster1(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability,
+          )
+          // const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
+          // const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
 
           // single bind
           // const flagOne = getFoodieClusterOne(xg, foodieRangeOne)
