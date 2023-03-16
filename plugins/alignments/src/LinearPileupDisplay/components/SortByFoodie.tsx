@@ -38,7 +38,8 @@ function SortByFoodieDlg(props: {
   const [right1, setRight1] = useState('')
   const [left2, setLeft2] = useState('')
   const [right2, setRight2] = useState('')
-  const [probability, setProbability] = useState('')
+  const [probability1, setProbability1] = useState('')
+  const [probability2, setProbability2] = useState('')
   return (
     <Dialog open onClose={handleClose}>
       <DialogTitle>
@@ -120,17 +121,37 @@ function SortByFoodieDlg(props: {
           Set the probability of C/G appearing in the input range (use decimal
           form, eg.0.5)
         </Typography>
-        <TextField
-          value={probability}
-          onChange={event => setProbability(event.target.value)}
-          placeholder="Enter probability of C/G"
-          inputProps={{
-            'data-testid': 'sort-foodie-probability-input',
+        <Box
+          component="form"
+          sx={{
+            '& > :not(style)': { m: 1, width: '25ch', height: '7ch' },
           }}
-          // 还需要看是否是中心位置周边的pos
+          noValidate
           autoComplete="off"
-          data-testid="sort-foodie-probability"
-        />
+        >
+          <TextField
+            value={probability1}
+            onChange={event => setProbability1(event.target.value)}
+            placeholder="Enter probability of C/G"
+            inputProps={{
+              'data-testid': 'sort-foodie-probability-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-probability"
+          />
+          <TextField
+            value={probability2}
+            onChange={event => setProbability2(event.target.value)}
+            placeholder="Enter probability of C/G"
+            inputProps={{
+              'data-testid': 'sort-foodie-probability-input',
+            }}
+            // 还需要看是否是中心位置周边的pos
+            autoComplete="off"
+            data-testid="sort-foodie-probability"
+          />
+        </Box>
         <DialogActions>
           <Button
             variant="contained"
@@ -145,7 +166,8 @@ function SortByFoodieDlg(props: {
                 Number(right1),
                 Number(left2),
                 Number(right2),
-                Number(probability),
+                Number(probability1),
+                Number(probability2),
               )
               handleClose()
             }}

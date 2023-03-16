@@ -154,14 +154,15 @@ export function getFoodieCluster1(
   xg: string,
   foodieRange1: string[],
   foodieRange2: string[],
-  probability: number,
+  probability1: number,
+  probability2: number,
 ) {
   if (xg === 'CT') {
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= probability && CProbability2 >= probability) {
+    if (CProbability1 >= probability1 && CProbability2 >= probability2) {
       return true
     }
   }
@@ -170,7 +171,7 @@ export function getFoodieCluster1(
     const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
     // const AProbability = getBaseProbability(xg, foodieRange)[1]
-    if (GProbability1 >= probability && GProbability2 >= probability) {
+    if (GProbability1 >= probability1 && GProbability2 >= probability2) {
       return true
     }
   }

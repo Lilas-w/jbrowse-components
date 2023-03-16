@@ -127,7 +127,9 @@ export const sortFeature = (
       const left2 = sortedBy.left2
       const right1 = sortedBy.right1
       const right2 = sortedBy.right2
-      const probability = sortedBy.probability
+      const probability1 = sortedBy.probability
+      const probability2 = sortedBy.probability
+      
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
         // 只看CT reads
@@ -175,7 +177,8 @@ export const sortFeature = (
             xg,
             foodieRange1,
             foodieRange2,
-            probability,
+            probability1,
+            probability2
           )
           // const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
           // const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
