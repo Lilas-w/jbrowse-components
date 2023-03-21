@@ -7,7 +7,7 @@ type LGV = LinearGenomeViewModel
 export default (pluginManager: PluginManager) => {
   pluginManager.addToExtensionPoint(
     'LaunchView-LinearGenomeView',
-    // @ts-ignore
+    // @ts-expect-error
     async ({
       session,
       assembly,
@@ -38,7 +38,7 @@ export default (pluginManager: PluginManager) => {
           )
         }
 
-        view.navToLocString(loc, assembly)
+        await view.navToLocString(loc, assembly)
 
         const idsNotFound = [] as string[]
         tracks.forEach(track => {

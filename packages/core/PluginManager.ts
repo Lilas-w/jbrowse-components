@@ -232,7 +232,6 @@ export default class PluginManager {
 
     this.pluginMetadata[plugin.name] = metadata
     if ('definition' in load) {
-      // @ts-ignore
       this.runtimePluginDefinitions.push(load.definition as PluginDefinition)
     }
     plugin.install(this)
@@ -348,8 +347,26 @@ export default class PluginManager {
     return this.getElementTypeRecord(groupName).all()
   }
 
+  getTrackElements() {
+    return this.getElementTypesInGroup('track') as TrackType[]
+  }
+
+  getAddTrackWorkflowElements() {
+    return this.getElementTypesInGroup(
+      'add track workflow',
+    ) as AddTrackWorkflowType[]
+  }
+
   getRpcElements() {
     return this.getElementTypesInGroup('rpc method') as RpcMethodType[]
+  }
+
+  getDisplayElements() {
+    return this.getElementTypesInGroup('display') as DisplayType[]
+  }
+
+  getAdapterElements() {
+    return this.getElementTypesInGroup('adapter') as AdapterType[]
   }
 
   /** get a MST type for the union of all specified pluggable MST types */
@@ -360,13 +377,13 @@ export default class PluginManager {
   ) {
     const pluggableTypes = this.getElementTypeRecord(groupName)
       .all()
-      // @ts-ignore
+      // @ts-expect-error
       .map(t => t[fieldName])
       .filter(t => isType(t) && isModelType(t)) as IAnyType[]
 
     // try to smooth over the case when no types are registered, mostly
     // encountered in tests
-    if (pluggableTypes.length === 0) {
+    if (pluggableTypes.length === 0 && typeof jest === 'undefined') {
       console.warn(
         `No pluggable types found matching ('${groupName}','${fieldName}')`,
       )
@@ -382,7 +399,7 @@ export default class PluginManager {
   ) {
     const pluggableTypes = this.getElementTypeRecord(typeGroup)
       .all()
-      // @ts-ignore
+      // @ts-expect-error
       .map(t => t[fieldName])
       .filter(t => isBareConfigurationSchemaType(t)) as IAnyType[]
 

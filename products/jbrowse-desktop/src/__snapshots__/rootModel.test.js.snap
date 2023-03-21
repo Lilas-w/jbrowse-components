@@ -89,7 +89,6 @@ exports[`Root MST model adds menus 1`] = `
     "label": "Tools",
     "menuItems": [
       {
-        "disabled": false,
         "icon": {
           "$$typeof": Symbol(react.memo),
           "compare": null,
@@ -102,7 +101,6 @@ exports[`Root MST model adds menus 1`] = `
         "onClick": [Function],
       },
       {
-        "disabled": false,
         "icon": {
           "$$typeof": Symbol(react.memo),
           "compare": null,
@@ -127,6 +125,18 @@ exports[`Root MST model adds menus 1`] = `
           },
         },
         "label": "Plugin store",
+        "onClick": [Function],
+      },
+      {
+        "icon": {
+          "$$typeof": Symbol(react.memo),
+          "compare": null,
+          "type": {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          },
+        },
+        "label": "Preferences",
         "onClick": [Function],
       },
       {
@@ -235,7 +245,6 @@ exports[`Root MST model adds menus 2`] = `
     "label": "Tools",
     "menuItems": [
       {
-        "disabled": false,
         "icon": {
           "$$typeof": Symbol(react.memo),
           "compare": null,
@@ -248,7 +257,6 @@ exports[`Root MST model adds menus 2`] = `
         "onClick": [Function],
       },
       {
-        "disabled": false,
         "icon": {
           "$$typeof": Symbol(react.memo),
           "compare": null,
@@ -273,6 +281,18 @@ exports[`Root MST model adds menus 2`] = `
           },
         },
         "label": "Plugin store",
+        "onClick": [Function],
+      },
+      {
+        "icon": {
+          "$$typeof": Symbol(react.memo),
+          "compare": null,
+          "type": {
+            "$$typeof": Symbol(react.forward_ref),
+            "render": [Function],
+          },
+        },
+        "label": "Preferences",
         "onClick": [Function],
       },
       {

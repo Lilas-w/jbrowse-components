@@ -12,17 +12,19 @@ import {
   getSession,
   isViewContainer,
   isSessionModelWithWidgets,
+  isSessionWithAddTracks,
+  localStorageGetItem,
   measureText,
   parseLocString,
   springAnimate,
-  isSessionWithAddTracks,
+  sum,
 } from '@jbrowse/core/util'
 import BaseResult from '@jbrowse/core/TextSearch/BaseResults'
 import { BlockSet, BaseBlock } from '@jbrowse/core/util/blockTypes'
 import calculateDynamicBlocks from '@jbrowse/core/util/calculateDynamicBlocks'
 import calculateStaticBlocks from '@jbrowse/core/util/calculateStaticBlocks'
 import { getParentRenderProps } from '@jbrowse/core/util/tracks'
-import { transaction, autorun } from 'mobx'
+import { when, transaction, autorun } from 'mobx'
 import {
   addDisposer,
   cast,
@@ -50,14 +52,11 @@ import ZoomInIcon from '@mui/icons-material/ZoomIn'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 
 // locals
-import { renderToSvg } from './components/LinearGenomeViewSvg'
-import RefNameAutocomplete from './components/RefNameAutocomplete'
-import SearchBox from './components/SearchBox'
+import { renderToSvg } from './svgcomponents/SVGLinearGenomeView'
+
 import ExportSvgDlg from './components/ExportSvgDialog'
 import MiniControls from './components/MiniControls'
 import Header from './components/Header'
-import ZoomControls from './components/ZoomControls'
-import LinearGenomeView from './components/LinearGenomeView'
 
 // lazies
 const SequenceSearchDialog = lazy(
@@ -75,12 +74,19 @@ export interface BpOffset {
   assemblyName?: string
   oob?: boolean
 }
-
 export interface ExportSvgOptions {
   rasterizeLayers?: boolean
   filename?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Wrapper?: React.FC<any>
+  fontSize?: number
+  rulerHeight?: number
+  textHeight?: number
+  paddingHeight?: number
+  headerHeight?: number
+  cytobandHeight?: number
+  trackLabels?: string
+  themeName?: string
 }
 
 function calculateVisibleLocStrings(contentBlocks: BaseBlock[]) {
@@ -116,12 +122,6 @@ export const INTER_REGION_PADDING_WIDTH = 2
 export const SPACING = 7
 export const WIDGET_HEIGHT = 32
 
-function localStorageGetItem(item: string) {
-  return typeof localStorage !== 'undefined'
-    ? localStorage.getItem(item)
-    : undefined
-}
-
 /**
  * #stateModel LinearGenomeView
  */
@@ -137,9 +137,9 @@ export function stateModelFactory(pluginManager: PluginManager) {
 
         /**
          * #property
-         * this is a string instead of the const literal 'LinearGenomeView' to reduce some
-         * typescripting strictness, but you should pass the string 'LinearGenomeView' to
-         * the model explicitly
+         * this is a string instead of the const literal 'LinearGenomeView' to
+         * reduce some typescripting strictness, but you should pass the string
+         * 'LinearGenomeView' to the model explicitly
          */
         type: types.literal('LinearGenomeView') as unknown as string,
 
@@ -157,9 +157,10 @@ export function stateModelFactory(pluginManager: PluginManager) {
 
         /**
          * #property
-         * currently displayed regions, can be a single chromosome, arbitrary subsections,
-         * or the entire  set of chromosomes in the genome, but it not advised to use the
-         * entire set of chromosomes if your assembly is very fragmented
+         * currently displayed regions, can be a single chromosome, arbitrary
+         * subsections, or the entire  set of chromosomes in the genome, but it not
+         * advised to use the entire set of chromosomes if your assembly is very
+         * fragmented
          */
         displayedRegions: types.array(MUIRegion),
 
@@ -208,19 +209,21 @@ export function stateModelFactory(pluginManager: PluginManager) {
          * #property
          * show the "center line"
          */
-        showCenterLine: types.optional(types.boolean, () => {
-          const setting = localStorageGetItem('lgv-showCenterLine')
-          return setting !== undefined && setting !== null ? !!+setting : false
-        }),
+        showCenterLine: types.optional(types.boolean, () =>
+          Boolean(
+            JSON.parse(localStorageGetItem('lgv-showCenterLine') || 'false'),
+          ),
+        ),
 
         /**
          * #property
          * show the "cytobands" in the overview scale bar
          */
-        showCytobandsSetting: types.optional(types.boolean, () => {
-          const setting = localStorageGetItem('lgv-showCytobands')
-          return setting !== undefined && setting !== null ? !!+setting : true
-        }),
+        showCytobandsSetting: types.optional(types.boolean, () =>
+          Boolean(
+            JSON.parse(localStorageGetItem('lgv-showCytobands') || 'true'),
+          ),
+        ),
 
         /**
          * #property
@@ -360,9 +363,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
        * #getter
        */
       get trackHeights() {
-        return self.tracks
-          .map(t => t.displays[0].height)
-          .reduce((a, b) => a + b, 0)
+        return sum(self.tracks.map(t => t.displays[0].height))
       },
 
       /**
@@ -473,14 +474,14 @@ export function stateModelFactory(pluginManager: PluginManager) {
        */
       rankSearchResults(results: BaseResult[]) {
         // order of rank
-        const openTrackIds = self.tracks.map(
-          track => track.configuration.trackId,
+        const openTrackIds = new Set(
+          self.tracks.map(track => track.configuration.trackId),
         )
-        results.forEach(result => {
-          if (openTrackIds.includes(result.trackId)) {
+        for (const result of results) {
+          if (openTrackIds.has(result.trackId)) {
             result.updateScore(result.getScore() + 1)
           }
-        })
+        }
         return results
       },
 
@@ -529,7 +530,6 @@ export function stateModelFactory(pluginManager: PluginManager) {
        */
       setShowCytobands(flag: boolean) {
         self.showCytobandsSetting = flag
-        localStorage.setItem('lgv-showCytobands', `${+flag}`)
       },
       /**
        * #action
@@ -579,25 +579,25 @@ export function stateModelFactory(pluginManager: PluginManager) {
       /**
        * #action
        */
-      zoomTo(bpPerPx: number) {
+      zoomTo(bpPerPx: number, offset = self.width / 2, centerAtOffset = false) {
         const newBpPerPx = clamp(bpPerPx, self.minBpPerPx, self.maxBpPerPx)
         if (newBpPerPx === self.bpPerPx) {
           return newBpPerPx
         }
         const oldBpPerPx = self.bpPerPx
-        self.bpPerPx = newBpPerPx
 
         if (Math.abs(oldBpPerPx - newBpPerPx) < 0.000001) {
           console.warn('zoomTo bpPerPx rounding error')
           return oldBpPerPx
         }
+        self.bpPerPx = newBpPerPx
 
-        // tweak the offset so that the center of the view remains at the same coordinate
-        const viewWidth = self.width
+        // tweak the offset so that the center of the view remains at the same
+        // coordinate
         this.scrollTo(
           Math.round(
-            ((self.offsetPx + viewWidth / 2) * oldBpPerPx) / newBpPerPx -
-              viewWidth / 2,
+            ((self.offsetPx + offset) * oldBpPerPx) / newBpPerPx -
+              (centerAtOffset ? self.width / 2 : offset),
           ),
         )
         return newBpPerPx
@@ -640,8 +640,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
        */
       horizontallyFlip() {
         self.displayedRegions = cast(
-          self.displayedRegions
-            .slice()
+          [...self.displayedRegions]
             .reverse()
             .map(region => ({ ...region, reversed: !region.reversed })),
         )
@@ -666,9 +665,11 @@ export function stateModelFactory(pluginManager: PluginManager) {
           throw new Error(`Unknown track type ${conf.type}`)
         }
         const viewType = pluginManager.getViewType(self.type)
-        const supportedDisplays = viewType.displayTypes.map(d => d.name)
+        const supportedDisplays = new Set(
+          viewType.displayTypes.map(d => d.name),
+        )
         const displayConf = conf.displays.find((d: AnyConfigurationModel) =>
-          supportedDisplays.includes(d.type),
+          supportedDisplays.has(d.type),
         )
         if (!displayConf) {
           throw new Error(
@@ -757,7 +758,6 @@ export function stateModelFactory(pluginManager: PluginManager) {
        */
       setTrackLabels(setting: 'overlapping' | 'offset' | 'hidden') {
         self.trackLabels = setting
-        localStorage.setItem('lgv-trackLabels', setting)
       },
 
       /**
@@ -765,7 +765,6 @@ export function stateModelFactory(pluginManager: PluginManager) {
        */
       toggleCenterLine() {
         self.showCenterLine = !self.showCenterLine
-        localStorage.setItem('lgv-showCenterLine', `${+self.showCenterLine}`)
       },
 
       /**
@@ -902,7 +901,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
        * this "clears the view" and makes the view return to the import form
        */
       clearView() {
-        self.displayedRegions.clear()
+        this.setDisplayedRegions([])
         self.tracks.clear()
         // it is necessary to run these after setting displayed regions empty
         // or else model.offsetPx gets set to Infinity and breaks
@@ -912,7 +911,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
       },
 
       /**
-       * #action
+       * #method
        * creates an svg export and save using FileSaver
        */
       async exportSvg(opts: ExportSvgOptions = {}) {
@@ -1241,6 +1240,19 @@ export function stateModelFactory(pluginManager: PluginManager) {
             { delay: 150 },
           ),
         )
+
+        addDisposer(
+          self,
+          autorun(() => {
+            const s = (s: unknown) => JSON.stringify(s)
+            const { trackLabels, showCytobandsSetting, showCenterLine } = self
+            if (typeof localStorage !== 'undefined') {
+              localStorage.setItem('lgv-trackLabels', trackLabels)
+              localStorage.setItem('lgv-showCytobands', s(showCytobandsSetting))
+              localStorage.setItem('lgv-showCenterLine', s(showCenterLine))
+            }
+          }),
+        )
       },
     }))
     .actions(self => ({
@@ -1267,6 +1279,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
         const { assemblyNames } = self
         const { assemblyManager } = getSession(self)
         const { isValidRefName } = assemblyManager
+        await when(() => self.volatileWidth !== undefined)
         const assemblyName = optAssemblyName || assemblyNames[0]
         let parsedLocStrings
         const inputs = locString
@@ -1281,8 +1294,8 @@ export function stateModelFactory(pluginManager: PluginManager) {
         // first try interpreting as a whitespace-separated sequence of
         // multiple locstrings
         try {
-          parsedLocStrings = inputs.map(l =>
-            parseLocString(l, ref => isValidRefName(ref, assemblyName)),
+          parsedLocStrings = inputs.map(loc =>
+            parseLocString(loc, ref => isValidRefName(ref, assemblyName)),
           )
         } catch (e) {
           // if this fails, try interpreting as a whitespace-separated refname,
@@ -1350,7 +1363,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
           })
         } else {
           self.setDisplayedRegions(
-            // @ts-ignore
+            // @ts-expect-error
             locations.map(r => (r.start === undefined ? r.parentRegion : r)),
           )
           self.showAllRegions()
@@ -1570,22 +1583,23 @@ export function stateModelFactory(pluginManager: PluginManager) {
        * #getter
        */
       get centerLineInfo() {
-        return self.displayedRegions.length
+        return self.displayedRegions.length > 0
           ? this.pxToBp(self.width / 2)
           : undefined
       },
     }))
 }
 
-export {
-  renderToSvg,
-  RefNameAutocomplete,
-  SearchBox,
-  ZoomControls,
-  LinearGenomeView,
-}
-
 export type LinearGenomeViewStateModel = ReturnType<typeof stateModelFactory>
 export type LinearGenomeViewModel = Instance<LinearGenomeViewStateModel>
 
-export { default as ReactComponent } from './components/LinearGenomeView'
+export {
+  default as ReactComponent,
+  default as LinearGenomeView,
+} from './components/LinearGenomeView'
+
+export { default as RefNameAutocomplete } from './components/RefNameAutocomplete'
+export { default as SearchBox } from './components/SearchBox'
+export { default as ZoomControls } from './components/ZoomControls'
+
+export { renderToSvg } from './svgcomponents/SVGLinearGenomeView'

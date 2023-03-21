@@ -7,6 +7,7 @@ import {
 import { bpToPx, measureText, Region, Feature } from '@jbrowse/core/util'
 import { BaseLayout, SceneGraph } from '@jbrowse/core/util/layouts'
 
+// locals
 import FeatureGlyph from './FeatureGlyph'
 import SvgOverlay from './SvgOverlay'
 import {
@@ -17,8 +18,8 @@ import {
 } from './util'
 
 // used to make features have a little padding for their labels
-const namePadding = 2
-const textPadding = 2
+const xPadding = 3
+const yPadding = 5
 
 // used so that user can click-away-from-feature below the laid out features
 // (issue #1248)
@@ -60,7 +61,7 @@ function RenderedFeatureGlyph(props: {
   const { reversed } = region
   const start = feature.get(reversed ? 'end' : 'start')
   const startPx = bpToPx(start, region, bpPerPx)
-  const labelsAllowed = displayMode !== 'compact' && displayMode !== 'collapsed'
+  const labelAllowed = displayMode !== 'collapsed'
 
   const rootLayout = new SceneGraph('root', 0, 0, 0, 0)
   const GlyphComponent = chooseGlyphComponent(feature, extraGlyphs)
@@ -78,7 +79,7 @@ function RenderedFeatureGlyph(props: {
   let description = ''
   let fontHeight = 0
   let expansion = 0
-  if (labelsAllowed) {
+  if (labelAllowed) {
     const showLabels = readConfObject(config, 'showLabels')
     const showDescriptions = readConfObject(config, 'showDescriptions')
     fontHeight = readConfObject(config, ['labels', 'fontSize'], { feature })
@@ -89,20 +90,19 @@ function RenderedFeatureGlyph(props: {
     const getWidth = (text: string) => {
       const glyphWidth = rootLayout.width + expansion
       const textWidth = measureText(text, fontHeight)
-      return Math.round(Math.min(textWidth, glyphWidth)) + namePadding
+      return Math.round(Math.min(textWidth, glyphWidth))
     }
 
     description = String(
       readConfObject(config, ['labels', 'description'], { feature }) || '',
     )
-    shouldShowDescription =
-      /\S/.test(description) && showLabels && showDescriptions
+    shouldShowDescription = /\S/.test(description) && showDescriptions
 
     if (shouldShowName) {
       rootLayout.addChild(
         'nameLabel',
         0,
-        featureLayout.bottom + textPadding,
+        featureLayout.bottom,
         getWidth(name),
         fontHeight,
       )
@@ -116,7 +116,7 @@ function RenderedFeatureGlyph(props: {
       rootLayout.addChild(
         'descriptionLabel',
         0,
-        aboveLayout.bottom + textPadding,
+        aboveLayout.bottom,
         getWidth(description),
         fontHeight,
       )
@@ -126,8 +126,8 @@ function RenderedFeatureGlyph(props: {
   const topPx = layout.addRect(
     feature.id(),
     feature.get('start'),
-    feature.get('start') + rootLayout.width * bpPerPx,
-    rootLayout.height,
+    feature.get('start') + rootLayout.width * bpPerPx + xPadding * bpPerPx,
+    rootLayout.height + yPadding,
   )
   if (topPx === null) {
     return null

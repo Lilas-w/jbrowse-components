@@ -7,9 +7,7 @@ import PluginManager from '@jbrowse/core/PluginManager'
  * has a "pileup" sub-display, where you can see individual reads and a
  * quantitative "snpcoverage" sub-display track showing SNP frequencies
  */
-function x() {} // eslint-disable-line @typescript-eslint/no-unused-vars
-
-const configModelFactory = (pm: PluginManager) => {
+export default function configModelFactory(pm: PluginManager) {
   return ConfigurationSchema(
     'LinearAlignmentsDisplay',
     {
@@ -17,11 +15,20 @@ const configModelFactory = (pm: PluginManager) => {
        * #slot
        */
       pileupDisplay: pm.getDisplayType('LinearPileupDisplay').configSchema,
+
       /**
        * #slot
        */
       snpCoverageDisplay: pm.getDisplayType('LinearSNPCoverageDisplay')
         .configSchema,
+
+      /**
+       * #slot
+       */
+      height: {
+        type: 'number',
+        defaultValue: 250,
+      },
     },
     {
       /**
@@ -32,6 +39,3 @@ const configModelFactory = (pm: PluginManager) => {
     },
   )
 }
-
-export type AlignmentsConfigModel = ReturnType<typeof configModelFactory>
-export default configModelFactory

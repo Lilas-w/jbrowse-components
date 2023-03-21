@@ -4,13 +4,17 @@ title: BaseLinearDisplay
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[plugins/linear-genome-view/src/BaseLinearDisplay/models/configSchema.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/linear-genome-view/src/BaseLinearDisplay/models/configSchema.ts)
 
 ## Docs
 
-BaseLinearDisplay is a "base" config that is extended by classes like
-"LinearBasicDisplay" (used for feature tracks, etc) and "LinearBareDisplay"
+`BaseLinearDisplay` is a "base" config that is extended by classes like
+`LinearBasicDisplay` (used for feature tracks, etc) and `LinearBareDisplay`
 (more stripped down than even the basic display, not commonly used)
 
 ### BaseLinearDisplay - Identifier
@@ -38,5 +42,15 @@ fetchSizeLimit: {
       defaultValue: 1_000_000,
       description:
         "maximum data to attempt to download for a given track, used if adapter doesn't specify one",
+    }
+```
+
+#### slot: height
+
+```js
+height: {
+      type: 'number',
+      defaultValue: 100,
+      description: 'default height for the track',
     }
 ```

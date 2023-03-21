@@ -5,28 +5,20 @@ import { AbstractSessionModel, isAbstractMenuManager } from '@jbrowse/core/util'
 // icons
 import LineStyleIcon from '@mui/icons-material/LineStyle'
 
+// locals
 import {
   BaseLinearDisplay,
   BaseLinearDisplayComponent,
-  BlockModel,
   baseLinearDisplayConfigSchema,
 } from './BaseLinearDisplay'
-import LinearBareDisplayF, {
-  configSchemaFactory as linearBareDisplayConfigSchemaFactory,
-} from './LinearBareDisplay'
+import LinearBareDisplayF from './LinearBareDisplay'
 import LinearGenomeViewF, {
-  renderToSvg,
-  LinearGenomeViewModel,
-  LinearGenomeViewStateModel,
-  RefNameAutocomplete,
   SearchBox,
   ZoomControls,
   LinearGenomeView,
 } from './LinearGenomeView'
-import LinearBasicDisplayF, {
-  configSchema as linearBasicDisplayConfigSchemaFactory,
-  modelFactory as linearBasicDisplayModelFactory,
-} from './LinearBasicDisplay'
+
+import LinearBasicDisplayF from './LinearBasicDisplay'
 
 import FeatureTrackF from './FeatureTrack'
 import BasicTrackF from './BasicTrack'
@@ -66,18 +58,28 @@ export default class LinearGenomeViewPlugin extends Plugin {
   }
 }
 
+export type { BaseLinearDisplayModel, BlockModel } from './BaseLinearDisplay'
+
+export { configSchemaFactory as linearBareDisplayConfigSchemaFactory } from './LinearBareDisplay'
 export {
+  BlockMsg,
   baseLinearDisplayConfigSchema,
-  linearBareDisplayConfigSchemaFactory,
-  linearBasicDisplayConfigSchemaFactory,
-  linearBasicDisplayModelFactory,
-  renderToSvg,
   BaseLinearDisplayComponent,
   BaseLinearDisplay,
+} from './BaseLinearDisplay'
+export {
+  type LinearGenomeViewModel,
   RefNameAutocomplete,
+  type LinearGenomeViewStateModel,
   SearchBox,
-}
-
-export type { LinearGenomeViewModel, LinearGenomeViewStateModel, BlockModel }
-
-export type { BaseLinearDisplayModel } from './BaseLinearDisplay'
+} from './LinearGenomeView'
+export {
+  renderToSvg,
+  SVGTracks,
+  totalHeight,
+  SVGRuler,
+} from './LinearGenomeView/svgcomponents/SVGLinearGenomeView'
+export {
+  configSchema as linearBasicDisplayConfigSchemaFactory,
+  modelFactory as linearBasicDisplayModelFactory,
+} from './LinearBasicDisplay'

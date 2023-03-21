@@ -9,21 +9,33 @@ beforeEach(() => {
   doBeforeEach()
 })
 
-test('variant track test - opens feature detail view', async () => {
+test('opens feature detail from left click', async () => {
   const { view, findByTestId, findAllByTestId, findByText } = createView()
   await findByText('Help')
   view.setNewView(0.05, 5000)
   fireEvent.click(await findByTestId(hts('volvox_filtered_vcf'), {}, delay))
-  view.tracks[0].displays[0].setFeatureIdUnderMouse('test-vcf-604452')
-  const feats1 = await findAllByTestId('test-vcf-604452', {}, delay)
-  fireEvent.click(feats1[0])
 
-  // this text is to confirm a feature detail drawer opened
-  expect(await findByTestId('variant-side-drawer')).toBeInTheDocument()
-  const feats2 = await findAllByTestId('test-vcf-604452', {}, delay)
-  fireEvent.contextMenu(feats2[0])
+  view.tracks[0].displays[0].setFeatureIdUnderMouse('test-vcf-604453')
+  fireEvent.click((await findAllByTestId('test-vcf-604453', {}, delay))[0])
+  expect(
+    await findByTestId('variant-side-drawer', {}, delay),
+  ).toBeInTheDocument()
+}, 20000)
+
+test('open feature detail from right click', async () => {
+  const { view, findByTestId, findAllByTestId, findByText } = createView()
+  await findByText('Help')
+  view.setNewView(0.05, 5000)
+  fireEvent.click(await findByTestId(hts('volvox_filtered_vcf'), {}, delay))
+  view.tracks[0].displays[0].setFeatureIdUnderMouse('test-vcf-604453')
+
+  fireEvent.contextMenu(
+    (await findAllByTestId('test-vcf-604453', {}, delay))[0],
+  )
   fireEvent.click(await findByText('Open feature details'))
-  expect(await findByTestId('variant-side-drawer')).toBeInTheDocument()
+  expect(
+    await findByTestId('variant-side-drawer', {}, delay),
+  ).toBeInTheDocument()
 }, 20000)
 
 test('widget drawer navigation', async () => {
@@ -49,25 +61,25 @@ test('widget drawer navigation', async () => {
   await findByTestId('hierarchical_track_selector')
 
   // test minimize and maximize widget drawer
-  // @ts-ignore
+  // @ts-expect-error
   expect(session.minimized).toBeFalsy()
 
   await findByTestId('drawer-minimize')
   fireEvent.click(await findByTestId('drawer-minimize'))
-  // @ts-ignore
+  // @ts-expect-error
   expect(session.minimized).toBeTruthy()
 
   fireEvent.click(await findByTestId('drawer-maximize'))
-  // @ts-ignore
+  // @ts-expect-error
   expect(session.minimized).toBeFalsy()
 
   // test deleting widget from select dropdown using trash icon
-  // @ts-ignore
+  // @ts-expect-error
   expect(session.activeWidgets.size).toEqual(2)
   fireEvent.mouseDown(
     getByRole(await findByTestId('widget-drawer-selects'), 'button'),
   )
   fireEvent.click(await findByTestId('ConfigurationEditorWidget-drawer-delete'))
-  // @ts-ignore
+  // @ts-expect-error
   expect(session.activeWidgets.size).toEqual(1)
 }, 20000)

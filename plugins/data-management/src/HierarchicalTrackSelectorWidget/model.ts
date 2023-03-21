@@ -4,25 +4,37 @@ import {
   readConfObject,
   AnyConfigurationModel,
 } from '@jbrowse/core/configuration'
-import { AbstractSessionModel, getSession, getEnv } from '@jbrowse/core/util'
+import {
+  AbstractSessionModel,
+  dedupe,
+  getSession,
+  getEnv,
+} from '@jbrowse/core/util'
 import { getTrackName } from '@jbrowse/core/util/tracks'
 import { ElementId } from '@jbrowse/core/util/types/mst'
 import PluginManager from '@jbrowse/core/PluginManager'
 
 function hasAnyOverlap<T>(a1: T[] = [], a2: T[] = []) {
-  return !!a1.find(value => a2.includes(value))
+  // shortcut case is that arrays are single entries, and are equal
+  // long case is that we use a set
+  if (a1[0] === a2[0]) {
+    return true
+  } else {
+    const s1 = new Set(a1)
+    return a2.some(a => s1.has(a))
+  }
 }
 
-function passesFilter(
-  filter: string,
-  config: AnyConfigurationModel,
+export function matches(
+  query: string,
+  conf: AnyConfigurationModel,
   session: AbstractSessionModel,
 ) {
-  const categories = readConfObject(config, 'category') as string[] | undefined
-  const filterLower = filter.toLowerCase()
+  const categories = readConfObject(conf, 'category') as string[] | undefined
+  const queryLower = query.toLowerCase()
   return (
-    getTrackName(config, session).toLowerCase().includes(filterLower) ||
-    !!categories?.filter(c => c.toLowerCase().includes(filterLower)).length
+    getTrackName(conf, session).toLowerCase().includes(queryLower) ||
+    !!categories?.filter(c => c.toLowerCase().includes(queryLower)).length
   )
 }
 
@@ -62,13 +74,14 @@ export function generateHierarchy(
   model: HierarchicalTrackSelectorModel,
   trackConfigurations: AnyConfigurationModel[],
   collapsed: { get: (arg: string) => boolean | undefined },
+  extra?: string,
 ) {
   const hierarchy = { children: [] as TreeNode[] } as TreeNode
   const { filterText, view } = model
   const session = getSession(model)
 
   trackConfigurations
-    .filter(conf => passesFilter(filterText, conf, session))
+    .filter(conf => matches(filterText, conf, session))
     .forEach(conf => {
       // copy the categories since this array can be mutated downstream
       const categories = [...(readConfObject(conf, 'category') || [])]
@@ -86,7 +99,7 @@ export function generateHierarchy(
       for (let i = 0; i < categories.length; i++) {
         const category = categories[i]
         const ret = currLevel.children.find(c => c.name === category)
-        const id = categories.slice(0, i + 1).join(',')
+        const id = extra + '-' + categories.slice(0, i + 1).join(',')
         if (!ret) {
           const n = {
             children: [],
@@ -110,7 +123,7 @@ export function generateHierarchy(
           id: conf.trackId,
           name: getTrackName(conf, session),
           conf,
-          checked: !!tracks.find(f => f.configuration === conf),
+          checked: tracks.some(f => f.configuration === conf),
           children: [],
         },
       )
@@ -125,17 +138,20 @@ export default function stateTreeFactory(pluginManager: PluginManager) {
       id: ElementId,
       type: types.literal('HierarchicalTrackSelectorWidget'),
       collapsed: types.map(types.boolean),
-      filterText: '',
       view: types.safeReference(
         pluginManager.pluggableMstType('view', 'stateModel'),
       ),
     })
     .volatile(() => ({
       selection: [] as AnyConfigurationModel[],
+      filterText: '',
     }))
     .actions(self => ({
+      setSelection(elt: AnyConfigurationModel[]) {
+        self.selection = elt
+      },
       addToSelection(elt: AnyConfigurationModel[]) {
-        self.selection = [...self.selection, ...elt]
+        self.selection = dedupe([...self.selection, ...elt], e => e.trackId)
       },
       removeFromSelection(elt: AnyConfigurationModel[]) {
         self.selection = self.selection.filter(f => !elt.includes(f))
@@ -166,7 +182,7 @@ export default function stateTreeFactory(pluginManager: PluginManager) {
           return undefined
         }
         for (const display of trackConf.displays) {
-          if (viewType.displayTypes.find(d => d.name === display.type)) {
+          if (viewType.displayTypes.some(d => d.name === display.type)) {
             return trackConf
           }
         }
@@ -185,9 +201,10 @@ export default function stateTreeFactory(pluginManager: PluginManager) {
         const refseq = self.getRefSeqTrackConf(assemblyName)
         // filter out tracks that don't match the current assembly (check all
         // assembly aliases) and display types
-        return (refseq ? [refseq] : []).concat([
+        return [
+          ...(refseq ? [refseq] : []),
           ...filterTracks(tracks, self, assemblyName),
-        ])
+        ]
       },
 
       get assemblyNames(): string[] {
@@ -223,18 +240,16 @@ export default function stateTreeFactory(pluginManager: PluginManager) {
         const conns =
           (assembly &&
             connectionInstances
-              ?.filter(c =>
-                hasAnyOverlap(assembly.allAliases, getConf(c, 'assemblyNames')),
-              )
-              .map(c => ({
-                // @ts-ignore
+              ?.map(c => ({
+                // @ts-expect-error
                 id: getSnapshot(c).configuration,
                 name: getConf(c, 'name'),
                 children: this.connectionHierarchy(assemblyName, c),
                 state: {
                   expanded: true,
                 },
-              }))) ||
+              }))
+              .filter(f => f.children.length)) ||
           []
 
         return {
@@ -249,13 +264,14 @@ export default function stateTreeFactory(pluginManager: PluginManager) {
 
       connectionHierarchy(
         assemblyName: string,
-        connection: { tracks: AnyConfigurationModel[] },
+        connection: { name: string; tracks: AnyConfigurationModel[] },
       ) {
         return generateHierarchy(
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           self as any,
           self.connectionTrackConfigurations(assemblyName, connection),
           self.collapsed,
+          connection.name,
         )
       },
     }))

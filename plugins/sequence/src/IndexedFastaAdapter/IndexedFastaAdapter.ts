@@ -54,7 +54,7 @@ export default class extends BaseSequenceAdapter {
     const loc = this.getConf('metadataLocation')
     return loc.uri === '' || loc.uri === '/path/to/fa.metadata.yaml'
       ? null
-      : openLocation(loc).readFile('utf8')
+      : openLocation(loc, this.pluginManager).readFile('utf8')
   }
 
   public async setup() {
@@ -106,7 +106,7 @@ export default class extends BaseSequenceAdapter {
 
   /**
    * called to provide a hint that data tied to a certain region
-   * will not be needed for the forseeable future and can be purged
+   * will not be needed for the foreseeable future and can be purged
    * from caches, etc
    */
   public freeResources(/* { region } */): void {}

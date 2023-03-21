@@ -4,7 +4,7 @@ import {
 } from '@jbrowse/core/data_adapters/BaseAdapter'
 import { AugmentedRegion as Region } from '@jbrowse/core/util/types'
 import { ObservableCreate } from '@jbrowse/core/util/rxjs'
-import { SimpleFeature, Feature } from '@jbrowse/core/util'
+import { SimpleFeature, Feature, min, max } from '@jbrowse/core/util'
 import { merge } from 'rxjs'
 import { map } from 'rxjs/operators'
 
@@ -19,6 +19,7 @@ function getFilename(uri: string) {
 
 interface AdapterEntry {
   dataAdapter: BaseFeatureDataAdapter
+  source: string
   [key: string]: unknown
 }
 
@@ -73,12 +74,12 @@ export default class MultiWiggleAdapter extends BaseFeatureDataAdapter {
     const adapters = await this.getAdapters()
     const stats = (
       await Promise.all(
-        // @ts-ignore
+        // @ts-expect-error
         adapters.map(adp => adp.dataAdapter.getGlobalStats?.(opts)),
       )
     ).filter(f => !!f)
-    const scoreMin = Math.min(...stats.map(s => s.scoreMin))
-    const scoreMax = Math.max(...stats.map(s => s.scoreMax))
+    const scoreMin = min(stats.map(s => s.scoreMin))
+    const scoreMax = max(stats.map(s => s.scoreMax))
     return { scoreMin, scoreMax }
   }
 
@@ -94,7 +95,7 @@ export default class MultiWiggleAdapter extends BaseFeatureDataAdapter {
                 ? p
                 : new SimpleFeature({
                     ...p.toJSON(),
-                    uniqueId: adp.source + '-' + p.id(),
+                    uniqueId: `${adp.source}-${p.id()}`,
                     source: adp.source,
                   }),
             ),

@@ -3,10 +3,12 @@ import { Paper } from '@mui/material'
 import { makeStyles } from 'tss-react/mui'
 import { observer } from 'mobx-react'
 import { isAlive } from 'mobx-state-tree'
+import { ErrorBoundary } from 'react-error-boundary'
+
+// jbrowse core
 import { BaseTrackModel } from '@jbrowse/core/pluggableElementTypes/models'
 import { getConf } from '@jbrowse/core/configuration'
 import { ResizeHandle, ErrorMessage } from '@jbrowse/core/ui'
-import { ErrorBoundary } from 'react-error-boundary'
 import { useDebouncedCallback } from '@jbrowse/core/util'
 
 // locals
@@ -35,7 +37,7 @@ const useStyles = makeStyles()({
     zIndex: 3,
   },
 
-  // aligns with block bounderies. check for example the breakpoint split view
+  // aligns with block boundaries. check for example the breakpoint split view
   // demo to see if features align if wanting to change things
   renderingComponentContainer: {
     position: 'absolute',

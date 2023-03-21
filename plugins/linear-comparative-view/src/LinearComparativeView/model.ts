@@ -15,7 +15,7 @@ import { autorun, transaction } from 'mobx'
 // jbrowse
 import BaseViewModel from '@jbrowse/core/pluggableElementTypes/models/BaseViewModel'
 import { MenuItem, ReturnToImportFormDialog } from '@jbrowse/core/ui'
-import { getSession, isSessionModelWithWidgets } from '@jbrowse/core/util'
+import { getSession, isSessionModelWithWidgets, avg } from '@jbrowse/core/util'
 import PluginManager from '@jbrowse/core/PluginManager'
 import { AnyConfigurationModel } from '@jbrowse/core/configuration'
 import { ElementId } from '@jbrowse/core/util/types/mst'
@@ -32,7 +32,6 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen'
  * #stateModel LinearComparativeView
  */
 function stateModelFactory(pluginManager: PluginManager) {
-  const defaultHeight = 400
   return types
     .compose(
       'LinearComparativeView',
@@ -46,10 +45,6 @@ function stateModelFactory(pluginManager: PluginManager) {
          * #property
          */
         type: types.literal('LinearComparativeView'),
-        /**
-         * #property
-         */
-        height: defaultHeight,
         /**
          * #property
          */
@@ -110,7 +105,11 @@ function stateModelFactory(pluginManager: PluginManager) {
        * #getter
        */
       get initialized() {
-        return self.width !== undefined && self.views.length > 0
+        return (
+          self.width !== undefined &&
+          self.views.length > 0 &&
+          self.views.every(view => view.initialized)
+        )
       },
 
       /**
@@ -126,7 +125,7 @@ function stateModelFactory(pluginManager: PluginManager) {
        * #getter
        */
       get assemblyNames() {
-        return [...new Set(self.views.map(v => v.assemblyNames).flat())]
+        return [...new Set(self.views.flatMap(v => v.assemblyNames))]
       },
     }))
     .actions(self => ({
@@ -136,14 +135,10 @@ function stateModelFactory(pluginManager: PluginManager) {
           onAction(self, param => {
             if (self.linkViews) {
               const { name, path, args } = param
-              const actions = [
-                'horizontalScroll',
-                'zoomTo',
-                'setScaleFactor',
-                'showTrack',
-                'hideTrack',
-                'toggleTrack',
-              ]
+
+              // doesn't link showTrack/hideTrack, doesn't make sense in
+              // synteny views most time
+              const actions = ['horizontalScroll', 'zoomTo', 'setScaleFactor']
               if (actions.includes(name) && path) {
                 this.onSubviewAction(name, path, args)
               }
@@ -156,18 +151,15 @@ function stateModelFactory(pluginManager: PluginManager) {
       // e.g. read vs ref
       beforeDestroy() {
         const session = getSession(self)
-        self.assemblyNames.forEach(asm => {
-          session.removeTemporaryAssembly(asm)
-        })
+        self.assemblyNames.forEach(asm => session.removeTemporaryAssembly(asm))
       },
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onSubviewAction(actionName: string, path: string, args: any[] = []) {
+      onSubviewAction(actionName: string, path: string, args?: unknown[]) {
         self.views.forEach(view => {
           const ret = getPath(view)
           if (ret.lastIndexOf(path) !== ret.length - path.length) {
-            // @ts-ignore
-            view[actionName](args[0])
+            // @ts-expect-error
+            view[actionName](args?.[0])
           }
         })
       },
@@ -177,12 +169,6 @@ function stateModelFactory(pluginManager: PluginManager) {
        */
       setWidth(newWidth: number) {
         self.width = newWidth
-      },
-      /**
-       * #action
-       */
-      setHeight(newHeight: number) {
-        self.height = newHeight
       },
 
       /**
@@ -201,7 +187,8 @@ function stateModelFactory(pluginManager: PluginManager) {
 
       /**
        * #action
-       * removes the view itself from the state tree entirely by calling the parent removeView
+       * removes the view itself from the state tree entirely by calling the
+       * parent removeView
        */
       closeView() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -270,9 +257,11 @@ function stateModelFactory(pluginManager: PluginManager) {
           throw new Error(`unknown track type ${configuration.type}`)
         }
         const viewType = pluginManager.getViewType(self.type)
-        const supportedDisplays = viewType.displayTypes.map(d => d.name)
+        const supportedDisplays = new Set(
+          viewType.displayTypes.map(d => d.name),
+        )
         const displayConf = configuration.displays.find(
-          (d: AnyConfigurationModel) => supportedDisplays.includes(d.type),
+          (d: AnyConfigurationModel) => supportedDisplays.has(d.type),
         )
         if (!displayConf) {
           throw new Error(
@@ -303,11 +292,10 @@ function stateModelFactory(pluginManager: PluginManager) {
        * #action
        */
       squareView() {
-        const bpPerPxs = self.views.map(v => v.bpPerPx)
-        const avg = bpPerPxs.reduce((a, b) => a + b, 0) / bpPerPxs.length
+        const average = avg(self.views.map(v => v.bpPerPx))
         self.views.forEach(view => {
           const center = view.pxToBp(view.width / 2)
-          view.setNewView(avg, view.offsetPx)
+          view.setNewView(average, view.offsetPx)
           if (!center.refName) {
             return
           }
@@ -322,36 +310,42 @@ function stateModelFactory(pluginManager: PluginManager) {
         self.tracks = cast([])
       },
     }))
+    .views(() => ({
+      /**
+       * #method
+       * includes a subset of view menu options because the full list is a
+       * little overwhelming. overridden by subclasses
+       */
+      headerMenuItems(): MenuItem[] {
+        return []
+      },
+    }))
     .views(self => ({
       /**
        * #method
        */
-      menuItems() {
-        const menuItems: MenuItem[] = []
-        self.views.forEach((view, idx) => {
-          if (view.menuItems?.()) {
-            menuItems.push({
-              label: `View ${idx + 1} Menu`,
-              subMenu: view.menuItems(),
-            })
-          }
-        })
-        menuItems.push({
-          label: 'Return to import form',
-          onClick: () => {
-            getSession(self).queueDialog(handleClose => [
-              ReturnToImportFormDialog,
-              { model: self, handleClose },
-            ])
+      menuItems(): MenuItem[] {
+        return [
+          ...self.views
+            .map((view, idx) => [idx, view.menuItems?.()] as const)
+            .filter(f => !!f[1])
+            .map(f => ({ label: `View ${f[0] + 1} Menu`, subMenu: f[1] })),
+          {
+            label: 'Return to import form',
+            onClick: () => {
+              getSession(self).queueDialog(handleClose => [
+                ReturnToImportFormDialog,
+                { model: self, handleClose },
+              ])
+            },
+            icon: FolderOpenIcon,
           },
-          icon: FolderOpenIcon,
-        })
-        menuItems.push({
-          label: 'Open track selector',
-          onClick: self.activateTrackSelector,
-          icon: TrackSelectorIcon,
-        })
-        return menuItems
+          {
+            label: 'Open track selector',
+            onClick: self.activateTrackSelector,
+            icon: TrackSelectorIcon,
+          },
+        ]
       },
       /**
        * #method
@@ -377,7 +371,7 @@ function stateModelFactory(pluginManager: PluginManager) {
         addDisposer(
           self,
           autorun(() => {
-            if (self.initialized) {
+            if (self.width) {
               self.views.forEach(v => v.setWidth(self.width))
             }
           }),

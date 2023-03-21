@@ -18,19 +18,17 @@ function getName(
   sessionTrackData?: { uri: string } | { localPath: string } | { name: string },
 ) {
   return sessionTrackData
-    ? // @ts-ignore
+    ? // @ts-expect-error
       sessionTrackData.uri ||
-        // @ts-ignore
+        // @ts-expect-error
         sessionTrackData.localPath ||
-        // @ts-ignore
+        // @ts-expect-error
         sessionTrackData.name
     : undefined
 }
 
 function stripGz(fileName: string) {
-  return fileName.endsWith('.gz')
-    ? fileName.slice(0, fileName.length - 3)
-    : fileName
+  return fileName.endsWith('.gz') ? fileName.slice(0, -3) : fileName
 }
 
 function getAdapter({
@@ -214,7 +212,7 @@ const OpenTrack = observer(
               <div>
                 <div style={{ margin: 20 }}>
                   Open the {value} and .bed files for both genome assemblies
-                  from the MCScan (Python verson) pipeline{' '}
+                  from the MCScan (Python version) pipeline{' '}
                   <a href="https://github.com/tanghaibao/jcvi/wiki/MCscan-(Python-version)">
                     (more info)
                   </a>

@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { AnyConfigurationModel } from '@jbrowse/core/configuration/configurationSchema'
-import { contrastingTextColor } from '@jbrowse/core/util/color'
-import { Feature } from '@jbrowse/core/util/simpleFeature'
-import { Region } from '@jbrowse/core/util/types'
+import { AnyConfigurationModel } from '@jbrowse/core/configuration'
 import { createJBrowseTheme } from '@jbrowse/core/ui'
 import { observer } from 'mobx-react'
 import {
+  Feature,
+  Region,
   bpSpanPx,
   revcom,
   complement,
@@ -15,22 +14,10 @@ import {
   defaultCodonTable,
   generateCodonTable,
 } from '@jbrowse/core/util'
-
-interface MyProps {
-  exportSVG?: { rasterizeLayers: boolean }
-  features: Map<string, Feature>
-  regions: Region[]
-  bpPerPx: number
-  config: AnyConfigurationModel
-  highResolutionScaling: number
-  theme: any
-  showForward: boolean
-  showReverse: boolean
-  showTranslation: boolean
-}
+import { Theme } from '@mui/material'
 
 function Translation(props: {
-  codonTable: any
+  codonTable: Record<string, string>
   seq: string
   frame: number
   bpPerPx: number
@@ -38,7 +25,7 @@ function Translation(props: {
   reverse?: boolean
   height: number
   y: number
-  theme?: any
+  theme?: Theme
 }) {
   const {
     codonTable,
@@ -98,10 +85,10 @@ function Translation(props: {
               stroke={render ? '#555' : 'none'}
               fill={
                 defaultStarts.includes(codon)
-                  ? theme.palette.startCodon
+                  ? theme?.palette.startCodon
                   : defaultStops.includes(codon)
-                    ? theme.palette.stopCodon
-                    : map[Math.abs(frame)]
+                  ? theme?.palette.stopCodon
+                  : map[Math.abs(frame)]
               }
             />
             {render ? (
@@ -164,7 +151,9 @@ function DNA(props: {
                 y={y + height / 2}
                 dominantBaseline="middle"
                 textAnchor="middle"
-                fill={color ? contrastingTextColor(color.main) : 'black'}
+                fill={
+                  color ? theme.palette.getContrastText(color.main) : 'black'
+                }
               >
                 {letter}
               </text>
@@ -180,9 +169,9 @@ const SequenceSVG = ({
   regions,
   theme: configTheme,
   features = new Map(),
-  showReverse,
-  showForward,
-  showTranslation,
+  showReverse = true,
+  showForward = true,
+  showTranslation = true,
   bpPerPx,
 }: any) => {
   const [region] = regions
@@ -269,7 +258,17 @@ const SequenceSVG = ({
   )
 }
 
-const Wrapper = ({ exportSVG, width, totalHeight, children }: any) => {
+const Wrapper = ({
+  exportSVG,
+  width,
+  totalHeight,
+  children,
+}: {
+  exportSVG?: { rasterizeLayers: boolean }
+  width: number
+  totalHeight: number
+  children: React.ReactNode
+}) => {
   return exportSVG ? (
     <>{children}</>
   ) : (
@@ -284,7 +283,17 @@ const Wrapper = ({ exportSVG, width, totalHeight, children }: any) => {
   )
 }
 
-function Sequence(props: MyProps) {
+function Sequence(props: {
+  exportSVG?: { rasterizeLayers: boolean }
+  features: Map<string, Feature>
+  regions: Region[]
+  bpPerPx: number
+  config: AnyConfigurationModel
+  theme?: any
+  showForward?: boolean
+  showReverse?: boolean
+  showTranslation?: boolean
+}) {
   const { regions, bpPerPx } = props
   const [region] = regions
   const width = (region.end - region.start) / bpPerPx

@@ -2,31 +2,22 @@ import React, { useEffect, useState } from 'react'
 import {
   Button,
   CircularProgress,
-  Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  IconButton,
   TextField,
   Typography,
 } from '@mui/material'
+import { Dialog } from '@jbrowse/core/ui'
 import { makeStyles } from 'tss-react/mui'
 import { getConf } from '@jbrowse/core/configuration'
 import { getRpcSessionId } from '@jbrowse/core/util/tracks'
 import { getSession, getContainingView, Feature } from '@jbrowse/core/util'
 
 // locals
-import {
-  getClip,
-  getLength,
-  getLengthOnRef,
-  getLengthSansClipping,
-  getTag,
-  mergeIntervals,
-} from './util'
-
-// icons
-import CloseIcon from '@mui/icons-material/Close'
+import { mergeIntervals } from './util'
+import { MismatchParser } from '@jbrowse/plugin-alignments'
+const { featurizeSA, getClip, getLength, getLengthSansClipping, getTag } =
+  MismatchParser
 
 interface ReducedFeature {
   refName: string
@@ -46,17 +37,11 @@ interface ReducedFeature {
   }
 }
 
-const useStyles = makeStyles()(theme => ({
+const useStyles = makeStyles()({
   root: {
     width: 300,
   },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-}))
+})
 
 interface BasicFeature {
   end: number
@@ -68,17 +53,17 @@ interface BasicFeature {
 type FeaturesPerRef = { [key: string]: BasicFeature[] }
 
 function gatherOverlaps(regions: BasicFeature[]) {
-  const groups = regions.reduce((memo, x) => {
+  const memo = {} as FeaturesPerRef
+  for (const x of regions) {
     if (!memo[x.refName]) {
       memo[x.refName] = []
     }
     memo[x.refName].push(x)
-    return memo
-  }, {} as FeaturesPerRef)
+  }
 
-  return Object.values(groups)
-    .map(group => mergeIntervals(group.sort((a, b) => a.start - b.start)))
-    .flat()
+  return Object.values(memo).flatMap(group =>
+    mergeIntervals(group.sort((a, b) => a.start - b.start)),
+  )
 }
 
 export default function ReadVsRefDialog({
@@ -103,7 +88,7 @@ export default function ReadVsRefDialog({
   // we need to fetch the primary alignment if the selected feature is 2048.
   // this should be the first in the list of the SA tag
   useEffect(() => {
-    let done = false
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     ;(async () => {
       setError(undefined)
       try {
@@ -130,12 +115,11 @@ export default function ReadVsRefDialog({
           const result = feats.find(
             f =>
               f.get('name') === preFeature.get('name') &&
-              !(f.get('flags') & 2048),
+              !(f.get('flags') & 2048) &&
+              !(f.get('flags') & 256),
           )
           if (result) {
-            if (!done) {
-              setPrimaryFeature(result)
-            }
+            setPrimaryFeature(result)
           } else {
             throw new Error('primary feature not found')
           }
@@ -147,10 +131,6 @@ export default function ReadVsRefDialog({
         setError(e)
       }
     })()
-
-    return () => {
-      done = true
-    }
   }, [preFeature, track])
 
   function onSubmit() {
@@ -180,33 +160,7 @@ export default function ReadVsRefDialog({
       const { assemblyManager } = session
       const assembly = assemblyManager.get(trackAssembly)
 
-      const supplementaryAlignments = SA.split(';')
-        .filter(aln => !!aln)
-        .map((aln, index) => {
-          const [saRef, saStart, saStrand, saCigar] = aln.split(',')
-          const saLengthOnRef = getLengthOnRef(saCigar)
-          const saLength = getLength(saCigar)
-          const saLengthSansClipping = getLengthSansClipping(saCigar)
-          const saStrandNormalized = saStrand === '-' ? -1 : 1
-          const saClipPos = getClip(saCigar, saStrandNormalized * origStrand)
-          const saRealStart = +saStart - 1
-          return {
-            refName: saRef,
-            start: saRealStart,
-            end: saRealStart + saLengthOnRef,
-            seqLength: saLength,
-            clipPos: saClipPos,
-            CIGAR: saCigar,
-            assemblyName: trackAssembly,
-            strand: origStrand * saStrandNormalized,
-            uniqueId: `${feature.id()}_SA${index}`,
-            mate: {
-              start: saClipPos,
-              end: saClipPos + saLengthSansClipping,
-              refName: readName,
-            },
-          }
-        })
+      const suppAlns = featurizeSA(SA, feature.id(), origStrand, readName, true)
 
       const feat = feature.toJSON()
       feat.clipPos = clipPos
@@ -222,16 +176,14 @@ export default function ReadVsRefDialog({
       // CIGAR which is the primary alignments. otherwise it is the primary
       // alignment just use seq.length if primary alignment
       const totalLength =
-        flags & 2048
-          ? getLength(supplementaryAlignments[0].CIGAR)
-          : getLength(cigar)
+        flags & 2048 ? getLength(suppAlns[0].CIGAR) : getLength(cigar)
 
-      const features = [feat, ...supplementaryAlignments] as ReducedFeature[]
+      const features = [feat, ...suppAlns] as ReducedFeature[]
 
-      features.forEach((f, index) => {
+      features.forEach((f, idx) => {
         f.refName = assembly?.getCanonicalRefName(f.refName) || f.refName
-        f.syntenyId = index
-        f.mate.syntenyId = index
+        f.syntenyId = idx
+        f.mate.syntenyId = idx
         f.mate.uniqueId = `${f.uniqueId}_mate`
       })
       features.sort((a, b) => a.clipPos - b.clipPos)
@@ -240,11 +192,7 @@ export default function ReadVsRefDialog({
 
       // the config feature store includes synthetic mate features
       // mapped to the read assembly
-      const configFeatureStore = features.concat(
-        // @ts-ignore
-        features.map(f => f.mate),
-      )
-
+      const configFeatureStore = [...features, ...features.map(f => f.mate)]
       const expand = 2 * windowSize
       const refLen = features.reduce((a, f) => a + f.end - f.start + expand, 0)
 
@@ -273,7 +221,7 @@ export default function ReadVsRefDialog({
               {
                 start: 0,
                 end: totalLength,
-                seq: featSeq,
+                seq: featSeq || '', // can be empty if user clicks secondary read
                 refName: readName,
                 uniqueId: `${Math.random()}`,
               },
@@ -376,17 +324,7 @@ export default function ReadVsRefDialog({
   }
 
   return (
-    <Dialog open onClose={handleClose}>
-      <DialogTitle>
-        Set window size
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+    <Dialog open onClose={handleClose} title="Set window size">
       <DialogContent>
         {error ? (
           <Typography color="error">{`${error}`}</Typography>
@@ -400,6 +338,13 @@ export default function ReadVsRefDialog({
           </div>
         ) : (
           <div className={classes.root}>
+            {primaryFeature.get('flags') & 256 ? (
+              <Typography style={{ color: 'orange' }}>
+                Note: You selected a secondary alignment (which generally does
+                not have SA tags or SEQ fields) so do a full reconstruction of
+                the alignment
+              </Typography>
+            ) : null}
             <Typography>
               Show an extra window size around each part of the split alignment.
               Using a larger value can allow you to see more genomic context.

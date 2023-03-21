@@ -18,7 +18,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
           aria-controls="view-menu"
           aria-haspopup="true"
           aria-label="more"
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-kk3tj3-MuiButtonBase-root-MuiIconButton-root-iconRoot"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeStart MuiIconButton-sizeSmall css-15c2os-MuiButtonBase-root-MuiIconButton-root-iconRoot"
           data-testid="view_menu_icon"
           tabindex="0"
           type="button"
@@ -45,7 +45,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
           class="css-122lw0e-grow"
         />
         <button
-          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zubjuh-MuiButtonBase-root-MuiIconButton-root"
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-9vna8i-MuiButtonBase-root-MuiIconButton-root"
           tabindex="0"
           type="button"
         >
@@ -93,63 +93,62 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
               style="position: relative;"
             >
               <div
-                class="css-16hdnmo-rubberBandControl"
-                role="presentation"
+                class="css-dznme2-rubberbandControl"
               >
                 <div
-                  class="css-1420449-scaleBar"
+                  class="css-16vhz0m-scalebar"
                 >
                   <div
-                    class="css-1i1w1rp-scaleBarVisibleRegion"
+                    class="css-den3n5-scalebarVisibleRegion"
                     style="width: 267px; left: 0px; background: rgba(66, 119, 127, 0.3); border-color: rgb(66, 119, 127);"
                   />
                   <div
-                    class="css-z1h6g4-scaleBarContig"
+                    class="css-2jeg0a-scalebarContig"
                     style="width: 0px; left: 0px; background-color: rgb(153, 153, 153);"
                   />
                   <div>
                     <p
-                      class="MuiTypography-root MuiTypography-body1 css-m9dzie-MuiTypography-root-scaleBarRefName"
+                      class="MuiTypography-root MuiTypography-body1 css-2pm20q-MuiTypography-root-scalebarRefName"
                       style="left: 3px; color: rgb(153, 102, 0);"
                     >
                       ctgA
                     </p>
                     <div
-                      class="css-1an6zsa-scaleBarContig-scaleBarContigForward-scaleBarBorder"
+                      class="css-rtx9ov-scalebarContig-scalebarContigForward-scalebarBorder"
                       style="left: 0px; width: 800px; border-color: rgb(153, 102, 0);"
                     >
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 133.33333333333334px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         20
                       </p>
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 266.6666666666667px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         40
                       </p>
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 400px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         60
                       </p>
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 533.3333333333334px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         80
                       </p>
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 666.6666666666667px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         100
                       </p>
                       <p
-                        class="MuiTypography-root MuiTypography-body2 css-u5temn-MuiTypography-root-scaleBarLabel"
+                        class="MuiTypography-root MuiTypography-body2 css-1d41t5x-MuiTypography-root-scalebarLabel"
                         style="left: 800px; pointer-events: none; color: rgb(153, 102, 0);"
                       >
                         120
@@ -157,7 +156,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     </div>
                   </div>
                   <div
-                    class="css-z1h6g4-scaleBarContig"
+                    class="css-2jeg0a-scalebarContig"
                     style="width: 0px; left: 800px; background-color: rgb(153, 153, 153);"
                   />
                 </div>
@@ -177,10 +176,10 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                 />
               </svg>
               <div
-                class="css-ig8oez-headerBar"
+                class="css-cwpsam-headerBar"
               >
                 <button
-                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-sizeSmall MuiButton-textSizeSmall css-zeujpb-MuiButtonBase-root-MuiButton-root-toggleButton"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1iml0wn-MuiButtonBase-root-MuiIconButton-root-toggleButton"
                   tabindex="0"
                   title="Open track selector"
                   type="button"
@@ -207,7 +206,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   class="MuiFormGroup-root MuiFormGroup-row css-1gwpy8f-MuiFormGroup-root-headerForm"
                 >
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1qt216-MuiButtonBase-root-MuiButton-root-panButton"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1th20m7-MuiButtonBase-root-MuiButton-root-panButton"
                     tabindex="0"
                     type="button"
                   >
@@ -227,7 +226,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     />
                   </button>
                   <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1qt216-MuiButtonBase-root-MuiButton-root-panButton"
+                    class="MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeSmall MuiButton-outlinedSizeSmall css-1th20m7-MuiButtonBase-root-MuiButton-root-panButton"
                     tabindex="0"
                     type="button"
                   >
@@ -247,13 +246,13 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     />
                   </button>
                   <div
-                    class="MuiAutocomplete-root css-1kxbtff-MuiAutocomplete-root"
+                    class="MuiAutocomplete-root css-4xbbh5-MuiAutocomplete-root"
                     data-testid="autocomplete"
-                    style="width: 200px;"
+                    style="width: 175px;"
                   >
                     <div
                       class="MuiFormControl-root MuiFormControl-marginDense MuiFormControl-fullWidth MuiTextField-root css-19wwqcl-MuiFormControl-root-MuiTextField-root-headerRefName"
-                      style="margin: 7px; min-width: 175px;"
+                      style="margin: 7px;"
                     >
                       <div
                         class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-1dityd8-MuiInputBase-root-MuiOutlinedInput-root"
@@ -266,7 +265,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           autocapitalize="none"
                           autocomplete="off"
                           class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input"
-                          id="refNameAutocomplete-test_view"
+                          id="mui-3"
                           placeholder="Search for location"
                           role="combobox"
                           spellcheck="false"
@@ -289,7 +288,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             />
                           </svg>
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-zubjuh-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-9vna8i-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -336,7 +335,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   class="css-z84q6m-container"
                 >
                   <button
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary MuiIconButton-sizeLarge css-prm3h8-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-h7w2ds-MuiButtonBase-root-MuiIconButton-root"
                     data-testid="zoom_out"
                     tabindex="0"
                     type="button"
@@ -357,7 +356,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     />
                   </button>
                   <span
-                    class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeSmall css-1o4aykj-MuiSlider-root-slider"
+                    class="MuiSlider-root MuiSlider-colorPrimary MuiSlider-sizeSmall css-1o03u7v-MuiSlider-root-slider"
                   >
                     <span
                       class="MuiSlider-rail css-14pt78w-MuiSlider-rail"
@@ -367,8 +366,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                       style="left: 0%; width: 56.78411120929245%;"
                     />
                     <span
-                      class="MuiSlider-thumb MuiSlider-thumbColorPrimary MuiSlider-thumbSizeSmall css-1kbujg-MuiSlider-thumb"
-                      data-focusvisible="false"
+                      class="MuiSlider-thumb MuiSlider-thumbSizeSmall MuiSlider-thumbColorPrimary MuiSlider-thumb MuiSlider-thumbSizeSmall MuiSlider-thumbColorPrimary css-1kbujg-MuiSlider-thumb"
                       data-index="0"
                       style="left: 56.78411120929245%;"
                     >
@@ -388,7 +386,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     </span>
                   </span>
                   <button
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary MuiIconButton-sizeLarge css-prm3h8-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-h7w2ds-MuiButtonBase-root-MuiIconButton-root"
                     data-testid="zoom_in"
                     tabindex="0"
                     type="button"
@@ -438,7 +436,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   style="width: 800px;"
                 >
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: -20px;"
                   />
                   <div
@@ -478,7 +476,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 160px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 180px;"
                   />
                   <div
@@ -518,7 +516,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 360px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 380px;"
                   />
                   <div
@@ -558,7 +556,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 560px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 580px;"
                   />
                   <div
@@ -598,12 +596,16 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 760px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 780px;"
                   />
                   <div
                     class="css-i794sq-tick-minorTick"
                     style="left: 800px;"
+                  />
+                  <div
+                    class="css-i794sq-tick-minorTick"
+                    style="left: 820px;"
                   />
                 </div>
                 <div
@@ -611,7 +613,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   style="width: 800px;"
                 >
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: -20px;"
                   />
                   <div
@@ -651,7 +653,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 160px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 180px;"
                   />
                   <div
@@ -691,7 +693,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 360px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 380px;"
                   />
                   <div
@@ -731,7 +733,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 560px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 580px;"
                   />
                   <div
@@ -771,31 +773,34 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                     style="left: 760px;"
                   />
                   <div
-                    class="css-1nnah7t-tick-majorTick"
+                    class="css-1qcgmte-tick-majorTick"
                     style="left: 780px;"
                   />
                   <div
                     class="css-i794sq-tick-minorTick"
                     style="left: 800px;"
                   />
+                  <div
+                    class="css-i794sq-tick-minorTick"
+                    style="left: 820px;"
+                  />
                 </div>
               </div>
             </div>
             <div
-              class="css-16hdnmo-rubberBandControl"
-              data-testid="rubberBand_controls"
-              role="presentation"
+              class="css-dznme2-rubberbandControl"
+              data-testid="rubberband_controls"
             >
               <div
-                class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-1gfu64w-MuiPaper-root-scaleBarContainer"
+                class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-1coqp07-MuiPaper-root-scalebarContainer"
                 data-resizer="true"
                 style="height: 17px; box-sizing: border-box;"
               >
                 <div
-                  class="css-17t6jej-scaleBarZoomContainer"
+                  class="css-khofof-scalebarZoomContainer"
                 >
                   <div
-                    class="css-1u2dss8-scaleBar"
+                    class="css-y3821b-scalebar"
                     style="left: -801px; width: 2400px; height: 17px; box-sizing: border-box;"
                   >
                     <div
@@ -924,7 +929,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                 class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 css-lv7b0o-MuiPaper-root-trackLabel-trackLabelOverlap-root"
               >
                 <span
-                  class="css-10js96-dragHandle"
+                  class="css-k4omgw-dragHandle"
                   data-testid="dragHandle-test_view-volvox_refseq"
                   draggable="true"
                 >
@@ -941,7 +946,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   </svg>
                 </span>
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary MuiIconButton-sizeSmall css-1am0e2x-MuiButtonBase-root-MuiIconButton-root-iconButton"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1hm0p9d-MuiButtonBase-root-MuiIconButton-root-iconButton"
                   tabindex="0"
                   title="close this track"
                   type="button"
@@ -964,11 +969,13 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                 <span
                   class="MuiTypography-root MuiTypography-body1 css-bpawrf-MuiTypography-root-trackName"
                 >
-                  Reference sequence (volvox)
+                  <span>
+                    Reference sequence (volvox)
+                  </span>
                 </span>
                 <button
                   aria-haspopup="true"
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorSecondary MuiIconButton-sizeSmall css-1am0e2x-MuiButtonBase-root-MuiIconButton-root-iconButton"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-1hm0p9d-MuiButtonBase-root-MuiIconButton-root-iconButton"
                   data-testid="track_menu_icon"
                   tabindex="0"
                   type="button"
@@ -992,7 +999,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
               <div
                 class="css-1ql7uaq-trackRenderingContainer"
                 data-testid="trackRenderingContainer-test_view-volvox_refseq"
-                style="height: 180px;"
+                style="height: 160px;"
               >
                 <div
                   class="css-v11ioz-renderingComponentContainer"
@@ -1004,7 +1011,6 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                   >
                     <div
                       class="css-d6gpow-linearBlocks"
-                      data-testid="Blockset"
                       style="left: -800px;"
                     >
                       <div
@@ -1715,7 +1721,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="10"
                             y="70"
@@ -1732,7 +1738,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="30"
                             y="70"
@@ -1749,7 +1755,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="50"
                             y="70"
@@ -1766,7 +1772,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="70"
                             y="70"
@@ -1774,7 +1780,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1783,7 +1789,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="90"
                             y="70"
@@ -1800,7 +1806,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="110"
                             y="70"
@@ -1817,7 +1823,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="130"
                             y="70"
@@ -1825,7 +1831,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1834,7 +1840,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="150"
                             y="70"
@@ -1851,7 +1857,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="170"
                             y="70"
@@ -1859,7 +1865,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             c
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1868,7 +1874,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="190"
                             y="70"
@@ -1876,7 +1882,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             g
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1885,7 +1891,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="210"
                             y="70"
@@ -1902,7 +1908,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="230"
                             y="70"
@@ -1910,7 +1916,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             a
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1919,7 +1925,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="250"
                             y="70"
@@ -1936,7 +1942,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="270"
                             y="70"
@@ -1953,7 +1959,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="290"
                             y="70"
@@ -1961,7 +1967,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -1970,7 +1976,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="310"
                             y="70"
@@ -1987,7 +1993,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="330"
                             y="70"
@@ -2004,7 +2010,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="350"
                             y="70"
@@ -2021,7 +2027,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="370"
                             y="70"
@@ -2038,7 +2044,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="390"
                             y="70"
@@ -2055,7 +2061,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="410"
                             y="70"
@@ -2072,7 +2078,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="430"
                             y="70"
@@ -2080,7 +2086,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             C
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2089,7 +2095,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="450"
                             y="70"
@@ -2097,7 +2103,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             G
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2106,7 +2112,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="470"
                             y="70"
@@ -2123,7 +2129,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="490"
                             y="70"
@@ -2140,7 +2146,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="510"
                             y="70"
@@ -2157,7 +2163,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="530"
                             y="70"
@@ -2174,7 +2180,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="550"
                             y="70"
@@ -2191,7 +2197,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="570"
                             y="70"
@@ -2199,7 +2205,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2208,7 +2214,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="590"
                             y="70"
@@ -2216,7 +2222,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             G
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2225,7 +2231,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="610"
                             y="70"
@@ -2242,7 +2248,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="630"
                             y="70"
@@ -2259,7 +2265,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="650"
                             y="70"
@@ -2276,7 +2282,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="670"
                             y="70"
@@ -2293,7 +2299,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="690"
                             y="70"
@@ -2310,7 +2316,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="710"
                             y="70"
@@ -2327,7 +2333,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="730"
                             y="70"
@@ -2344,7 +2350,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="750"
                             y="70"
@@ -2361,7 +2367,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="770"
                             y="70"
@@ -2378,7 +2384,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="790"
                             y="70"
@@ -2386,7 +2392,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             C
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2395,7 +2401,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="810"
                             y="70"
@@ -2412,7 +2418,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="830"
                             y="70"
@@ -2429,7 +2435,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="850"
                             y="70"
@@ -2437,7 +2443,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             C
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2446,7 +2452,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="10"
                             y="90"
@@ -2463,7 +2469,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="30"
                             y="90"
@@ -2480,7 +2486,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="50"
                             y="90"
@@ -2497,7 +2503,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="70"
                             y="90"
@@ -2514,7 +2520,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="90"
                             y="90"
@@ -2531,7 +2537,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="110"
                             y="90"
@@ -2548,7 +2554,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="130"
                             y="90"
@@ -2565,7 +2571,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="150"
                             y="90"
@@ -2573,7 +2579,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             c
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2582,7 +2588,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="170"
                             y="90"
@@ -2599,7 +2605,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="190"
                             y="90"
@@ -2616,7 +2622,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="210"
                             y="90"
@@ -2633,7 +2639,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="230"
                             y="90"
@@ -2650,7 +2656,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="250"
                             y="90"
@@ -2667,7 +2673,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="270"
                             y="90"
@@ -2684,7 +2690,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="290"
                             y="90"
@@ -2701,7 +2707,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="310"
                             y="90"
@@ -2718,7 +2724,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="330"
                             y="90"
@@ -2735,7 +2741,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="350"
                             y="90"
@@ -2743,7 +2749,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2752,7 +2758,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="370"
                             y="90"
@@ -2769,7 +2775,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="390"
                             y="90"
@@ -2786,7 +2792,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="410"
                             y="90"
@@ -2794,7 +2800,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             T
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2803,7 +2809,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="430"
                             y="90"
@@ -2820,7 +2826,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="450"
                             y="90"
@@ -2837,7 +2843,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="470"
                             y="90"
@@ -2845,7 +2851,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             C
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -2854,7 +2860,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="490"
                             y="90"
@@ -2871,7 +2877,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="510"
                             y="90"
@@ -2888,7 +2894,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="530"
                             y="90"
@@ -2905,7 +2911,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="550"
                             y="90"
@@ -2922,7 +2928,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="570"
                             y="90"
@@ -2939,7 +2945,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="590"
                             y="90"
@@ -2956,7 +2962,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="610"
                             y="90"
@@ -2973,7 +2979,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="630"
                             y="90"
@@ -2990,7 +2996,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="650"
                             y="90"
@@ -2998,7 +3004,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             T
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -3007,7 +3013,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="670"
                             y="90"
@@ -3024,7 +3030,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="690"
                             y="90"
@@ -3032,7 +3038,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             T
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -3041,7 +3047,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="710"
                             y="90"
@@ -3058,7 +3064,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="730"
                             y="90"
@@ -3075,7 +3081,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="750"
                             y="90"
@@ -3083,7 +3089,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -3092,7 +3098,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="770"
                             y="90"
@@ -3100,7 +3106,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             G
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -3109,7 +3115,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="790"
                             y="90"
@@ -3126,7 +3132,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="810"
                             y="90"
@@ -3143,7 +3149,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="830"
                             y="90"
@@ -3151,7 +3157,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -3160,7 +3166,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="850"
                             y="90"
@@ -4605,7 +4611,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="-50"
                             y="70"
@@ -4622,7 +4628,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="-30"
                             y="70"
@@ -4639,7 +4645,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="-10"
                             y="70"
@@ -4647,7 +4653,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             C
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -4656,7 +4662,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="10"
                             y="70"
@@ -4673,7 +4679,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="30"
                             y="70"
@@ -4690,7 +4696,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="50"
                             y="70"
@@ -4707,7 +4713,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="70"
                             y="70"
@@ -4724,7 +4730,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="90"
                             y="70"
@@ -4741,7 +4747,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="110"
                             y="70"
@@ -4758,7 +4764,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="130"
                             y="70"
@@ -4775,7 +4781,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="150"
                             y="70"
@@ -4792,7 +4798,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="170"
                             y="70"
@@ -4809,7 +4815,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="190"
                             y="70"
@@ -4826,7 +4832,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="210"
                             y="70"
@@ -4843,7 +4849,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="230"
                             y="70"
@@ -4860,7 +4866,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="250"
                             y="70"
@@ -4877,7 +4883,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="270"
                             y="70"
@@ -4894,7 +4900,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="290"
                             y="70"
@@ -4911,7 +4917,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="310"
                             y="70"
@@ -4928,7 +4934,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="330"
                             y="70"
@@ -4936,7 +4942,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             c
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -4945,7 +4951,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="350"
                             y="70"
@@ -4962,7 +4968,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="370"
                             y="70"
@@ -4979,7 +4985,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="390"
                             y="70"
@@ -4996,7 +5002,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="410"
                             y="70"
@@ -5013,7 +5019,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="430"
                             y="70"
@@ -5030,7 +5036,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="450"
                             y="70"
@@ -5038,7 +5044,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5047,7 +5053,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="470"
                             y="70"
@@ -5064,7 +5070,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="490"
                             y="70"
@@ -5081,7 +5087,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="510"
                             y="70"
@@ -5098,7 +5104,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="530"
                             y="70"
@@ -5106,7 +5112,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5115,7 +5121,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="550"
                             y="70"
@@ -5123,7 +5129,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             g
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5132,7 +5138,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="570"
                             y="70"
@@ -5149,7 +5155,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="590"
                             y="70"
@@ -5166,7 +5172,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="610"
                             y="70"
@@ -5183,7 +5189,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="630"
                             y="70"
@@ -5200,7 +5206,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="650"
                             y="70"
@@ -5217,7 +5223,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="670"
                             y="70"
@@ -5234,7 +5240,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="690"
                             y="70"
@@ -5251,7 +5257,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="710"
                             y="70"
@@ -5259,7 +5265,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             a
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5268,7 +5274,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="730"
                             y="70"
@@ -5285,7 +5291,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="750"
                             y="70"
@@ -5302,7 +5308,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="770"
                             y="70"
@@ -5319,7 +5325,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="790"
                             y="70"
@@ -5336,7 +5342,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="810"
                             y="70"
@@ -5344,7 +5350,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5353,7 +5359,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="830"
                             y="70"
@@ -5361,7 +5367,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             g
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5370,7 +5376,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="850"
                             y="70"
@@ -5387,7 +5393,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="-50"
                             y="90"
@@ -5395,7 +5401,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5404,7 +5410,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="-30"
                             y="90"
@@ -5412,7 +5418,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             G
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5421,7 +5427,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="-10"
                             y="90"
@@ -5438,7 +5444,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="10"
                             y="90"
@@ -5455,7 +5461,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="30"
                             y="90"
@@ -5463,7 +5469,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5472,7 +5478,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="50"
                             y="90"
@@ -5489,7 +5495,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="70"
                             y="90"
@@ -5497,7 +5503,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             A
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5506,7 +5512,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="90"
                             y="90"
@@ -5523,7 +5529,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="110"
                             y="90"
@@ -5531,7 +5537,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             a
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5540,7 +5546,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="130"
                             y="90"
@@ -5557,7 +5563,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="150"
                             y="90"
@@ -5565,7 +5571,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5574,7 +5580,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="170"
                             y="90"
@@ -5591,7 +5597,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="190"
                             y="90"
@@ -5608,7 +5614,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="210"
                             y="90"
@@ -5625,7 +5631,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="230"
                             y="90"
@@ -5642,7 +5648,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="250"
                             y="90"
@@ -5659,7 +5665,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="270"
                             y="90"
@@ -5676,7 +5682,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="290"
                             y="90"
@@ -5693,7 +5699,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="310"
                             y="90"
@@ -5701,7 +5707,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             t
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5710,7 +5716,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="330"
                             y="90"
@@ -5727,7 +5733,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="350"
                             y="90"
@@ -5744,7 +5750,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="370"
                             y="90"
@@ -5761,7 +5767,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="390"
                             y="90"
@@ -5778,7 +5784,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="410"
                             y="90"
@@ -5795,7 +5801,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="430"
                             y="90"
@@ -5812,7 +5818,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="450"
                             y="90"
@@ -5829,7 +5835,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="470"
                             y="90"
@@ -5846,7 +5852,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="490"
                             y="90"
@@ -5863,7 +5869,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="510"
                             y="90"
@@ -5880,7 +5886,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="530"
                             y="90"
@@ -5897,7 +5903,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="550"
                             y="90"
@@ -5914,7 +5920,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="570"
                             y="90"
@@ -5931,7 +5937,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="590"
                             y="90"
@@ -5948,7 +5954,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="610"
                             y="90"
@@ -5956,7 +5962,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             a
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -5965,7 +5971,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="630"
                             y="90"
@@ -5982,7 +5988,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="650"
                             y="90"
@@ -5999,7 +6005,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="670"
                             y="90"
@@ -6016,7 +6022,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="690"
                             y="90"
@@ -6033,7 +6039,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="710"
                             y="90"
@@ -6050,7 +6056,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="730"
                             y="90"
@@ -6058,7 +6064,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             c
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -6067,7 +6073,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="750"
                             y="90"
@@ -6075,7 +6081,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                             g
                           </text>
                           <rect
-                            fill="#ffc107"
+                            fill="#ff9800"
                             height="20"
                             stroke="#555"
                             width="20"
@@ -6084,7 +6090,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="black"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="770"
                             y="90"
@@ -6101,7 +6107,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="790"
                             y="90"
@@ -6118,7 +6124,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="rgba(0, 0, 0, 0.87)"
                             text-anchor="middle"
                             x="810"
                             y="90"
@@ -6135,7 +6141,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="830"
                             y="90"
@@ -6152,7 +6158,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                           />
                           <text
                             dominant-baseline="middle"
-                            fill="white"
+                            fill="#fff"
                             text-anchor="middle"
                             x="850"
                             y="90"
@@ -6899,12 +6905,11 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
               </div>
               <div
                 class="css-1hk9st0-overlay"
-                style="height: 180px;"
+                style="height: 160px;"
               />
               <div
                 class="css-14zcv15-horizontalHandle-resizeHandle"
                 data-resizer="true"
-                role="presentation"
               />
             </div>
           </div>

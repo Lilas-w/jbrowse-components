@@ -1,5 +1,13 @@
 import { transaction } from 'mobx'
-import { getRoot, resolveIdentifier, types, Instance } from 'mobx-state-tree'
+import {
+  getRoot,
+  resolveIdentifier,
+  types,
+  Instance,
+  IAnyStateTreeNode,
+} from 'mobx-state-tree'
+
+// locals
 import {
   getConf,
   AnyConfigurationModel,
@@ -8,18 +16,24 @@ import {
 } from '../../configuration'
 import PluginManager from '../../PluginManager'
 import { MenuItem } from '../../ui'
-import { getContainingView, getSession } from '../../util'
+import { getContainingView, getEnv, getSession } from '../../util'
 import { isSessionModelWithConfigEditing } from '../../util/types'
 import { ElementId } from '../../util/types/mst'
 
+export function getCompatibleDisplays(self: IAnyStateTreeNode) {
+  const { pluginManager } = getEnv(self)
+  const view = getContainingView(self)
+  const viewType = pluginManager.getViewType(view.type)
+  const compatTypes = new Set(viewType.displayTypes.map(d => d.name))
+  const displays = self.configuration.displays as AnyConfigurationModel[]
+  return displays.filter(d => compatTypes.has(d.type))
+}
+
 /**
  * #stateModel BaseTrackModel
- * these MST models only exist for tracks that are *shown*.
- * they should contain only UI state for the track, and have
- * a reference to a track configuration (stored under
- * session.configuration.assemblies.get(assemblyName).tracks).
- * note that multiple displayed tracks could use the same
- * configuration.
+ * these MST models only exist for tracks that are *shown*. they should contain
+ * only UI state for the track, and have a reference to a track configuration.
+ * note that multiple displayed tracks could use the same configuration.
  */
 export function createBaseTrackModel(
   pm: PluginManager,
@@ -89,7 +103,7 @@ export function createBaseTrackModel(
        * #getter
        */
       get viewMenuActions(): MenuItem[] {
-        return self.displays.map(d => d.viewMenuActions).flat()
+        return self.displays.flatMap(d => d.viewMenuActions)
       },
 
       /**
@@ -97,14 +111,14 @@ export function createBaseTrackModel(
        */
       get canConfigure() {
         const session = getSession(self)
+        const { sessionTracks, adminMode } = session
         return (
           isSessionModelWithConfigEditing(session) &&
-          // @ts-ignore
-          (session.adminMode ||
-            // @ts-ignore
-            session.sessionTracks.find(track => {
-              return track.trackId === self.configuration.trackId
-            }))
+          (adminMode ||
+            sessionTracks.find(
+              (track: { trackId: string }) =>
+                track.trackId === self.configuration.trackId,
+            ))
         )
       },
     }))
@@ -122,12 +136,10 @@ export function createBaseTrackModel(
         const session = getSession(self)
         const view = getContainingView(self)
         if (isSessionModelWithConfigEditing(session)) {
-          // @ts-ignore
+          // @ts-expect-error
           const trackConf = session.editTrackConfiguration(self.configuration)
           if (trackConf && trackConf !== self.configuration) {
-            // @ts-ignore
             view.hideTrack(self.configuration)
-            // @ts-ignore
             view.showTrack(trackConf)
           }
         }
@@ -190,33 +202,29 @@ export function createBaseTrackModel(
        * #method
        */
       trackMenuItems() {
-        const menuItems: MenuItem[] = self.displays
-          .map(d => d.trackMenuItems())
-          .flat()
-        const displayChoices: MenuItem[] = []
-        const view = getContainingView(self)
-        const viewType = pm.getViewType(view.type)
-        const compatibleDisplayTypes = viewType.displayTypes.map(d => d.name)
-        const compatibleDisplays = self.configuration.displays.filter(
-          (d: AnyConfigurationModel) => compatibleDisplayTypes.includes(d.type),
+        const menuItems: MenuItem[] = self.displays.flatMap(d =>
+          d.trackMenuItems(),
         )
         const shownId = self.displays[0].configuration.displayId
-        if (compatibleDisplays.length > 1) {
-          displayChoices.push(
-            { type: 'divider' },
-            { type: 'subHeader', label: 'Display types' },
-          )
-          compatibleDisplays.forEach((displayConf: AnyConfigurationModel) => {
-            displayChoices.push({
-              type: 'radio',
-              label: displayConf.type,
-              checked: displayConf.displayId === shownId,
-              onClick: () =>
-                self.replaceDisplay(shownId, displayConf.displayId),
-            })
-          })
-        }
-        return [...menuItems, ...displayChoices]
+        const compatDisp = getCompatibleDisplays(self)
+
+        return [
+          ...menuItems,
+          ...(compatDisp.length > 1
+            ? [
+                {
+                  type: 'subMenu',
+                  label: 'Display types',
+                  subMenu: compatDisp.map(d => ({
+                    type: 'radio',
+                    label: pm.getDisplayType(d.type).displayName,
+                    checked: d.displayId === shownId,
+                    onClick: () => self.replaceDisplay(shownId, d.displayId),
+                  })),
+                },
+              ]
+            : []),
+        ]
       },
     }))
 }

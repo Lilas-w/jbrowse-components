@@ -4,6 +4,7 @@ import { cast, types, addDisposer, Instance } from 'mobx-state-tree'
 import copy from 'copy-to-clipboard'
 import {
   AnyConfigurationModel,
+  AnyConfigurationSchemaType,
   ConfigurationReference,
   readConfObject,
   getConf,
@@ -32,14 +33,17 @@ import PaletteIcon from '@mui/icons-material/Palette'
 import FilterListIcon from '@mui/icons-material/ClearAll'
 
 // locals
-import { LinearPileupDisplayConfigModel } from './configSchema'
 import LinearPileupDisplayBlurb from './components/LinearPileupDisplayBlurb'
-import { getUniqueTagValues, getUniqueModificationValues } from '../shared'
+import {
+  getUniqueTagValues,
+  getUniqueModificationValues,
+  FilterModel,
+} from '../shared'
 import { SimpleFeatureSerialized } from '@jbrowse/core/util/simpleFeature'
 
 // async
+const FilterByTagDlg = lazy(() => import('../shared/FilterByTag'))
 const ColorByTagDlg = lazy(() => import('./components/ColorByTag'))
-const FilterByTagDlg = lazy(() => import('./components/FilterByTag'))
 const SortByTagDlg = lazy(() => import('./components/SortByTag'))
 const SortByFoodieDlg = lazy(() => import('./components/SortByFoodie'))
 const SetFeatureHeightDlg = lazy(() => import('./components/SetFeatureHeight'))
@@ -58,7 +62,7 @@ type LGV = LinearGenomeViewModel
  * #stateModel LinearPileupDisplay
  * extends `BaseLinearDisplay`
  */
-function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
+function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
   return types
     .compose(
       'LinearPileupDisplay',
@@ -125,17 +129,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
         /**
          * #property
          */
-        filterBy: types.optional(
-          types.model({
-            flagInclude: types.optional(types.number, 0),
-            flagExclude: types.optional(types.number, 1540),
-            readName: types.maybe(types.string),
-            tagFilter: types.maybe(
-              types.model({ tag: types.string, value: types.string }),
-            ),
-          }),
-          {},
-        ),
+        filterBy: types.optional(FilterModel, {}),
       }),
     )
     .volatile(() => ({
@@ -167,13 +161,13 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
       /**
        * #action
        */
-      setFeatureHeight(n: number) {
+      setFeatureHeight(n?: number) {
         self.featureHeight = n
       },
       /**
        * #action
        */
-      setNoSpacing(flag: boolean) {
+      setNoSpacing(flag?: boolean) {
         self.noSpacing = flag
       },
 
@@ -284,7 +278,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                 if (sortedBy) {
                   const { pos, refName, assemblyName } = sortedBy
                   // render just the sorted region first
-                  // @ts-ignore
+                  // @ts-expect-error
                   await self.rendererType.renderInClient(rpcManager, {
                     assemblyName,
                     regions: [
@@ -346,9 +340,9 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                   // feature.id that was returned e.g. that the user hasn't
                   // moused over to a new position during the async operation
                   // above
-                  // @ts-ignore
+                  // @ts-expect-error
                   if (self.featureIdUnderMouse === feature.uniqueId) {
-                    // @ts-ignore
+                    // @ts-expect-error
                     self.setFeatureUnderMouse(new SimpleFeature(feature))
                   }
                 }
@@ -645,7 +639,7 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
                   )) as { feature: unknown }
 
                   if (feature) {
-                    // @ts-ignore
+                    // @ts-expect-error
                     self.selectFeature(new SimpleFeature(feature))
                   }
                 }
@@ -822,12 +816,31 @@ function stateModelFactory(configSchema: LinearPileupDisplayConfigModel) {
             },
             {
               label: 'Set feature height',
-              onClick: () => {
-                getSession(self).queueDialog(doneCallback => [
-                  SetFeatureHeightDlg,
-                  { model: self, handleClose: doneCallback },
-                ])
-              },
+              subMenu: [
+                {
+                  label: 'Normal',
+                  onClick: () => {
+                    self.setFeatureHeight(7)
+                    self.setNoSpacing(false)
+                  },
+                },
+                {
+                  label: 'Compact',
+                  onClick: () => {
+                    self.setFeatureHeight(2)
+                    self.setNoSpacing(true)
+                  },
+                },
+                {
+                  label: 'Manually set height',
+                  onClick: () => {
+                    getSession(self).queueDialog(doneCallback => [
+                      SetFeatureHeightDlg,
+                      { model: self, handleClose: doneCallback },
+                    ])
+                  },
+                },
+              ],
             },
             {
               label: 'Set max height',

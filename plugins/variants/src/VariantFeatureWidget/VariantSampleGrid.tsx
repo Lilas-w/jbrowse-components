@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
 import {
@@ -10,7 +9,8 @@ import {
 
 import { DataGrid } from '@mui/x-data-grid'
 import { BaseCard } from '@jbrowse/core/BaseFeatureWidget/BaseFeatureDetail'
-import { SimpleFeatureSerialized } from '@jbrowse/core/util/simpleFeature'
+import { measureGridWidth, SimpleFeatureSerialized } from '@jbrowse/core/util'
+import ResizeBar, { useResizeBar } from '@jbrowse/core/ui/ResizeBar'
 
 interface Entry {
   sample: string
@@ -18,66 +18,21 @@ interface Entry {
   [key: string]: string
 }
 
-export default function VariantSamples(props: {
-  feature: SimpleFeatureSerialized
-  descriptions: any
+type InfoFields = Record<string, unknown>
+type Filters = Record<string, string>
+
+function SampleFilters({
+  columns,
+  filter,
+  setFilter,
+}: {
+  columns: { field: string }[]
+  filter: Filters
+  setFilter: (arg: Filters) => void
 }) {
-  const { feature, descriptions } = props
-  const [filter, setFilter] = useState<Record<string, string>>({})
   const [showFilters, setShowFilters] = useState(false)
-  const { samples = {} } = feature as Record<
-    string,
-    Record<string, Record<string, unknown>>
-  >
-  const preFilteredRows = Object.entries(samples)
-  if (!preFilteredRows.length) {
-    return null
-  }
-
-  const infoFields = ['sample', ...Object.keys(preFilteredRows[0][1])].map(
-    field => ({
-      field,
-      description: descriptions.FORMAT?.[field]?.Description,
-    }),
-  )
-
-  let error
-  let rows = [] as Entry[]
-  const filters = Object.keys(filter)
-
-  // catch some error thrown from regex
-  // note: maps all values into a string, if this is not done rows are not
-  // sortable by the data-grid
-  try {
-    rows = preFilteredRows
-      .map(
-        row =>
-          ({
-            ...Object.fromEntries(
-              Object.entries(row[1]).map(entry => [entry[0], String(entry[1])]),
-            ),
-            sample: row[0],
-            id: row[0],
-          } as Entry),
-      )
-      .filter(row =>
-        filters.length
-          ? filters.every(key => {
-              const val = row[key]
-              const currFilter = filter[key]
-              return currFilter ? val.match(new RegExp(currFilter, 'i')) : true
-            })
-          : true,
-      )
-  } catch (e) {
-    error = e
-  }
-  // disableSelectionOnClick helps avoid
-  // https://github.com/mui-org/material-ui-x/issues/1197
   return (
-    <BaseCard {...props} title="Samples">
-      {error ? <Typography color="error">{`${error}`}</Typography> : null}
-
+    <>
       <FormControlLabel
         control={
           <Checkbox
@@ -95,7 +50,7 @@ export default function VariantSamples(props: {
             include the first alternate allele e.g. 0|1 or 1|1, entering
             [1-9]\d* will find any non-zero allele e.g. 0|2 or 2/33
           </Typography>
-          {infoFields.map(({ field }) => (
+          {columns.map(({ field }) => (
             <TextField
               key={`filter-${field}`}
               placeholder={`Filter ${field}`}
@@ -107,14 +62,85 @@ export default function VariantSamples(props: {
           ))}
         </>
       ) : null}
-      <div style={{ height: 600, width: '100%', overflow: 'auto' }}>
-        <DataGrid
-          rows={rows}
-          columns={infoFields}
-          disableSelectionOnClick
-          rowHeight={25}
-          disableColumnMenu
+    </>
+  )
+}
+
+export default function VariantSamples(props: {
+  feature: SimpleFeatureSerialized
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  descriptions: any
+}) {
+  const { feature, descriptions = {} } = props
+  const { ref, scrollLeft } = useResizeBar()
+  const [filter, setFilter] = useState<Filters>({})
+  const samples = (feature.samples || {}) as Record<string, InfoFields>
+  const preFilteredRows = Object.entries(samples)
+
+  let error
+  let rows = [] as Entry[]
+  const filters = Object.keys(filter)
+
+  // catch some error thrown from regex
+  // note: maps all values into a string, if this is not done rows are not
+  // sortable by the data-grid
+  try {
+    rows = preFilteredRows
+      .map(row => {
+        return {
+          ...Object.fromEntries(
+            Object.entries(row[1]).map(e => [e[0], `${e[1]}`]),
+          ),
+          sample: row[0],
+          id: row[0],
+        } as Entry
+      })
+      .filter(row =>
+        filters.length
+          ? filters.every(key => {
+              const val = row[key]
+              const currFilter = filter[key]
+              return currFilter ? val.match(new RegExp(currFilter, 'i')) : true
+            })
+          : true,
+      )
+  } catch (e) {
+    error = e
+  }
+
+  const keys = ['sample', ...Object.keys(preFilteredRows[0]?.[1] || {})]
+
+  const [widths, setWidths] = useState(
+    keys.map(e => measureGridWidth(rows.map(r => r[e]))),
+  )
+  const columns = keys.map((field, index) => ({
+    field,
+    description: descriptions.FORMAT?.[field]?.Description,
+    width: widths[index],
+  }))
+
+  // disableSelectionOnClick helps avoid
+  // https://github.com/mui-org/material-ui-x/issues/1197
+  return !preFilteredRows.length ? null : (
+    <BaseCard {...props} title="Samples">
+      {error ? <Typography color="error">{`${error}`}</Typography> : null}
+      <SampleFilters setFilter={setFilter} columns={columns} filter={filter} />
+      <div ref={ref}>
+        <ResizeBar
+          widths={widths}
+          setWidths={setWidths}
+          scrollLeft={scrollLeft}
         />
+        <div ref={ref} style={{ height: 600, width: '100%', overflow: 'auto' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            disableSelectionOnClick
+            rowHeight={25}
+            headerHeight={35}
+            disableColumnMenu
+          />
+        </div>
       </div>
     </BaseCard>
   )

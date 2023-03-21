@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import {
   addDisposer,
   cast,
@@ -36,6 +37,8 @@ import JBrowseDesktop from './jbrowseModel'
 import OpenSequenceDialog from './OpenSequenceDialog'
 
 const { ipcRenderer } = window.require('electron')
+
+const PreferencesDialog = lazy(() => import('./PreferencesDialog'))
 
 function getSaveSession(model: RootModel) {
   return {
@@ -290,7 +293,7 @@ export default function rootModelFactory(pluginManager: PluginManager) {
               onClick: (session: any) => {
                 if (session.views.length === 0) {
                   session.notify('Please open a view to add a track first')
-                } else if (session.views.length >= 1) {
+                } else if (session.views.length > 0) {
                   const widget = session.addWidget(
                     'AddTrackWidget',
                     'addTrackWidget',
@@ -331,8 +334,8 @@ export default function rootModelFactory(pluginManager: PluginManager) {
             {
               label: 'Exit',
               icon: MeetingRoomIcon,
-              onClick: () => {
-                ipcRenderer.invoke('quit')
+              onClick: async () => {
+                await ipcRenderer.invoke('quit')
               },
             },
           ],
@@ -346,18 +349,20 @@ export default function rootModelFactory(pluginManager: PluginManager) {
           menuItems: [
             {
               label: 'Undo',
-              disabled: self.history.canUndo,
               icon: UndoIcon,
               onClick: () => {
-                self.history.undo()
+                if (self.history.canUndo) {
+                  self.history.undo()
+                }
               },
             },
             {
               label: 'Redo',
-              disabled: self.history.canRedo,
               icon: RedoIcon,
               onClick: () => {
-                self.history.redo()
+                if (self.history.canRedo) {
+                  self.history.redo()
+                }
               },
             },
             { type: 'divider' },
@@ -371,6 +376,21 @@ export default function rootModelFactory(pluginManager: PluginManager) {
                     'pluginStoreWidget',
                   )
                   self.session.showWidget(widget)
+                }
+              },
+            },
+            {
+              label: 'Preferences',
+              icon: SettingsIcon,
+              onClick: () => {
+                if (self.session) {
+                  self.session.queueDialog(handleClose => [
+                    PreferencesDialog,
+                    {
+                      session: self.session,
+                      handleClose,
+                    },
+                  ])
                 }
               },
             },
@@ -539,25 +559,23 @@ export default function rootModelFactory(pluginManager: PluginManager) {
 
       afterCreate() {
         document.addEventListener('keydown', e => {
-          if (self.history.canRedo) {
-            if (
-              // ctrl+shift+z or cmd+shift+z
-              ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyZ') ||
+          if (
+            self.history.canRedo &&
+            // ctrl+shift+z or cmd+shift+z
+            (((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyZ') ||
               // ctrl+y
-              (e.ctrlKey && !e.shiftKey && e.code === 'KeyY')
-            ) {
-              self.history.redo()
-            }
+              (e.ctrlKey && !e.shiftKey && e.code === 'KeyY'))
+          ) {
+            self.history.redo()
           }
-          if (self.history.canUndo) {
-            if (
-              // ctrl+z or cmd+z
-              (e.ctrlKey || e.metaKey) &&
-              !e.shiftKey &&
-              e.code === 'KeyZ'
-            ) {
-              self.history.undo()
-            }
+          if (
+            self.history.canUndo &&
+            // ctrl+z or cmd+z
+            (e.ctrlKey || e.metaKey) &&
+            !e.shiftKey &&
+            e.code === 'KeyZ'
+          ) {
+            self.history.undo()
           }
         })
         addDisposer(

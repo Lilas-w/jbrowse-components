@@ -1,11 +1,7 @@
 import { toArray } from 'rxjs/operators'
+import { firstValueFrom } from 'rxjs'
 import BedAdapter from './BedAdapter'
 import MyConfigSchema from './configSchema'
-
-import { TextDecoder } from 'web-encoding'
-if (!window.TextDecoder) {
-  window.TextDecoder = TextDecoder
-}
 
 test('adapter can fetch features from volvox-bed12.bed', async () => {
   const adapter = new BedAdapter(
@@ -26,7 +22,7 @@ test('adapter can fetch features from volvox-bed12.bed', async () => {
   expect(await adapter.hasDataForRefName('ctgA')).toBe(true)
   expect(await adapter.hasDataForRefName('ctgB')).toBe(false)
 
-  const featuresArray = await features.pipe(toArray()).toPromise()
+  const featuresArray = await firstValueFrom(features.pipe(toArray()))
   const featuresJsonArray = featuresArray.map(f => f.toJSON())
   expect(featuresJsonArray.slice(0, 10)).toMatchSnapshot()
 })
@@ -50,7 +46,7 @@ test('adapter can fetch features from volvox.sort.bed simple bed3', async () => 
   expect(await adapter.hasDataForRefName('contigA')).toBe(true)
   expect(await adapter.hasDataForRefName('ctgB')).toBe(false)
 
-  const featuresArray = await features.pipe(toArray()).toPromise()
+  const featuresArray = await firstValueFrom(features.pipe(toArray()))
   const featuresJsonArray = featuresArray.map(f => f.toJSON())
   expect(featuresJsonArray.slice(0, 10)).toMatchSnapshot()
 })
@@ -115,7 +111,7 @@ test('adapter can fetch features bed with autosql', async () => {
   expect(await adapter.hasDataForRefName('ctgA')).toBe(true)
   expect(await adapter.hasDataForRefName('ctgB')).toBe(false)
 
-  const featuresArray = await features.pipe(toArray()).toPromise()
+  const featuresArray = await firstValueFrom(features.pipe(toArray()))
   const featuresJsonArray = featuresArray.map(f => f.toJSON())
   expect(featuresJsonArray.slice(0, 10)).toMatchSnapshot()
 })
@@ -139,7 +135,7 @@ test('adapter can fetch bed with header', async () => {
   expect(await adapter.hasDataForRefName('contigA')).toBe(true)
   expect(await adapter.hasDataForRefName('ctgB')).toBe(false)
 
-  const featuresArray = await features.pipe(toArray()).toPromise()
+  const featuresArray = await firstValueFrom(features.pipe(toArray()))
   const featuresJsonArray = featuresArray.map(f => f.toJSON())
   expect(featuresJsonArray.slice(0, 10)).toMatchSnapshot()
 })
@@ -164,7 +160,7 @@ test('adapter can use gwas header', async () => {
     assemblyName: 'hg19',
   })
 
-  const featuresArray = await features.pipe(toArray()).toPromise()
+  const featuresArray = await firstValueFrom(features.pipe(toArray()))
   const featuresJsonArray = featuresArray.map(f => f.toJSON())
   expect(featuresJsonArray.slice(0, 10)).toMatchSnapshot()
 })

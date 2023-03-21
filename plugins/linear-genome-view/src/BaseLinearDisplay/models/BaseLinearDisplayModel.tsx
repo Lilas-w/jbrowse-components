@@ -11,12 +11,14 @@ import {
   getViewParams,
   isSelectionContainer,
   isSessionModelWithWidgets,
+  isFeature,
+  Feature,
+  ReactRendering,
 } from '@jbrowse/core/util'
 import { Stats } from '@jbrowse/core/data_adapters/BaseAdapter'
 import { BaseBlock } from '@jbrowse/core/util/blockTypes'
 import { Region } from '@jbrowse/core/util/types'
 import CompositeMap from '@jbrowse/core/util/compositeMap'
-import { Feature, isFeature } from '@jbrowse/core/util/simpleFeature'
 import {
   getParentRenderProps,
   getRpcSessionId,
@@ -28,10 +30,11 @@ import { addDisposer, isAlive, types, Instance } from 'mobx-state-tree'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 
 // locals
-import TooLargeMessage from './TooLargeMessage'
 import { LinearGenomeViewModel, ExportSvgOptions } from '../../LinearGenomeView'
 import { Tooltip } from '../components/BaseLinearDisplay'
+import TooLargeMessage from '../components/TooLargeMessage'
 import BlockState, { renderBlockData } from './serverSideRenderedBlock'
+import { ThemeOptions } from '@mui/material'
 
 type LGV = LinearGenomeViewModel
 
@@ -54,9 +57,9 @@ type LayoutRecord = [number, number, number, number]
 function getDisplayStr(totalBytes: number) {
   let displayBp
   if (Math.floor(totalBytes / 1000000) > 0) {
-    displayBp = `${parseFloat((totalBytes / 1000000).toPrecision(3))} Mb`
+    displayBp = `${Number.parseFloat((totalBytes / 1000000).toPrecision(3))} Mb`
   } else if (Math.floor(totalBytes / 1000) > 0) {
-    displayBp = `${parseFloat((totalBytes / 1000).toPrecision(3))} Kb`
+    displayBp = `${Number.parseFloat((totalBytes / 1000).toPrecision(3))} Kb`
   } else {
     displayBp = `${Math.floor(totalBytes)} bytes`
   }
@@ -64,7 +67,6 @@ function getDisplayStr(totalBytes: number) {
 }
 
 const minDisplayHeight = 20
-const defaultDisplayHeight = 100
 
 /**
  * #stateModel BaseLinearDisplay
@@ -79,13 +81,12 @@ function stateModelFactory() {
         /**
          * #property
          */
-        height: types.optional(
+        heightPreConfig: types.maybe(
           types.refinement(
             'displayHeight',
             types.number,
             n => n >= minDisplayHeight,
           ),
-          defaultDisplayHeight,
         ),
         /**
          * #property
@@ -104,14 +105,17 @@ function stateModelFactory() {
     )
     .volatile(() => ({
       currBpPerPx: 0,
+      scrollTop: 0,
       message: '',
       featureIdUnderMouse: undefined as undefined | string,
       contextMenuFeature: undefined as undefined | Feature,
-      scrollTop: 0,
       estimatedRegionStatsP: undefined as undefined | Promise<Stats>,
       estimatedRegionStats: undefined as undefined | Stats,
     }))
     .views(self => ({
+      get height() {
+        return self.heightPreConfig ?? (getConf(self, 'height') as number)
+      },
       /**
        * #getter
        */
@@ -363,11 +367,8 @@ function stateModelFactory() {
        * #action
        */
       setHeight(displayHeight: number) {
-        if (displayHeight > minDisplayHeight) {
-          self.height = displayHeight
-        } else {
-          self.height = minDisplayHeight
-        }
+        self.heightPreConfig =
+          displayHeight > minDisplayHeight ? displayHeight : minDisplayHeight
         return self.height
       },
       /**
@@ -656,7 +657,7 @@ function stateModelFactory() {
       renderProps() {
         const view = getContainingView(self) as LGV
         return {
-          ...(getParentRenderProps(self) as any),
+          ...getParentRenderProps(self),
           notReady:
             self.currBpPerPx !== view.bpPerPx || !self.estimatedRegionStats,
           rpcDriverName: self.rpcDriverName,
@@ -705,14 +706,19 @@ function stateModelFactory() {
       /**
        * #method
        */
-      async renderSvg(opts: ExportSvgOptions & { overrideHeight: number }) {
+      async renderSvg(
+        opts: ExportSvgOptions & {
+          overrideHeight: number
+          theme: ThemeOptions
+        },
+      ) {
         const { height, id } = self
         const { overrideHeight } = opts
         const view = getContainingView(self) as LGV
         const { offsetPx: viewOffsetPx, roundedDynamicBlocks, width } = view
 
         const renderings = await Promise.all(
-          roundedDynamicBlocks.map(block => {
+          roundedDynamicBlocks.map(async block => {
             const blockState = BlockState.create({
               key: block.key,
               region: block,
@@ -725,34 +731,41 @@ function stateModelFactory() {
               self.regionCannotBeRendered(block)
 
             if (cannotBeRenderedReason) {
-              return {
-                reactElement: (
-                  <>
-                    <rect x={0} y={0} width={width} height={20} fill="#aaa" />
-                    <text x={0} y={15}>
-                      {cannotBeRenderedReason}
-                    </text>
-                  </>
-                ),
-              }
+              return [
+                block,
+                {
+                  reactElement: (
+                    <>
+                      <rect x={0} y={0} width={width} height={20} fill="#aaa" />
+                      <text x={0} y={15}>
+                        {cannotBeRenderedReason}
+                      </text>
+                    </>
+                  ),
+                },
+              ] as const
             }
 
             const { rpcManager, renderArgs, renderProps, rendererType } =
               renderBlockData(blockState, self)
 
-            return rendererType.renderInClient(rpcManager, {
-              ...renderArgs,
-              ...renderProps,
-              viewParams: getViewParams(self, true),
-              exportSVG: opts,
-            })
+            return [
+              block,
+              await rendererType.renderInClient(rpcManager, {
+                ...renderArgs,
+                ...renderProps,
+                viewParams: getViewParams(self, true),
+                exportSVG: opts,
+                theme: opts.theme || renderProps.theme,
+              }),
+            ] as const
           }),
         )
 
         return (
           <>
-            {renderings.map((rendering, index) => {
-              const { offsetPx } = roundedDynamicBlocks[index]
+            {renderings.map(([block, rendering], index) => {
+              const { offsetPx, widthPx } = block
               const offset = offsetPx - viewOffsetPx
               const clipid = getId(id, index)
 
@@ -763,21 +776,14 @@ function stateModelFactory() {
                       <rect
                         x={0}
                         y={0}
-                        width={width}
+                        width={widthPx}
                         height={overrideHeight || height}
                       />
                     </clipPath>
                   </defs>
                   <g transform={`translate(${offset} 0)`}>
                     <g clipPath={`url(#${clipid})`}>
-                      {React.isValidElement(rendering.reactElement) ? (
-                        rendering.reactElement
-                      ) : (
-                        <g
-                          /* eslint-disable-next-line react/no-danger */
-                          dangerouslySetInnerHTML={{ __html: rendering.html }}
-                        />
-                      )}
+                      <ReactRendering rendering={rendering} />
                     </g>
                   </g>
                 </React.Fragment>
@@ -787,6 +793,16 @@ function stateModelFactory() {
         )
       },
     }))
+    .preProcessSnapshot(snap => {
+      if (!snap) {
+        return snap
+      }
+      // rewrite "height" from older snapshots to "heightPreConfig", this allows
+      // us to maintain a height "getter" going forward
+      // @ts-expect-error
+      const { height, ...rest } = snap
+      return { heightPreConfig: height, ...rest }
+    })
     .postProcessSnapshot(self => {
       // xref https://github.com/mobxjs/mobx-state-tree/issues/1524 for Omit
       const r = self as Omit<typeof self, symbol>

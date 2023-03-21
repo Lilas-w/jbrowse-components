@@ -22,11 +22,11 @@ interface Config {
   configuration?: {}
   connections?: unknown[]
   defaultSession?: DefaultSession
-  tracks: Track[]
+  tracks?: Track[]
 }
 
 export default class SetDefaultSession extends JBrowseCommand {
-  // @ts-ignore
+  // @ts-expect-error
   private target: string
 
   static description = 'Set a default session with views and tracks'
@@ -142,7 +142,7 @@ export default class SetDefaultSession extends JBrowseCommand {
         trackIds = tracks.split(',').map(c => c.trim())
         trackIds.forEach(trackId => {
           this.log(trackId)
-          const matchingTrack = configContents.tracks.find(
+          const matchingTrack = configContents.tracks?.find(
             track => trackId === track.trackId,
           )
           if (!matchingTrack) {

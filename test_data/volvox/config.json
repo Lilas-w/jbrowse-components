@@ -1,8 +1,4 @@
 {
-  "plugins": [
-    { "name": "UMDLocPlugin", "umdLoc": { "uri": "umd_plugin.js" } },
-    { "name": "UMDUrlPlugin", "umdUrl": "umd_plugin.js" }
-  ],
   "assemblies": [
     {
       "name": "volvox",
@@ -88,7 +84,6 @@
         }
       }
     },
-
     {
       "name": "volvox_del",
       "sequence": {
@@ -124,9 +119,87 @@
           }
         }
       }
+    },
+    {
+      "name": "volvox-rev-del",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "volvox-rev-del-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "volvox-rev-del.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "volvox-rev-del.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    },
+    {
+      "name": "volvox-simple-inv",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "volvox-simple-inv-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "volvox-simple-inv.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "volvox-simple-inv.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      }
+    },
+    {
+      "name": "volvox_random_inv",
+      "sequence": {
+        "type": "ReferenceSequenceTrack",
+        "trackId": "volvox_random_inv-ReferenceSequenceTrack",
+        "adapter": {
+          "type": "IndexedFastaAdapter",
+          "fastaLocation": {
+            "uri": "output_prefix3.simseq.genome.fa",
+            "locationType": "UriLocation"
+          },
+          "faiLocation": {
+            "uri": "output_prefix3.simseq.genome.fa.fai",
+            "locationType": "UriLocation"
+          }
+        }
+      }
     }
   ],
-  "configuration": {},
+  "configuration": {
+    "rpc": {
+      "defaultDriver": "MainThreadRpcDriver"
+    },
+    "extraThemes": {
+      "darkForest": {
+        "name": "Dark (forest, from config file)",
+        "palette": {
+          "primary": {
+            "main": "#464"
+          },
+          "secondary": {
+            "main": "#376"
+          },
+          "tertiary": {
+            "main": "#253"
+          },
+          "quaternary": {
+            "main": "#6a4"
+          },
+          "mode": "dark"
+        }
+      }
+    }
+  },
   "connections": [],
   "defaultSession": {
     "name": "Integration test example",
@@ -162,7 +235,8 @@
     {
       "type": "VariantTrack",
       "trackId": "volvox_sv_test",
-      "name": "volvox structural variant test",
+      "description": "A uniquely interesting track",
+      "name": "volvox structural variant test (<i>HTML italic</i>)",
       "category": ["VCF"],
       "assemblyNames": ["volvox"],
       "adapter": {
@@ -227,10 +301,13 @@
     {
       "type": "AlignmentsTrack",
       "trackId": "volvox_cram_pileup",
-      "name": "volvox-sorted.cram (contigA, LinearPileupDisplay)",
+      "name": "volvox-sorted.cram (contigA, LinearPileupDisplay, large height)",
       "category": ["Integration test"],
       "metadata": {
-        "source": "We generated 150bp paired end reads from a <i>Volvox mythicus</i>, an imaginary species, for this jbrowse demo"
+        "source": "We generated 150bp paired end reads from a <i>Volvox mythicus</i>, an imaginary species, for this jbrowse demo. See <a href=https://google.com>Google</a>",
+        "sub": {
+          "subkey": "wow"
+        }
       },
       "assemblyNames": ["volvox"],
       "adapter": {
@@ -255,7 +332,8 @@
       "displays": [
         {
           "type": "LinearPileupDisplay",
-          "displayId": "volvox_cram_pileup_pileup"
+          "displayId": "volvox_cram_pileup_pileup",
+          "height": 400
         }
       ]
     },
@@ -380,7 +458,7 @@
     {
       "type": "AlignmentsTrack",
       "trackId": "volvox_alignments",
-      "name": "volvox-sorted.bam (ctgA)",
+      "name": "volvox-sorted.bam (ctgA, larger default height)",
       "category": ["Integration test"],
       "assemblyNames": ["volvox", "volvox2"],
       "adapter": {
@@ -399,6 +477,7 @@
       "displays": [
         {
           "type": "LinearAlignmentsDisplay",
+          "height": 400,
           "displayId": "volvox_alignments_alignments",
           "pileupDisplay": {
             "type": "LinearPileupDisplay",
@@ -1359,6 +1438,7 @@
     },
     {
       "type": "SyntenyTrack",
+      "category": ["Synteny"],
       "trackId": "volvox_fake_synteny_alt",
       "name": "volvox_fake_synteny_alt",
       "assemblyNames": ["volvox", "volvox"],
@@ -1373,6 +1453,7 @@
     },
     {
       "type": "SyntenyTrack",
+      "category": ["Synteny"],
       "trackId": "volvox_fake_synteny",
       "name": "volvox_fake_synteny",
       "assemblyNames": ["volvox", "volvox"],
@@ -1803,6 +1884,7 @@
     },
     {
       "type": "SyntenyTrack",
+      "category": ["Synteny"],
       "trackId": "volvox_del.paf-1658813720770",
       "name": "volvox_del.paf",
       "assemblyNames": ["volvox", "volvox_del"],
@@ -1817,6 +1899,7 @@
     },
     {
       "type": "SyntenyTrack",
+      "category": ["Synteny"],
       "trackId": "volvox_ins.paf-1658813720770",
       "name": "volvox_ins.paf",
       "assemblyNames": ["volvox", "volvox_ins"],
@@ -1829,7 +1912,6 @@
         }
       }
     },
-
     {
       "type": "VariantTrack",
       "trackId": "variant_effect_demo_data",
@@ -1857,6 +1939,168 @@
       },
       "category": ["VCF"],
       "assemblyNames": ["volvox"]
+    },
+    {
+      "type": "SyntenyTrack",
+      "trackId": "volvox-rev-del",
+      "category": ["Synteny"],
+      "name": "volvox-rev-del",
+      "adapter": {
+        "type": "PAFAdapter",
+        "pafLocation": {
+          "uri": "volvox-rev-del.paf",
+          "locationType": "UriLocation"
+        },
+        "assemblyNames": ["volvox-rev-del", "volvox"]
+      },
+      "assemblyNames": ["volvox-rev-del", "volvox"]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "volvox-rev-del-annotations",
+      "name": "volvox-rev-del-annotations",
+      "adapter": {
+        "type": "Gff3Adapter",
+        "gffLocation": {
+          "uri": "volvox-rev-del.gff",
+          "locationType": "UriLocation"
+        }
+      },
+      "assemblyNames": ["volvox-rev-del"]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "category": ["Alignments"],
+      "trackId": "volvox-simple-inv.bam",
+      "name": "volvox-simple-inv.bam",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "volvox-simple-inv.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "volvox-simple-inv.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "TwoBitAdapter",
+          "twoBitLocation": {
+            "uri": "volvox.2bit",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["volvox"]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "category": ["Alignments"],
+      "trackId": "volvox-simple-inv.cram",
+      "name": "volvox-simple-inv.cram",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "volvox-simple-inv.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "volvox-simple-inv.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "TwoBitAdapter",
+          "twoBitLocation": {
+            "uri": "volvox.2bit",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["volvox"]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "category": ["Alignments"],
+      "trackId": "volvox-simple-inv-paired.cram",
+      "name": "volvox-simple-inv-paired.cram",
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "uri": "volvox-simple-inv-paired.cram",
+          "locationType": "UriLocation"
+        },
+        "craiLocation": {
+          "uri": "volvox-simple-inv-paired.cram.crai",
+          "locationType": "UriLocation"
+        },
+        "sequenceAdapter": {
+          "type": "TwoBitAdapter",
+          "twoBitLocation": {
+            "uri": "volvox.2bit",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["volvox"]
+    },
+    {
+      "type": "AlignmentsTrack",
+      "category": ["Alignments"],
+      "trackId": "volvox-simple-inv-paired.bam",
+      "name": "volvox-simple-inv-paired.bam",
+      "adapter": {
+        "type": "BamAdapter",
+        "bamLocation": {
+          "uri": "volvox-simple-inv-paired.bam",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "volvox-simple-inv-paired.bam.bai",
+            "locationType": "UriLocation"
+          },
+          "indexType": "BAI"
+        },
+        "sequenceAdapter": {
+          "type": "TwoBitAdapter",
+          "twoBitLocation": {
+            "uri": "volvox.2bit",
+            "locationType": "UriLocation"
+          }
+        }
+      },
+      "assemblyNames": ["volvox"]
+    },
+
+    {
+      "type": "SyntenyTrack",
+      "trackId": "volvox_inv_indels",
+      "name": "volvox_inv_indels",
+      "category": ["Synteny"],
+      "adapter": {
+        "type": "PAFAdapter",
+        "pafLocation": {
+          "uri": "volvox_inv_indels.paf",
+          "locationType": "UriLocation"
+        },
+        "assemblyNames": ["volvox_random_inv", "volvox"]
+      },
+      "assemblyNames": ["volvox_random_inv", "volvox"]
+    }
+  ],
+  "plugins": [
+    {
+      "name": "UMDLocPlugin",
+      "umdLoc": {
+        "uri": "umd_plugin.js"
+      }
+    },
+    {
+      "name": "UMDUrlPlugin",
+      "umdUrl": "umd_plugin.js"
     }
   ],
   "aggregateTextSearchAdapters": [
@@ -1876,6 +2120,23 @@
         "locationType": "UriLocation"
       },
       "assemblyNames": ["volvox"]
+    },
+    {
+      "type": "TrixTextSearchAdapter",
+      "textSearchAdapterId": "volvox-rev-del-index",
+      "ixFilePath": {
+        "uri": "trix/volvox-rev-del.ix",
+        "locationType": "UriLocation"
+      },
+      "ixxFilePath": {
+        "uri": "trix/volvox-rev-del.ixx",
+        "locationType": "UriLocation"
+      },
+      "metaFilePath": {
+        "uri": "trix/volvox-rev-del_meta.json",
+        "locationType": "UriLocation"
+      },
+      "assemblyNames": ["volvox-rev-del"]
     }
   ],
   "internetAccounts": [

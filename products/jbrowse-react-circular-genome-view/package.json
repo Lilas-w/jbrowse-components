@@ -1,6 +1,6 @@
 {
   "name": "@jbrowse/react-circular-genome-view",
-  "version": "2.2.1",
+  "version": "2.4.1",
   "description": "JBrowse 2 circular genome view React component",
   "keywords": [
     "jbrowse",
@@ -24,7 +24,6 @@
     "docs"
   ],
   "scripts": {
-    "start:umd": "cross-env NODE_ENV=development webpack-dev-server",
     "prebuild": "npm run clean",
     "build": "npm-run-all build:*",
     "prepublishOnly": "node output-version.js > src/version.js && git add -A src && git commit -m '[skip ci] Bump version.js'",
@@ -35,30 +34,30 @@
     "build:webpack:dev": "cross-env NODE_ENV=development webpack",
     "build:webpack:prod": "cross-env NODE_ENV=production webpack",
     "clean": "rimraf esm dist *.tsbuildinfo",
-    "storybook": "start-storybook --static-dir public --port 6006",
-    "storybook:build": "build-storybook --quiet --static-dir public"
+    "storybook": "storybook dev --port 6006",
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@jbrowse/core": "^2.2.1",
-    "@jbrowse/plugin-authentication": "^2.2.1",
-    "@jbrowse/plugin-circular-view": "^2.2.1",
-    "@jbrowse/plugin-config": "^2.2.1",
-    "@jbrowse/plugin-data-management": "^2.2.1",
-    "@jbrowse/plugin-sequence": "^2.2.1",
-    "@jbrowse/plugin-variants": "^2.2.1",
-    "@jbrowse/plugin-wiggle": "^2.2.1",
+    "@jbrowse/core": "^2.4.1",
+    "@jbrowse/plugin-authentication": "^2.4.1",
+    "@jbrowse/plugin-circular-view": "^2.4.1",
+    "@jbrowse/plugin-config": "^2.4.1",
+    "@jbrowse/plugin-data-management": "^2.4.1",
+    "@jbrowse/plugin-sequence": "^2.4.1",
+    "@jbrowse/plugin-variants": "^2.4.1",
+    "@jbrowse/plugin-wiggle": "^2.4.1",
     "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.0.0",
+    "@mui/material": "^5.10.17",
     "mobx": "^6.6.0",
     "mobx-react": "^7.5.0",
     "mobx-state-tree": "^5.0.0",
     "prop-types": "^15.0.0",
     "react-use-measure": "^2.1.1",
-    "rxjs": "^6.0.0",
+    "rxjs": "^7.0.0",
     "tss-react": "^4.4.1"
   },
   "peerDependencies": {

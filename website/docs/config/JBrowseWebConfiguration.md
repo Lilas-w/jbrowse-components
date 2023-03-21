@@ -4,12 +4,17 @@ title: JBrowseWebConfiguration
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[products/jbrowse-web/src/jbrowseModel.ts](https://github.com/GMOD/jbrowse-components/blob/main/products/jbrowse-web/src/jbrowseModel.ts)
 
 ## Docs
 
-configuration here appears as a "configuration" object on the root of config.json
+configuration here appears as a "configuration" object on the root of
+config.json
 
 ### JBrowseWebConfiguration - Slots
 
@@ -111,6 +116,12 @@ disableAnalytics: {
 
 ```js
 theme: { type: 'frozen', defaultValue: {} }
+```
+
+#### slot: extraThemes
+
+```js
+extraThemes: { type: 'frozen', defaultValue: {} }
 ```
 
 #### slot: logoPath

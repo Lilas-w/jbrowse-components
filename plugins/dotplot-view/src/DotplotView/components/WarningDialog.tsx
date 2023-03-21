@@ -1,41 +1,29 @@
 import React from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-} from '@mui/material'
+import { DialogContent, DialogContentText } from '@mui/material'
+import { Dialog } from '@jbrowse/core/ui'
 import { observer } from 'mobx-react'
 import { makeStyles } from 'tss-react/mui'
 import { DataGrid } from '@mui/x-data-grid'
 import { AnyConfigurationModel, getConf } from '@jbrowse/core/configuration'
-
-// icons
-import CloseIcon from '@mui/icons-material/Close'
 import { measureGridWidth } from '@jbrowse/core/util'
 
-const useStyles = makeStyles()(theme => ({
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
+const useStyles = makeStyles()({
   content: {
     minWidth: 600,
   },
-}))
+})
 
-function WarningDialog({
-  tracksWithWarnings,
+interface TrackWarning {
+  configuration: AnyConfigurationModel
+  displays: { warnings: { message: string; effect: string }[] }[]
+}
+
+export default observer(function WarningDialog({
+  trackWarnings,
   handleClose,
 }: {
   handleClose: () => void
-  tracksWithWarnings: {
-    configuration: AnyConfigurationModel
-    displays: { warnings: { message: string; effect: string }[] }[]
-  }[]
+  trackWarnings: TrackWarning[]
 }) {
   const { classes } = useStyles()
   const rows = [] as {
@@ -44,8 +32,8 @@ function WarningDialog({
     effect: string
     id: string
   }[]
-  for (let i = 0; i < tracksWithWarnings.length; i++) {
-    const track = tracksWithWarnings[i]
+  for (let i = 0; i < trackWarnings.length; i++) {
+    const track = trackWarnings[i]
     const name = getConf(track, 'name')
     for (let j = 0; j < track.displays[0].warnings.length; j++) {
       const warning = track.displays[0].warnings[j]
@@ -58,17 +46,12 @@ function WarningDialog({
     { field: 'effect', width: measureGridWidth(rows.map(r => r.effect)) },
   ]
   return (
-    <Dialog open onClose={handleClose} maxWidth="xl">
-      <DialogTitle>
-        Dotplot rendered with warnings
-        <IconButton
-          className={classes.closeButton}
-          onClick={() => handleClose()}
-          size="large"
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+    <Dialog
+      open
+      onClose={handleClose}
+      maxWidth="xl"
+      title="Dotplot rendered with warnings"
+    >
       <DialogContent className={classes.content}>
         <DialogContentText>
           Found warnings while rendering the dotplot. This is often due to
@@ -88,6 +71,4 @@ function WarningDialog({
       </DialogContent>
     </Dialog>
   )
-}
-
-export default observer(WarningDialog)
+})

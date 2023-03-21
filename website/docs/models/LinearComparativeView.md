@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/linear-comparative-view/src/LinearComparativeView/model.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/linear-comparative-view/src/LinearComparativeView/model.ts)
 
 ## Docs
 
@@ -28,15 +33,6 @@ id: ElementId
 ISimpleType<"LinearComparativeView">
 // code
 type: types.literal('LinearComparativeView')
-```
-
-#### property: height
-
-```js
-// type signature
-number
-// code
-height: defaultHeight
 ```
 
 #### property: trackSelectorType
@@ -111,9 +107,8 @@ views: types.array(
 
 #### property: viewTrackConfigs
 
-this represents tracks specific to this view specifically used
-for read vs ref dotplots where this track would not really apply
-elsewhere
+this represents tracks specific to this view specifically used for read vs ref
+dotplots where this track would not really apply elsewhere
 
 ```js
 // type signature
@@ -156,6 +151,16 @@ any[]
 
 ### LinearComparativeView - Methods
 
+#### method: headerMenuItems
+
+includes a subset of view menu options because the full list is a little
+overwhelming. overridden by subclasses
+
+```js
+// type signature
+headerMenuItems: () => MenuItem[]
+```
+
 #### method: menuItems
 
 ```js
@@ -179,13 +184,6 @@ rubberBandMenuItems: () => { label: string; onClick: () => void; }[]
 setWidth: (newWidth: number) => void
 ```
 
-#### action: setHeight
-
-```js
-// type signature
-setHeight: (newHeight: number) => void
-```
-
 #### action: setViews
 
 ```js
@@ -202,7 +200,8 @@ removeView: (view: { id: string; displayName: string; minimized: boolean; type: 
 
 #### action: closeView
 
-removes the view itself from the state tree entirely by calling the parent removeView
+removes the view itself from the state tree entirely by calling the parent
+removeView
 
 ```js
 // type signature

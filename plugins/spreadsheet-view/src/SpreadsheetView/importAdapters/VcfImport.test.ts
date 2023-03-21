@@ -1,4 +1,3 @@
-import { TextDecoder, TextEncoder } from 'web-encoding'
 import { promises as fsPromises } from 'fs'
 import path from 'path'
 import { parseVcfBuffer, splitVcfFileHeaderAndBody } from './VcfImport'
@@ -26,9 +25,6 @@ describe('vcf file splitter', () => {
   })
 })
 
-window.TextEncoder = TextEncoder
-window.TextDecoder = TextDecoder
-
 test('vcf file import', async () => {
   const filepath = path.join(
     __dirname,
@@ -40,7 +36,7 @@ test('vcf file import', async () => {
   const spreadsheetSnap = parseVcfBuffer(buf)
   expect(spreadsheetSnap).toMatchSnapshot()
 
-  // @ts-ignore
+  // @ts-expect-error
   const spreadsheet = SpreadsheetModel.create(spreadsheetSnap)
   expect(spreadsheet.rowSet.rows.length).toBe(101)
 })

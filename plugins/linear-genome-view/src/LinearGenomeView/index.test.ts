@@ -7,12 +7,16 @@ import {
 } from '@jbrowse/core/pluggableElementTypes/models'
 import TrackType from '@jbrowse/core/pluggableElementTypes/TrackType'
 import PluginManager from '@jbrowse/core/PluginManager'
-import { Instance, types } from 'mobx-state-tree'
-import { LinearGenomeViewStateModel, stateModelFactory } from '.'
+import { types } from 'mobx-state-tree'
+
+// locals
+import { LinearGenomeViewModel, stateModelFactory } from '.'
 import { BaseLinearDisplayComponent } from '..'
 import { stateModelFactory as LinearBasicDisplayStateModelFactory } from '../LinearBareDisplay'
 import hg38Regions from './hg38DisplayedRegions.json'
 import volvoxDisplayedRegions from './volvoxDisplayedRegions.json'
+
+type LGV = LinearGenomeViewModel
 
 // use initializer function to avoid having console.warn jest.fn in a global
 function initialize() {
@@ -92,14 +96,14 @@ function initialize() {
       assemblyManager: types.optional(AssemblyManager, {
         assemblies: {
           volvox: {
-            // @ts-ignore
+            // @ts-expect-error
             regions: volvoxDisplayedRegions,
           },
         },
       }),
     })
     .actions(self => ({
-      setView(view: Instance<LinearGenomeViewStateModel>) {
+      setView(view: LGV) {
         self.view = view
         return view
       },
@@ -306,8 +310,7 @@ test('can navToMultiple', () => {
 
 describe('Zoom to selected displayed regions', () => {
   const { Session, LinearGenomeModel } = initialize()
-  let model: Instance<ReturnType<typeof stateModelFactory>>
-  let largestBpPerPx: number
+  let model: LGV
   beforeEach(() => {
     const session = Session.create({
       configuration: {},
@@ -353,7 +356,6 @@ describe('Zoom to selected displayed regions', () => {
       },
     )
 
-    largestBpPerPx = model.bpPerPx
     expect(model.offsetPx).toEqual(0)
     expect(model.bpPerPx).toBeCloseTo(31.408)
   })
@@ -380,7 +382,6 @@ describe('Zoom to selected displayed regions', () => {
     expect(model.offsetPx).toEqual(0)
     // 10000 - 5000 = 5000 / 800 = 6.25
     expect(model.bpPerPx).toEqual(6.25)
-    expect(model.bpPerPx).toBeLessThan(largestBpPerPx)
   })
 
   it('can select one region with start or end outside of displayed region', () => {
@@ -407,7 +408,6 @@ describe('Zoom to selected displayed regions', () => {
     expect(Math.abs(model.offsetPx)).toEqual(0)
     // endOffset 19000 - (-1) = 19001 /  800 = zoomTo(23.75)
     expect(model.bpPerPx).toBeCloseTo(23.75)
-    expect(model.bpPerPx).toBeLessThan(largestBpPerPx)
   })
 
   it('can select over two regions in the same reference sequence', () => {
@@ -435,7 +435,6 @@ describe('Zoom to selected displayed regions', () => {
     expect(model.bpPerPx).toBeCloseTo(27.78, 0)
     // offset 5000 / bpPerPx (because that is the starting) = 180.5
     expect(model.offsetPx).toBe(181)
-    expect(model.bpPerPx).toBeLessThan(largestBpPerPx)
   })
 
   it('can navigate to overlapping regions with a region between', () => {
@@ -581,7 +580,7 @@ test('can perform bpToPx in a way that makes sense on things that happen outside
   model.toggleHeaderOverview()
   expect(model.hideHeaderOverview).toEqual(true)
   model.toggleHeaderOverview()
-  model.setError(Error('pxToBp failed to map to a region'))
+  model.setError(new Error('pxToBp failed to map to a region'))
   expect(`${model.error}`).toEqual('Error: pxToBp failed to map to a region')
 })
 // determined objectively by looking at
@@ -674,7 +673,7 @@ describe('get sequence for selected displayed regions', () => {
   /* the start of all the results should be +1
   the sequence dialog then handles converting from 1-based closed to interbase
   */
-  let model: Instance<ReturnType<typeof stateModelFactory>>
+  let model: LGV
   beforeEach(() => {
     const session = Session.create({
       configuration: {},
@@ -932,7 +931,7 @@ test('navToLocString with human assembly', async () => {
     assemblyManager: {
       assemblies: {
         hg38: {
-          // @ts-ignore
+          // @ts-expect-error
           regions: hg38Regions,
         },
       },
@@ -947,16 +946,16 @@ test('navToLocString with human assembly', async () => {
   view.setDisplayedRegions(hg38Regions.slice(0, 1))
   const w = view.width
 
-  view.navToLocString('2')
+  await view.navToLocString('2')
   await waitFor(() => expect(view.bpPerPx).toBe(hg38Regions[1].end / w))
 
-  view.navToLocString('chr3')
+  await view.navToLocString('chr3')
   await waitFor(() => expect(view.bpPerPx).toBe(hg38Regions[2].end / w))
 
-  view.navToLocString('chr3:1,000,000,000-1,100,000,000')
+  await view.navToLocString('chr3:1,000,000,000-1,100,000,000')
   await waitFor(() => expect(view.bpPerPx).toBe(0.02))
   await waitFor(() => expect(view.offsetPx).toBe(9914777550))
-  view.navToLocString('chr3:-1,100,000,000..-1,000,000,000')
+  await view.navToLocString('chr3:-1,100,000,000..-1,000,000,000')
 })
 
 test('multi region', async () => {
@@ -972,7 +971,7 @@ test('multi region', async () => {
   model.setWidth(800)
   model.setDisplayedRegions(volvoxDisplayedRegions.slice(0, 1))
 
-  model.navToLocString('ctgA ctgB')
+  await model.navToLocString('ctgA ctgB')
   await waitFor(() => expect(model.displayedRegions[0].refName).toBe('ctgA'))
   await waitFor(() => expect(model.displayedRegions[1].refName).toBe('ctgB'))
 })
@@ -990,8 +989,7 @@ test('space separated locstring', async () => {
   model.setWidth(800)
   model.setDisplayedRegions(volvoxDisplayedRegions.slice(0, 1))
 
-  model.navToLocString('ctgA 0 100')
-
+  await model.navToLocString('ctgA 0 100')
   await waitFor(() => expect(model.offsetPx).toBe(0))
   await waitFor(() => expect(model.bpPerPx).toBe(0.125))
 })

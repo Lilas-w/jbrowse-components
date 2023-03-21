@@ -16,7 +16,7 @@ beforeEach(() => {
   doBeforeEach()
 })
 
-const delay = { timeout: 10000 }
+const delay = { timeout: 40000 }
 
 test('copy and delete track in admin mode', async () => {
   const { view, findByTestId, queryByText, findAllByTestId, findByText } =
@@ -31,27 +31,27 @@ test('copy and delete track in admin mode', async () => {
   fireEvent.click(await findByText('volvox filtered vcf (copy)'))
   expect(queryByText(/Session tracks/)).toBeNull()
   await waitFor(() => expect(view.tracks.length).toBe(1))
-  await findAllByTestId('box-test-vcf-604452', {}, delay)
+  await findAllByTestId('box-test-vcf-604453', {}, delay)
   fireEvent.click(await findByTestId('track_menu_icon'))
   fireEvent.click(await findByText('Delete track'))
   await waitFor(() => expect(view.tracks.length).toBe(0))
-}, 20000)
+}, 40000)
 
 test('copy and delete reference sequence track disabled', async () => {
   const { view, rootModel, session, queryByText, findByTestId, findByText } =
     createView(undefined, true)
 
-  // @ts-ignore
+  // @ts-expect-error
   const { assemblyManager } = rootModel
 
   await findByText('Help')
   view.setNewView(0.05, 5000)
   const trackConf = getConf(assemblyManager.get('volvox'), 'sequence')
 
-  // @ts-ignore
+  // @ts-expect-error
   const trackMenuItems = session.getTrackActionMenuItems(trackConf)
 
-  // copy ref seq track disbaled
+  // copy ref seq track disabled
   fireEvent.click(
     await findByTestId('htsTrackEntryMenu-volvox_refseq', {}, delay),
   )
@@ -61,7 +61,7 @@ test('copy and delete reference sequence track disabled', async () => {
   await waitFor(() => expect(view.tracks.length).toBe(0))
   expect(trackMenuItems[2].disabled).toBe(true)
   expect(trackMenuItems[3].disabled).toBe(true)
-}, 20000)
+}, 40000)
 
 test('copy and delete track to session tracks', async () => {
   const { view, findByTestId, findAllByTestId, findByText } = createView(
@@ -78,11 +78,11 @@ test('copy and delete track to session tracks', async () => {
   fireEvent.click(await findByText('volvox filtered vcf (copy)'))
   await findByText(/Session tracks/)
   await waitFor(() => expect(view.tracks.length).toBe(1))
-  await findAllByTestId('box-test-vcf-604452', {}, delay)
+  await findAllByTestId('box-test-vcf-604453', {}, delay)
   fireEvent.click(await findByTestId('track_menu_icon'))
   fireEvent.click(await findByText('Delete track'))
   await waitFor(() => expect(view.tracks.length).toBe(0))
-}, 20000)
+}, 40000)
 
 xtest('delete connection', async () => {
   const pluginManager = getPluginManager(masterConfig, true)

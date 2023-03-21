@@ -20,7 +20,7 @@ const useStyles = makeStyles()(theme => ({
   },
   interRegionPaddingBlock: {
     minHeight: '100%',
-    backgroundColor: theme.palette.text.primary,
+    backgroundColor: theme.palette.text.disabled,
   },
   boundaryPaddingBlock: {
     minHeight: '100%',
@@ -28,17 +28,21 @@ const useStyles = makeStyles()(theme => ({
   },
 }))
 
-const ContentBlock = observer(
-  ({ block, children }: { block: BaseBlock; children: React.ReactNode }) => {
-    const { classes } = useStyles()
-    const { widthPx } = block
-    return (
-      <div style={{ width: widthPx }} className={classes.contentBlock}>
-        {children}
-      </div>
-    )
-  },
-)
+const ContentBlock = observer(function ({
+  block,
+  children,
+}: {
+  block: BaseBlock
+  children: React.ReactNode
+}) {
+  const { classes } = useStyles()
+  const { widthPx } = block
+  return (
+    <div style={{ width: widthPx }} className={classes.contentBlock}>
+      {children}
+    </div>
+  )
+})
 
 function ElidedBlock({ width }: { width: number }) {
   const { classes } = useStyles()

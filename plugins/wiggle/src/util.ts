@@ -21,7 +21,7 @@ export interface ScaleOpts {
   range: number[]
   scaleType: string
   pivotValue?: number
-  inverted: boolean
+  inverted?: boolean
 }
 
 export interface Source {
@@ -114,8 +114,8 @@ export function getNiceDomain({
   bounds,
 }: {
   scaleType: string
-  domain: number[]
-  bounds: number[]
+  domain: readonly [number, number]
+  bounds: readonly [number | undefined, number | undefined]
 }) {
   const [minScore, maxScore] = bounds
   let [min, max] = domain
@@ -168,11 +168,12 @@ export function getNiceDomain({
 }
 
 export function groupBy<T>(array: T[], predicate: (v: T) => string) {
-  return array.reduce((acc, value) => {
-    const entry = (acc[predicate(value)] ||= [])
+  const result = {} as { [key: string]: T[] }
+  for (const value of array) {
+    const entry = (result[predicate(value)] ||= [])
     entry.push(value)
-    return acc
-  }, {} as { [key: string]: T[] })
+  }
+  return result
 }
 
 export async function getStats(

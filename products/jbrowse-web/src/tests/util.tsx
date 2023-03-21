@@ -30,9 +30,9 @@ type LGV = LinearGenomeViewModel
 
 jest.mock('../makeWorkerInstance', () => () => {})
 
-// @ts-ignore
+// @ts-expect-error
 global.nodeImage = Image
-// @ts-ignore
+// @ts-expect-error
 global.nodeCreateCanvas = createCanvas
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -48,8 +48,8 @@ export function getPluginManager(initialState?: any, adminMode = true) {
     },
     { pluginManager },
   )
-  // @ts-ignore
-  if (rootModel && rootModel.jbrowse.defaultSession.length) {
+  // @ts-expect-error
+  if (rootModel && rootModel.jbrowse.defaultSession.length > 0) {
     const { name } = rootModel.jbrowse.defaultSession
     localStorage.setItem(
       `localSaved-1`,
@@ -124,7 +124,7 @@ export function canvasToBuffer(canvas: HTMLCanvasElement) {
 
 export function expectCanvasMatch(
   canvas: HTMLElement,
-  failureThreshold = 0.05,
+  failureThreshold = 0.01,
 ) {
   expect(canvasToBuffer(canvas as HTMLCanvasElement)).toMatchImageSnapshot({
     failureThreshold,
@@ -143,6 +143,7 @@ export function JBrowse(props: any) {
 
 export const hts = (str: string) => 'htsTrackEntry-' + str
 export const pc = (str: string) => `prerendered_canvas_${str}_done`
+export const pv = (str: string) => pc(`{volvox}ctgA:${str}`)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createView(args?: any, adminMode?: boolean) {
@@ -164,9 +165,9 @@ export function doBeforeEach(
   clearCache()
   clearAdapterCache()
 
-  // @ts-ignore
+  // @ts-expect-error
   fetch.resetMocks()
-  // @ts-ignore
+  // @ts-expect-error
   fetch.mockResponse(generateReadBuffer(url => new LocalFile(cb(url))))
 }
 
@@ -178,7 +179,11 @@ export async function doSetupForImportForm(val?: unknown) {
   // clear view takes us to the import form
   view.clearView()
 
-  const autocomplete = await findByTestId('autocomplete')
+  const autocomplete = await findByTestId(
+    'autocomplete',
+    {},
+    { timeout: 10000 },
+  )
   const input = (await findByPlaceholderText(
     'Search for location',
   )) as HTMLInputElement
@@ -196,4 +201,16 @@ export async function doSetupForImportForm(val?: unknown) {
     getInputValue,
     ...args,
   }
+}
+
+export async function mockConsole(fn: () => Promise<void>) {
+  const consoleMock = jest.spyOn(console, 'error').mockImplementation()
+  await fn()
+  consoleMock.mockRestore()
+}
+
+export async function mockConsoleWarn(fn: () => Promise<void>) {
+  const consoleMock = jest.spyOn(console, 'warn').mockImplementation()
+  await fn()
+  consoleMock.mockRestore()
 }

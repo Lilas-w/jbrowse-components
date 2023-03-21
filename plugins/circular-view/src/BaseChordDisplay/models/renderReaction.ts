@@ -1,3 +1,4 @@
+import clone from 'clone'
 import { getRpcSessionId } from '@jbrowse/core/util/tracks'
 import { getSession, getContainingView } from '@jbrowse/core/util'
 
@@ -13,9 +14,9 @@ export function renderReactionData(self: any) {
     renderProps: self.renderProps(),
     renderArgs: {
       assemblyName: view.displayedRegions[0]?.assemblyName,
-      adapterConfig: JSON.parse(JSON.stringify(self.adapterConfig)),
+      adapterConfig: clone(self.adapterConfig),
       rendererType: rendererType.name,
-      regions: JSON.parse(JSON.stringify(view.displayedRegions)),
+      regions: clone(view.displayedRegions),
       blockDefinitions: self.blockDefinitions,
       sessionId: getRpcSessionId(self),
       timeout: 1000000,
@@ -26,7 +27,7 @@ export function renderReactionData(self: any) {
 export async function renderReactionEffect(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   props: any,
-  signal: AbortSignal,
+  signal: AbortSignal | undefined,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   self: any,
 ) {
@@ -40,6 +41,7 @@ export async function renderReactionEffect(
     cannotBeRenderedReason,
     renderArgs,
     renderProps,
+    exportSVG,
   } = props
 
   if (cannotBeRenderedReason) {
@@ -47,11 +49,7 @@ export async function renderReactionEffect(
   }
 
   // don't try to render 0 or NaN radius or no regions
-  if (
-    !props.renderProps.radius ||
-    !props.renderArgs.regions ||
-    !props.renderArgs.regions.length
-  ) {
+  if (!renderProps.radius || !renderArgs.regions?.length) {
     return { message: 'Skipping render' }
   }
 
@@ -65,8 +63,13 @@ export async function renderReactionEffect(
   const { html, ...data } = await rendererType.renderInClient(rpcManager, {
     ...renderArgs,
     ...renderProps,
-    signal,
+    exportSVG,
   })
 
-  return { html, data, renderingComponent: rendererType.ReactComponent }
+  return {
+    html,
+    data,
+    reactElement: data.reactElement,
+    renderingComponent: rendererType.ReactComponent,
+  }
 }

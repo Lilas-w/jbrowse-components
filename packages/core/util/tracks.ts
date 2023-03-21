@@ -105,7 +105,7 @@ export function storeBlobLocation(location: PreFileLocation) {
  * creates a new location from the provided location including the appropriate suffix and location type
  * @param location - the FileLocation
  * @param suffix - the file suffix (e.g. .bam)
- * @returns the constructed location object from the provided prameters
+ * @returns the constructed location object from the provided parameters
  */
 export function makeIndex(location: FileLocation, suffix: string) {
   if ('uri' in location) {
@@ -198,7 +198,6 @@ export function guessTrackType(
   model?: IAnyStateTreeNode,
 ): string {
   if (model) {
-    // @ts-ignore
     const session = getSession(model)
 
     const trackTypeGuesser = getEnv(
@@ -255,7 +254,7 @@ export function getTrackName(
   conf: AnyConfigurationModel,
   session: { assemblies: AnyConfigurationModel[] },
 ) {
-  const trackName = readConfObject(conf, 'name')
+  const trackName = readConfObject(conf, 'name') as string
   if (!trackName && readConfObject(conf, 'type') === 'ReferenceSequenceTrack') {
     const asm = session.assemblies.find(a => a.sequence === conf)
     return asm

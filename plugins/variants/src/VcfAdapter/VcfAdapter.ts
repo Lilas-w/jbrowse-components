@@ -2,14 +2,15 @@ import {
   BaseFeatureDataAdapter,
   BaseOptions,
 } from '@jbrowse/core/data_adapters/BaseAdapter'
-import { Region } from '@jbrowse/core/util/types'
+import { Region, Feature } from '@jbrowse/core/util'
 import { openLocation } from '@jbrowse/core/util/io'
 import { ObservableCreate } from '@jbrowse/core/util/rxjs'
-import { Feature } from '@jbrowse/core/util/simpleFeature'
 import IntervalTree from '@flatten-js/interval-tree'
 import { unzip } from '@gmod/bgzf-filehandle'
 import VCF from '@gmod/vcf'
-import VcfFeature from '../VcfTabixAdapter/VcfFeature'
+
+// local
+import VcfFeature from '../VcfFeature'
 
 const readVcf = (f: string) => {
   const header: string[] = []
@@ -64,22 +65,21 @@ export default class VcfAdapter extends BaseFeatureDataAdapter {
 
     const str = new TextDecoder().decode(buffer)
     const { header, lines } = readVcf(str)
+    const intervalTree = {} as { [key: string]: IntervalTree }
 
-    const intervalTree = lines
-      .map((line, id) => {
-        const [refName, startP, , ref, , , , info] = line.split('\t')
-        const start = +startP - 1
-        const end = +(info.match(/END=(\d+)/)?.[1].trim() || start + ref.length)
-        return { line, refName, start, end, id }
-      })
-      .reduce((acc, obj) => {
-        const key = obj.refName
-        if (!acc[key]) {
-          acc[key] = new IntervalTree()
-        }
-        acc[key].insert([obj.start, obj.end], obj)
-        return acc
-      }, {} as Record<string, IntervalTree>)
+    for (const obj of lines.map((line, id) => {
+      const [refName, startP, , ref, , , , info] = line.split('\t')
+      const start = +startP - 1
+      const def = start + ref.length
+      const end = +(info.match(/END=(\d+)/)?.[1].trim() || def)
+      return { line, refName, start, end, id }
+    })) {
+      const key = obj.refName
+      if (!intervalTree[key]) {
+        intervalTree[key] = new IntervalTree()
+      }
+      intervalTree[key].insert([obj.start, obj.end], obj)
+    }
 
     return { header, intervalTree }
   }
@@ -104,7 +104,7 @@ export default class VcfAdapter extends BaseFeatureDataAdapter {
       try {
         const { start, end, refName } = region
         const { header, intervalTree } = await this.setup()
-        const parser = new VCF({ header: header })
+        const parser = new VCF({ header })
         intervalTree[refName]?.search([start, end]).forEach(f =>
           observer.next(
             new VcfFeature({

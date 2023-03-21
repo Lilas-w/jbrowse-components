@@ -10,6 +10,7 @@ beforeEach(() => {
 })
 
 const delay = { timeout: 10000 }
+const opts = [{}, delay]
 
 test('search eden.1 and hit open', async () => {
   const { input, getInputValue, findByText } = await doSetupForImportForm()
@@ -17,6 +18,16 @@ test('search eden.1 and hit open', async () => {
   fireEvent.change(input, { target: { value: 'eden.1' } })
   fireEvent.click(await findByText('Open'))
   await waitFor(() => expect(getInputValue()).toBe('ctgA:1,055..9,005'), delay)
+}, 30000)
+
+test('dialog with multiple results, searching seg02', async () => {
+  const { input, view, findByText, autocomplete } = await doSetupForImportForm()
+
+  fireEvent.change(input, { target: { value: 'seg02' } })
+  fireEvent.keyDown(autocomplete, { key: 'Enter', code: 'Enter' })
+  fireEvent.click(await findByText('Open'))
+  await findByText('Search results', ...opts)
+  await waitFor(() => expect(view.searchResults?.length).toBeGreaterThan(0))
 }, 30000)
 
 test('search eden.1 and hit enter', async () => {
@@ -47,7 +58,18 @@ test('description of gene, searching: kinase', async () => {
   fireEvent.change(input, { target: { value: 'kinase' } })
   fireEvent.keyDown(autocomplete, { key: 'Enter', code: 'Enter' })
 
-  fireEvent.click(await findByText('EDEN (protein kinase)', {}, delay))
+  fireEvent.click(await findByText('EDEN (protein kinase)', ...opts))
   fireEvent.click(await findByText('Open'))
   await waitFor(() => expect(getInputValue()).toBe('ctgA:1,055..9,005'), delay)
+}, 30000)
+
+test('search matches description for feature in two places', async () => {
+  const { view, input, findByText, autocomplete } = await doSetupForImportForm()
+
+  fireEvent.change(input, { target: { value: 'fingerprint' } })
+  fireEvent.click(await findByText(/b101.2/, ...opts))
+  fireEvent.keyDown(autocomplete, { key: 'Enter', code: 'Enter' })
+  fireEvent.click(await findByText('Open'))
+  await findByText('Search results', ...opts)
+  await waitFor(() => expect(view.searchResults?.length).toBeGreaterThan(0))
 }, 30000)

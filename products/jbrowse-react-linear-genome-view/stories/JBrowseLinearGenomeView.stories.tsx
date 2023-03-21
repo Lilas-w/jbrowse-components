@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react'
 import { observer } from 'mobx-react'
-import { PluginRecord } from '@jbrowse/core/PluginLoader'
 import { Region } from '@jbrowse/core/util/types'
 import ViewType from '@jbrowse/core/pluggableElementTypes/ViewType'
 import PluginManager from '@jbrowse/core/PluginManager'
@@ -23,10 +22,8 @@ function addRelativeUris(config: any, baseUri: string) {
     for (const key of Object.keys(config)) {
       if (typeof config[key] === 'object') {
         addRelativeUris(config[key], baseUri)
-      } else if (key === 'uri') {
-        if (!config.baseUri) {
-          config.baseUri = baseUri
-        }
+      } else if (key === 'uri' && !config.baseUri) {
+        config.baseUri = baseUri
       }
     }
   }
@@ -34,20 +31,22 @@ function addRelativeUris(config: any, baseUri: string) {
 
 const configPath = 'test_data/volvox/config.json'
 addRelativeUris(volvoxConfig, new URL(configPath, window.location.href).href)
-const supportedTrackTypes = [
+const supportedTrackTypes = new Set([
   'AlignmentsTrack',
-  'PileupTrack',
   'FeatureTrack',
-  'SNPCoverageTrack',
   'VariantTrack',
   'WiggleTrack',
-]
+])
 
-const excludeIds = ['gtf_plain_text_test', 'lollipop_track', 'arc_track']
+const excludeIds = new Set([
+  'gtf_plain_text_test',
+  'lollipop_track',
+  'arc_track',
+])
 
 const assembly = volvoxConfig.assemblies[0]
 const tracks = volvoxConfig.tracks.filter(
-  t => supportedTrackTypes.includes(t.type) && !excludeIds.includes(t.trackId),
+  t => supportedTrackTypes.has(t.type) && !excludeIds.has(t.trackId),
 )
 const defaultSession = {
   name: 'Storybook',
@@ -500,7 +499,107 @@ export const WithInlinePlugins = () => {
   return <JBrowseLinearGenomeView viewState={state} />
 }
 
+export const Hg38Exome = () => {
+  const assembly = {
+    name: 'GRCh38',
+    sequence: {
+      type: 'ReferenceSequenceTrack',
+      trackId: 'GRCh38-ReferenceSequenceTrack',
+      adapter: {
+        type: 'BgzipFastaAdapter',
+        fastaLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz',
+        },
+        faiLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai',
+        },
+        gziLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi',
+        },
+      },
+    },
+    aliases: ['hg38'],
+    refNameAliases: {
+      adapter: {
+        type: 'RefNameAliasAdapter',
+        location: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/hg38_aliases.txt',
+        },
+      },
+    },
+  }
+
+  const tracks = [
+    {
+      type: 'FeatureTrack',
+      trackId:
+        'GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff',
+      name: 'NCBI RefSeq Genes',
+      category: ['Genes'],
+      assemblyNames: ['GRCh38'],
+      adapter: {
+        type: 'Gff3TabixAdapter',
+        gffGzLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz',
+        },
+        index: {
+          location: {
+            uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/ncbi_refseq/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.sorted.gff.gz.tbi',
+          },
+        },
+      },
+      renderer: {
+        type: 'SvgFeatureRenderer',
+      },
+    },
+    {
+      type: 'AlignmentsTrack',
+      trackId: 'NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome',
+      name: 'NA12878 Exome',
+      category: ['1000 Genomes', 'Alignments'],
+      assemblyNames: ['GRCh38'],
+      adapter: {
+        type: 'CramAdapter',
+        cramLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/alignments/NA12878/NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram',
+          locationType: 'UriLocation',
+        },
+        craiLocation: {
+          uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/alignments/NA12878/NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai',
+          locationType: 'UriLocation',
+        },
+        sequenceAdapter: {
+          type: 'BgzipFastaAdapter',
+          fastaLocation: {
+            uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz',
+            locationType: 'UriLocation',
+          },
+          faiLocation: {
+            uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.fai',
+            locationType: 'UriLocation',
+          },
+          gziLocation: {
+            uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/fasta/GRCh38.fa.gz.gzi',
+            locationType: 'UriLocation',
+          },
+        },
+      },
+    },
+  ]
+
+  const state = createViewState({
+    assembly,
+    tracks,
+    location: '1:100,987,269..100,987,368',
+  })
+  state.session.view.showTrack('NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome')
+
+  return <JBrowseLinearGenomeView viewState={state} />
+}
 export const WithExternalPlugins = () => {
+  const [error, setError] = useState<unknown>()
+  const [viewState, setViewState] =
+    useState<ReturnType<typeof createViewState>>()
   // usage with buildtime plugins
   // this plugins array is then passed to the createViewState constructor
   //
@@ -511,112 +610,117 @@ export const WithExternalPlugins = () => {
   // import {loadPlugins} from '@jbrowse/react-linear-genome-view'
   //
   // we manually call loadPlugins, and pass the result to the createViewState constructor
-  const [plugins, setPlugins] = useState<PluginRecord[]>()
   useEffect(() => {
-    async function getPlugins() {
-      const loadedPlugins = await loadPlugins([
-        {
-          name: 'UCSC',
-          url: 'https://unpkg.com/jbrowse-plugin-ucsc@^1/dist/jbrowse-plugin-ucsc.umd.production.min.js',
-        },
-      ])
-      setPlugins(loadedPlugins)
-    }
-    getPlugins()
-  }, [setPlugins])
-
-  if (!plugins) {
-    return null
-  }
-
-  const state = createViewState({
-    assembly: {
-      name: 'hg19',
-      aliases: ['GRCh37'],
-      sequence: {
-        type: 'ReferenceSequenceTrack',
-        trackId: 'Pd8Wh30ei9R',
-        adapter: {
-          type: 'BgzipFastaAdapter',
-          fastaLocation: {
-            uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz',
-            locationType: 'UriLocation',
-          },
-          faiLocation: {
-            uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai',
-            locationType: 'UriLocation',
-          },
-          gziLocation: {
-            uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi',
-            locationType: 'UriLocation',
-          },
-        },
-      },
-      refNameAliases: {
-        adapter: {
-          type: 'RefNameAliasAdapter',
-          location: {
-            uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt',
-            locationType: 'UriLocation',
-          },
-        },
-      },
-    },
-    plugins: plugins.map(p => p.plugin),
-    tracks: [
-      {
-        type: 'FeatureTrack',
-        trackId: 'segdups_ucsc_hg19',
-        name: 'UCSC SegDups',
-        category: ['Annotation'],
-        assemblyNames: ['hg19'],
-        adapter: {
-          type: 'UCSCAdapter',
-          track: 'genomicSuperDups',
-        },
-      },
-    ],
-    location: '1:2,467,681..2,667,681',
-    defaultSession: {
-      name: 'Runtime plugins',
-      view: {
-        id: 'aU9Nqje1U',
-        type: 'LinearGenomeView',
-        offsetPx: 22654,
-        bpPerPx: 108.93300653594771,
-        displayedRegions: [
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    ;(async () => {
+      try {
+        const plugins = await loadPlugins([
           {
-            refName: '1',
-            start: 0,
-            end: 249250621,
-            reversed: false,
-            assemblyName: 'hg19',
+            name: 'UCSC',
+            url: 'https://unpkg.com/jbrowse-plugin-ucsc@^1/dist/jbrowse-plugin-ucsc.umd.production.min.js',
           },
-        ],
-        tracks: [
-          {
-            id: 'MbiRphmDa',
-            type: 'FeatureTrack',
-            configuration: 'segdups_ucsc_hg19',
-            displays: [
-              {
-                id: '8ovhuA5cFM',
-                type: 'LinearBasicDisplay',
-                height: 100,
-                configuration: 'segdups_ucsc_hg19-LinearBasicDisplay',
+        ])
+        const state = createViewState({
+          assembly: {
+            name: 'hg19',
+            aliases: ['GRCh37'],
+            sequence: {
+              type: 'ReferenceSequenceTrack',
+              trackId: 'Pd8Wh30ei9R',
+              adapter: {
+                type: 'BgzipFastaAdapter',
+                fastaLocation: {
+                  uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz',
+                  locationType: 'UriLocation',
+                },
+                faiLocation: {
+                  uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.fai',
+                  locationType: 'UriLocation',
+                },
+                gziLocation: {
+                  uri: 'https://jbrowse.org/genomes/hg19/fasta/hg19.fa.gz.gzi',
+                  locationType: 'UriLocation',
+                },
               },
-            ],
+            },
+            refNameAliases: {
+              adapter: {
+                type: 'RefNameAliasAdapter',
+                location: {
+                  uri: 'https://s3.amazonaws.com/jbrowse.org/genomes/hg19/hg19_aliases.txt',
+                  locationType: 'UriLocation',
+                },
+              },
+            },
           },
-        ],
-        hideHeader: false,
-        hideHeaderOverview: false,
-        trackSelectorType: 'hierarchical',
-        trackLabels: 'overlapping',
-        showCenterLine: false,
-      },
-    },
-  })
-  return <JBrowseLinearGenomeView viewState={state} />
+          plugins: plugins.map(p => p.plugin) || [],
+          tracks: [
+            {
+              type: 'FeatureTrack',
+              trackId: 'segdups_ucsc_hg19',
+              name: 'UCSC SegDups',
+              category: ['Annotation'],
+              assemblyNames: ['hg19'],
+              adapter: {
+                type: 'UCSCAdapter',
+                track: 'genomicSuperDups',
+              },
+            },
+          ],
+          location: '1:2,467,681..2,667,681',
+          defaultSession: {
+            name: 'Runtime plugins',
+            view: {
+              id: 'aU9Nqje1U',
+              type: 'LinearGenomeView',
+              offsetPx: 22654,
+              bpPerPx: 108.93300653594771,
+              displayedRegions: [
+                {
+                  refName: '1',
+                  start: 0,
+                  end: 249250621,
+                  reversed: false,
+                  assemblyName: 'hg19',
+                },
+              ],
+              tracks: [
+                {
+                  id: 'MbiRphmDa',
+                  type: 'FeatureTrack',
+                  configuration: 'segdups_ucsc_hg19',
+                  displays: [
+                    {
+                      id: '8ovhuA5cFM',
+                      type: 'LinearBasicDisplay',
+                      height: 100,
+                      configuration: 'segdups_ucsc_hg19-LinearBasicDisplay',
+                    },
+                  ],
+                },
+              ],
+              hideHeader: false,
+              hideHeaderOverview: false,
+              trackSelectorType: 'hierarchical',
+              trackLabels: 'overlapping',
+              showCenterLine: false,
+            },
+          },
+        })
+        setViewState(state)
+      } catch (e) {
+        setError(e)
+      }
+    })()
+  }, [])
+
+  return error ? (
+    <div style={{ color: 'red' }}>{`${error}`}</div>
+  ) : !viewState ? (
+    <div>Loading...</div>
+  ) : (
+    <JBrowseLinearGenomeView viewState={viewState} />
+  )
 }
 
 export const WithInternetAccounts = () => {

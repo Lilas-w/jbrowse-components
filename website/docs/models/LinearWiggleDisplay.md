@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/wiggle/src/LinearWiggleDisplay/models/model.tsx](https://github.com/GMOD/jbrowse-components/blob/main/plugins/wiggle/src/LinearWiggleDisplay/models/model.tsx)
 
 ## Docs
 
@@ -377,9 +382,9 @@ setLoading: (aborter: AbortController) => void
 
 #### action: selectFeature
 
-this overrides the BaseLinearDisplayModel to avoid popping up a
-feature detail display, but still sets the feature selection on the
-model so listeners can detect a click
+this overrides the BaseLinearDisplayModel to avoid popping up a feature detail
+display, but still sets the feature selection on the model so listeners can
+detect a click
 
 ```js
 // type signature
@@ -476,5 +481,5 @@ reload: () => Promise<void>
 
 ```js
 // type signature
-renderSvg: (opts: ExportSvgOptions & { overrideHeight: number; }) => Promise<Element>
+renderSvg: (opts: ExportSvgOptions & { overrideHeight: number; theme: ThemeOptions; }) => Promise<Element>
 ```

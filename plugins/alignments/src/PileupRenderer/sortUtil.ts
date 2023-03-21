@@ -1,6 +1,5 @@
-import { Feature } from '@jbrowse/core/util/simpleFeature'
-import { doesIntersect2 } from '@jbrowse/core/util/range'
-import { Mismatch } from '../BamAdapter/MismatchParser'
+import { doesIntersect2, Feature } from '@jbrowse/core/util'
+import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
   getFoodieRangeOne,
@@ -95,7 +94,7 @@ export const sortFeature = (
         const acode = bMismatch && bMismatch.base.toUpperCase()
         const bcode = aMismatch && aMismatch.base.toUpperCase()
         if (acode === bcode && acode === '*') {
-          // @ts-ignore
+          // @ts-expect-error
           return aMismatch.length - bMismatch.length
         }
         return (
@@ -272,9 +271,10 @@ export const sortFeature = (
   }
 
   const sortedMap = new Map(
-    featuresInCenterLine
-      .concat(featuresOutsideCenter)
-      .map(feature => [feature.id(), feature]),
+    [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
+      feature.id(),
+      feature,
+    ]),
   )
 
   return sortedMap

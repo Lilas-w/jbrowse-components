@@ -28,7 +28,7 @@ const PileupRenderer = ConfigurationSchema(
       model: types.enumeration('orientationType', ['fr', 'rf', 'ff']),
       defaultValue: 'fr',
       description:
-        'read sequencer orienation. fr is normal "reads pointing at each other ---> <--- while some other sequencers can use other options',
+        'read sequencer orientation. fr is normal "reads pointing at each other ---> <--- while some other sequencers can use other options',
     },
     /**
      * #slot
@@ -50,7 +50,7 @@ const PileupRenderer = ConfigurationSchema(
       type: 'number',
       description:
         'the minimum width in px for a pileup mismatch feature. use for increasing/decreasing mismatch marker widths when zoomed out, e.g. 0 or 1',
-      defaultValue: 0.7,
+      defaultValue: 1,
     },
     /**
      * #slot

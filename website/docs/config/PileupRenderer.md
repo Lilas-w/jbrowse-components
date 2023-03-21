@@ -4,8 +4,12 @@ title: PileupRenderer
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[plugins/alignments/src/PileupRenderer/configSchema.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/alignments/src/PileupRenderer/configSchema.ts)
 
 ## Docs
 
@@ -32,7 +36,7 @@ orientationType: {
       model: types.enumeration('orientationType', ['fr', 'rf', 'ff']),
       defaultValue: 'fr',
       description:
-        'read sequencer orienation. fr is normal "reads pointing at each other ---> <--- while some other sequencers can use other options',
+        'read sequencer orientation. fr is normal "reads pointing at each other ---> <--- while some other sequencers can use other options',
     }
 ```
 
@@ -58,7 +62,7 @@ minSubfeatureWidth: {
       type: 'number',
       description:
         'the minimum width in px for a pileup mismatch feature. use for increasing/decreasing mismatch marker widths when zoomed out, e.g. 0 or 1',
-      defaultValue: 0.7,
+      defaultValue: 1,
     }
 ```
 

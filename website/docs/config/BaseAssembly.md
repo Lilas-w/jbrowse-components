@@ -4,8 +4,12 @@ title: BaseAssembly
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[packages/core/assemblyManager/assemblyConfigSchema.ts](https://github.com/GMOD/jbrowse-components/blob/main/packages/core/assemblyManager/assemblyConfigSchema.ts)
 
 ## Docs
 
@@ -51,9 +55,9 @@ refNameColors: {
 
 #### slot: refNameAliases.adapter
 
-refNameAliases help resolve e.g. chr1 and 1 as the same entity
-the data for refNameAliases are fetched from an adapter, that is
-commonly a tsv like chromAliases.txt from UCSC or similar
+refNameAliases help resolve e.g. chr1 and 1 as the same entity the data for
+refNameAliases are fetched from an adapter, that is commonly a tsv like
+chromAliases.txt from UCSC or similar
 
 ```js
 adapter: pluginManager.pluggableConfigSchemaType('adapter')
@@ -61,8 +65,8 @@ adapter: pluginManager.pluggableConfigSchemaType('adapter')
 
 #### slot: cytobands.adapter
 
-cytoband data is fetched from an adapter, and can be displayed by a
-view type as ideograms
+cytoband data is fetched from an adapter, and can be displayed by a view type as
+ideograms
 
 ```js
 adapter: pluginManager.pluggableConfigSchemaType('adapter')

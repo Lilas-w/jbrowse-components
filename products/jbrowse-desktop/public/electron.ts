@@ -89,6 +89,8 @@ autoUpdater.on('update-available', async () => {
   })
 
   if (result.response === 0) {
+    // unsure how to handle
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     autoUpdater.downloadUpdate()
   }
 })
@@ -185,6 +187,7 @@ async function updatePreconfiguredSessions() {
 
 async function createWindow() {
   // no need to await, just update in background
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   updatePreconfiguredSessions()
 
   const mainWindowState = windowStateKeeper({
@@ -205,29 +208,32 @@ async function createWindow() {
     },
   })
   mainWindowState.manage(mainWindow)
-  mainWindow.loadURL(
+
+  // this ready-to-show handler must be attached before the loadURL
+  mainWindow.once('ready-to-show', () => {
+    // unsure how to error handle
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    autoUpdater.checkForUpdatesAndNotify()
+  })
+
+  await mainWindow.loadURL(
     isDev
       ? url.format(devServerUrl)
       : `file://${path.join(app.getAppPath(), 'build', 'index.html')}`,
   )
-  mainWindow.webContents.on('new-window', (event, outboundUrl) => {
-    event.preventDefault()
-    shell.openExternal(outboundUrl)
-  })
 
-  // open url in a browser and prevent default
-  // also has <base target="_blank"> in <head> to redirect links by default
-  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
-    shell.openExternal(url)
+  mainWindow.webContents.setWindowOpenHandler(details => {
+    // unsure how to handle
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    shell.openExternal(details.url)
     return { action: 'deny' }
   })
 
   const isMac = process.platform === 'darwin'
 
-  // @ts-ignore
   const mainMenu = Menu.buildFromTemplate([
     // { role: 'appMenu' }
-    // @ts-ignore
+    // @ts-expect-error
     ...(isMac
       ? [
           {
@@ -248,7 +254,7 @@ async function createWindow() {
       : []),
     {
       label: 'File',
-      // @ts-ignore
+      // @ts-expect-error
       submenu: [isMac ? { role: 'close' } : { role: 'quit' }],
     },
     {
@@ -260,7 +266,7 @@ async function createWindow() {
         { role: 'cut' },
         { role: 'copy' },
         { role: 'paste' },
-        // @ts-ignore
+        // @ts-expect-error
         ...(isMac
           ? [
               { role: 'pasteAndMatchStyle' },
@@ -279,12 +285,12 @@ async function createWindow() {
       label: 'View',
       submenu: [
         { role: 'reload' },
-        // @ts-ignore
+        // @ts-expect-error
         { role: 'toggledevtools' },
         { type: 'separator' },
-        // @ts-ignore
+        // @ts-expect-error
         { role: 'zoomin' },
-        // @ts-ignore
+        // @ts-expect-error
         { role: 'zoomout' },
         { type: 'separator' },
         { role: 'togglefullscreen' },
@@ -295,7 +301,7 @@ async function createWindow() {
       submenu: [
         { role: 'minimize' },
         { role: 'zoom' },
-        // @ts-ignore
+        // @ts-expect-error
         ...(isMac
           ? [
               { type: 'separator' },
@@ -309,7 +315,7 @@ async function createWindow() {
     {
       label: 'Help',
       role: 'help',
-      // @ts-ignore
+      // @ts-expect-error
       submenu: [
         {
           label: 'Learn More',
@@ -332,10 +338,6 @@ async function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-
-  mainWindow.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify()
-  })
 }
 
 function sendStatusToWindow(text: string) {
@@ -355,6 +357,8 @@ app.on('window-all-closed', () => {
 
 app.on('activate', () => {
   if (mainWindow === null) {
+    // unsure how to handle error
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     createWindow()
   }
 })
@@ -371,11 +375,11 @@ ipcMain.handle(
   'indexFasta',
   async (event: unknown, location: { uri: string } | { localPath: string }) => {
     const filename = 'localPath' in location ? location.localPath : location.uri
-    const faiPath = getFaiPath(path.basename(filename) + Date.now() + '.fai')
+    const faiPath = getFaiPath(`${path.basename(filename)}${+Date.now()}.fai`)
     const stream = await getFileStream(location)
     const write = fs.createWriteStream(faiPath)
 
-    // @ts-ignore
+    // @ts-expect-error
     await generateFastaIndex(write, stream)
     return faiPath
   },
@@ -386,11 +390,9 @@ ipcMain.handle(
   async (_event: unknown, showAutosaves: boolean) => {
     const sessions = await readRecentSessions()
 
-    if (!showAutosaves) {
-      return sessions.filter(f => !f.path.startsWith(autosaveDir))
-    } else {
-      return sessions
-    }
+    return showAutosaves
+      ? sessions
+      : sessions.filter(f => !f.path.startsWith(autosaveDir))
   },
 )
 
@@ -453,6 +455,8 @@ ipcMain.handle(
       },
     })
     win.title = `JBrowseAuthWindow-${internetAccountId}`
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     win.loadURL(url)
 
     return new Promise(resolve => {
@@ -603,10 +607,11 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on('error', err => {
-  sendStatusToWindow('Error in auto-updater. ' + err)
+  sendStatusToWindow(`Error in auto-updater: ${err}`)
 })
 
 autoUpdater.on('update-downloaded', () => {
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   dialog.showMessageBox({
     type: 'info',
     title: 'Update completed',

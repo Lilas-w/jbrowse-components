@@ -1,10 +1,9 @@
 import { promises as fsPromises } from 'fs'
 import path from 'path'
-import { parseCsvBuffer } from './ImportUtils'
 
-import { TextDecoder } from 'web-encoding'
+// locals
+import { parseCsvBuffer } from './ImportUtils'
 import SpreadsheetModel from '../models/Spreadsheet'
-window.TextDecoder = TextDecoder
 
 test('csv to spreadsheet snapshot', async () => {
   const filepath = path.join(
@@ -20,7 +19,7 @@ test('csv to spreadsheet snapshot', async () => {
     isValidRefName: () => true,
   })
   expect(spreadsheetSnap).toMatchSnapshot()
-  // @ts-ignore
+  // @ts-expect-error
   const spreadsheet = SpreadsheetModel.create(spreadsheetSnap)
   expect(spreadsheet.rowSet.rows.length).toBe(49)
 })

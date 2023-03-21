@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/linear-comparative-view/src/LinearComparativeDisplay/stateModelFactory.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/linear-comparative-view/src/LinearComparativeDisplay/stateModelFactory.ts)
 
 ## Docs
 
@@ -41,13 +46,6 @@ height: 100
 
 ### LinearComparativeDisplay - Getters
 
-#### getter: rendererTypeName
-
-```js
-// type
-any
-```
-
 #### getter: renderProps
 
 ```js
@@ -81,7 +79,7 @@ controlled by a reaction
 
 ```js
 // type signature
-setRendered: (args?: { data: unknown; reactElement: React.ReactElement; renderingComponent: React.Component; }) => void
+setRendered: (args?: { features: Feature[]; }) => void
 ```
 
 #### action: setError

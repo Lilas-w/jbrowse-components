@@ -11,6 +11,7 @@ import {
   doesIntersect2,
 } from '@jbrowse/core/util'
 import { toArray } from 'rxjs/operators'
+import { firstValueFrom } from 'rxjs'
 
 export default class extends BaseFeatureDataAdapter {
   public async configure() {
@@ -47,16 +48,16 @@ export default class extends BaseFeatureDataAdapter {
         },
         opts,
       )
-      const feats = await ret.pipe(toArray()).toPromise()
+      const feats = await firstValueFrom(ret.pipe(toArray()))
       const residues: string = feats[0]?.get('seq') || ''
-      const search = this.getConf('search')
-      const searchFoward = this.getConf('searchForward')
+      const search = this.getConf('search') as string
+      const searchForward = this.getConf('searchForward')
       const searchReverse = this.getConf('searchReverse')
       const caseInsensitive = this.getConf('caseInsensitive')
       const re = new RegExp(search, 'g' + (caseInsensitive ? 'i' : ''))
 
       if (search) {
-        if (searchFoward) {
+        if (searchForward) {
           const matches = residues.matchAll(re)
           for (const match of matches) {
             const s = queryStart + (match.index || 0)

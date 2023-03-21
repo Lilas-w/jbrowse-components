@@ -4,8 +4,10 @@ import {
   SimpleFeatureSerialized,
 } from '@jbrowse/core/util/simpleFeature'
 import { CramRecord } from '@gmod/cram'
+
+// locals
 import CramAdapter from './CramAdapter'
-import { Mismatch, readFeaturesToCIGAR, readFeaturesToMismatches } from './util'
+import { readFeaturesToCIGAR, readFeaturesToMismatches } from './util'
 
 export default class CramSlightlyLazyFeature implements Feature {
   // uses parameter properties to automatically create fields on the class
@@ -57,12 +59,8 @@ export default class CramSlightlyLazyFeature implements Feature {
     return this.record.qualityScores
   }
 
-  _get_seq_id() {
-    return this._store.refIdToName(this.record.sequenceId)
-  }
-
   _get_refName() {
-    return this._get_seq_id()
+    return this._store.refIdToName(this.record.sequenceId)
   }
 
   _get_is_paired() {
@@ -77,14 +75,10 @@ export default class CramSlightlyLazyFeature implements Feature {
     return this.record.templateLength || this.record.templateSize
   }
 
-  _get_next_seq_id() {
+  _get_next_ref() {
     return this.record.mate
       ? this._store.refIdToName(this.record.mate.sequenceId)
       : undefined
-  }
-
-  _get_next_pos() {
-    return this.record.mate ? this.record.mate.alignmentStart : undefined
   }
 
   _get_next_segment_position() {
@@ -93,6 +87,10 @@ export default class CramSlightlyLazyFeature implements Feature {
           this.record.mate.alignmentStart
         }`
       : undefined
+  }
+
+  _get_next_pos() {
+    return this.record.mate?.alignmentStart
   }
 
   _get_tags() {
@@ -133,23 +131,23 @@ export default class CramSlightlyLazyFeature implements Feature {
 
   get(field: string) {
     const methodName = `_get_${field}`
-    // @ts-ignore
+    // @ts-expect-error
     if (this[methodName]) {
-      // @ts-ignore
+      // @ts-expect-error
       return this[methodName]()
     }
     return undefined
   }
 
-  parent(): undefined | Feature {
+  parent() {
     return undefined
   }
 
-  children(): undefined | Feature[] {
+  children() {
     return undefined
   }
 
-  set(): void {}
+  set() {}
 
   pairedFeature() {
     return false
@@ -181,7 +179,7 @@ export default class CramSlightlyLazyFeature implements Feature {
     }
   }
 
-  _get_mismatches(): Mismatch[] {
+  _get_mismatches() {
     const readFeatures = this.record.readFeatures
     const qual = this.qualRaw()
     const start = this.get('start')

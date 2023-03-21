@@ -267,7 +267,7 @@
       "assemblyNames": ["hg38"],
       "category": ["Annotation"],
       "adapter": {
-        "baseUrl": "https://mygene.info/v3/query?q=${ref}:${start}-${end}&size=1000&fields=all&size=1000&species=human",
+        "baseUrl": "https://mygene.info/v3/query?q={ref}:{start}-{end}&size=1000&fields=all&size=1000&species=human",
         "type": "MyGeneV3Adapter"
       }
     },
@@ -278,7 +278,7 @@
       "assemblyNames": ["hg19"],
       "category": ["Annotation"],
       "adapter": {
-        "baseUrl": "https://mygene.info/v3/query?q=hg19.${ref}:${start}-${end}&size=1000&fields=all&size=1000&species=human",
+        "baseUrl": "https://mygene.info/v3/query?q=hg19.{ref}:{start}-{end}&size=1000&fields=all&size=1000&species=human",
         "type": "MyGeneV3Adapter"
       }
     },
@@ -603,7 +603,7 @@
     },
     {
       "type": "AlignmentsTrack",
-      "trackId": "nanopore_targetted_alignments_0.1",
+      "trackId": "nanopore_targeted_alignments_0.1",
       "name": "Nanopore amplicon alignments 0.1x (chr7:55,000,000-56,000,000)",
       "description": "Source http://bioinformatics.uni-muenster.de/share/NanoPipe_test_data/?lang=en",
       "assemblyNames": ["hg38"],
@@ -637,7 +637,7 @@
     },
     {
       "type": "AlignmentsTrack",
-      "trackId": "nanopore_targetted_alignments",
+      "trackId": "nanopore_targeted_alignments",
       "name": "Nanopore amplicon (chr7:55,000,000-56,000,000) [causes out-of-memory]",
       "description": "Source http://bioinformatics.uni-muenster.de/share/NanoPipe_test_data/?lang=en",
       "assemblyNames": ["hg38"],
@@ -1018,6 +1018,36 @@
           "location": {
             "uri": "https://s3.amazonaws.com/1000genomes/phase3/data/NA12878/exome_alignment/NA12878.mapped.ILLUMINA.bwa.CEU.exome.20121211.bam.bai",
             "locationType": "UriLocation"
+          }
+        }
+      }
+    },
+    {
+      "type": "AlignmentsTrack",
+      "trackId": "NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome",
+      "name": "NA12878 Exome",
+      "assemblyNames": ["GRCh38"],
+      "category": ["1000 Genomes", "Alignments"],
+      "adapter": {
+        "type": "CramAdapter",
+        "cramLocation": {
+          "locationType": "UriLocation",
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/alignments/NA12878/NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram"
+        },
+        "craiLocation": {
+          "locationType": "UriLocation",
+          "uri": "https://s3.amazonaws.com/jbrowse.org/genomes/GRCh38/alignments/NA12878/NA12878.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai"
+        },
+        "sequenceAdapter": {
+          "type": "BgzipFastaAdapter",
+          "fastaLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
+          },
+          "faiLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai"
+          },
+          "gziLocation": {
+            "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi"
           }
         }
       }

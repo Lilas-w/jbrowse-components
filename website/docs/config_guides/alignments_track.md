@@ -1,5 +1,5 @@
 ---
-id: alignment_track
+id: alignments_track
 toplevel: true
 title: Alignments track configuration
 ---
@@ -53,7 +53,9 @@ Example `BamAdapter` config:
 
 - `cramLocation` - a 'file location' for the CRAM
 - `craiLocation` - a 'file location' for the CRAI
-- `sequenceAdapter` - a subadapter describing the location of the reference assembly (_e.g._ an [IndexedFastaAdapter](/docs/config_guides/assemblies/#IndexedFastaAdapter))
+- `sequenceAdapter` - a subadapter describing the location of the reference
+  assembly (_e.g._ an
+  [IndexedFastaAdapter](/docs/config_guides/assemblies/#indexedfastaadapter))
 
 Example `CramAdapter` config:
 

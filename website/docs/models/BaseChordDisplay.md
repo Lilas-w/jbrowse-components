@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/circular-view/src/BaseChordDisplay/models/model.tsx](https://github.com/GMOD/jbrowse-components/blob/main/plugins/circular-view/src/BaseChordDisplay/models/model.tsx)
 
 ## Docs
 
@@ -43,8 +48,7 @@ any
 
 #### getter: rendererType
 
-the pluggable element type object for this diplay's
-renderer
+the pluggable element type object for this display's renderer
 
 ```js
 // type
@@ -53,8 +57,8 @@ RendererType
 
 #### getter: selectedFeatureId
 
-returns a string feature ID if the globally-selected object
-is probably a feature
+returns a string feature ID if the globally-selected object is probably a
+feature
 
 ```js
 // type
@@ -77,6 +81,13 @@ renderProps: () => any
 isCompatibleWithRenderer: (renderer: RendererType) => boolean
 ```
 
+#### method: renderSvg
+
+```js
+// type signature
+renderSvg: (opts: ExportSvgOptions & { theme: ThemeOptions; }) => Promise<Element>
+```
+
 ### BaseChordDisplay - Actions
 
 #### action: onChordClick
@@ -97,7 +108,7 @@ renderStarted: () => void
 
 ```js
 // type signature
-renderSuccess: ({ message, data, reactElement, renderingComponent, }: { message: string; data: any; reactElement: React.ReactElement; renderingComponent: React.ComponentType<any>; }) => void
+renderSuccess: ({ message, data, reactElement, html, renderingComponent, }: { message: string; data: any; html: string; reactElement: React.ReactElement; renderingComponent: React.ComponentType<any>; }) => void
 ```
 
 #### action: renderError

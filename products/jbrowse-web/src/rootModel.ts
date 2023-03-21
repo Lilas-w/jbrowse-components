@@ -1,3 +1,4 @@
+import { lazy } from 'react'
 import {
   addDisposer,
   cast,
@@ -42,6 +43,8 @@ import jbrowseWebFactory from './jbrowseModel'
 import sessionModelFactory from './sessionModelFactory'
 import { filterSessionInPlace } from './util'
 import { AnyConfigurationModel } from '@jbrowse/core/configuration'
+
+const PreferencesDialog = lazy(() => import('./PreferencesDialog'))
 
 interface Menu {
   label: string
@@ -119,23 +122,41 @@ export default function RootModel(
       error: undefined as unknown,
     }))
     .views(self => ({
+      /**
+       * #getter
+       */
       get savedSessions() {
-        return Array.from(self.savedSessionsVolatile.values())
+        return [...self.savedSessionsVolatile.values()]
       },
+      /**
+       * #method
+       */
       localStorageId(name: string) {
         return `localSaved-${name}-${self.configPath}`
       },
+      /**
+       * #getter
+       */
       get autosaveId() {
         return `autosave-${self.configPath}`
       },
+      /**
+       * #getter
+       */
       get previousAutosaveId() {
         return `previousAutosave-${self.configPath}`
       },
     }))
     .views(self => ({
+      /**
+       * #getter
+       */
       get savedSessionNames() {
         return self.savedSessions.map(session => session.name)
       },
+      /**
+       * #getter
+       */
       get currentSessionId() {
         const locationUrl = new URL(window.location.href)
         const params = new URLSearchParams(locationUrl.search)
@@ -147,35 +168,35 @@ export default function RootModel(
       afterCreate() {
         document.addEventListener('keydown', e => {
           const cm = e.ctrlKey || e.metaKey
-          if (self.history.canRedo) {
-            if (
-              // ctrl+shift+z or cmd+shift+z
-              (cm && e.shiftKey && e.code === 'KeyZ') ||
+          if (
+            self.history.canRedo &&
+            // ctrl+shift+z or cmd+shift+z
+            ((cm && e.shiftKey && e.code === 'KeyZ') ||
               // ctrl+y
-              (e.ctrlKey && !e.shiftKey && e.code === 'KeyY')
-            ) {
-              self.history.redo()
-            }
+              (e.ctrlKey && !e.shiftKey && e.code === 'KeyY'))
+          ) {
+            self.history.redo()
           }
-          if (self.history.canUndo) {
-            // ctrl+z or cmd+z
-            if (cm && !e.shiftKey && e.code === 'KeyZ') {
-              self.history.undo()
-            }
+          if (
+            self.history.canUndo && // ctrl+z or cmd+z
+            cm &&
+            !e.shiftKey &&
+            e.code === 'KeyZ'
+          ) {
+            self.history.undo()
           }
         })
 
-        Object.entries(localStorage)
+        for (const [key, val] of Object.entries(localStorage)
           .filter(([key, _val]) => key.startsWith('localSaved-'))
-          .filter(([key]) => key.indexOf(self.configPath || 'undefined') !== -1)
-          .forEach(([key, val]) => {
-            try {
-              const { session } = JSON.parse(val)
-              self.savedSessionsVolatile.set(key, session)
-            } catch (e) {
-              console.error('bad session encountered', key, val)
-            }
-          })
+          .filter(([key]) => key.includes(self.configPath || 'undefined'))) {
+          try {
+            const { session } = JSON.parse(val)
+            self.savedSessionsVolatile.set(key, session)
+          } catch (e) {
+            console.error('bad session encountered', key, val)
+          }
+        }
         addDisposer(
           self,
           autorun(() => {
@@ -184,7 +205,7 @@ export default function RootModel(
                 const key = self.localStorageId(val.name)
                 localStorage.setItem(key, JSON.stringify({ session: val }))
               } catch (e) {
-                // @ts-ignore
+                // @ts-expect-error
                 if (e.code === '22' || e.code === '1024') {
                   alert(
                     'Local storage is full! Please use the "Open sessions" panel to remove old sessions',
@@ -246,6 +267,9 @@ export default function RootModel(
           }),
         )
       },
+      /**
+       * #action
+       */
       setSession(sessionSnapshot?: SnapshotIn<typeof Session>) {
         const oldSession = self.session
         self.session = cast(sessionSnapshot)
@@ -494,7 +518,7 @@ export default function RootModel(
               onClick: (session: SessionWithWidgets) => {
                 if (session.views.length === 0) {
                   session.notify('Please open a view to add a track first')
-                } else if (session.views.length >= 1) {
+                } else if (session.views.length > 0) {
                   const widget = session.addWidget(
                     'AddTrackWidget',
                     'addTrackWidget',
@@ -524,9 +548,7 @@ export default function RootModel(
             {
               label: 'Return to splash screen',
               icon: AppsIcon,
-              onClick: () => {
-                self.setSession(undefined)
-              },
+              onClick: () => self.setSession(undefined),
             },
           ],
         },
@@ -537,17 +559,11 @@ export default function RootModel(
                 menuItems: [
                   {
                     label: 'Open assembly manager',
-                    icon: SettingsIcon,
-                    onClick: () => {
-                      self.setAssemblyEditing(true)
-                    },
+                    onClick: () => self.setAssemblyEditing(true),
                   },
                   {
                     label: 'Set default session',
-                    icon: SettingsIcon,
-                    onClick: () => {
-                      self.setDefaultSessionEditing(true)
-                    },
+                    onClick: () => self.setDefaultSessionEditing(true),
                   },
                 ],
               },
@@ -562,18 +578,20 @@ export default function RootModel(
           menuItems: [
             {
               label: 'Undo',
-              disabled: self.history.canUndo,
               icon: UndoIcon,
               onClick: () => {
-                self.history.undo()
+                if (self.history.canUndo) {
+                  self.history.undo()
+                }
               },
             },
             {
               label: 'Redo',
-              disabled: self.history.canRedo,
               icon: RedoIcon,
               onClick: () => {
-                self.history.redo()
+                if (self.history.canRedo) {
+                  self.history.redo()
+                }
               },
             },
             { type: 'divider' },
@@ -590,16 +608,35 @@ export default function RootModel(
                 }
               },
             },
+            {
+              label: 'Preferences',
+              icon: SettingsIcon,
+              onClick: () => {
+                if (self.session) {
+                  self.session.queueDialog(handleClose => [
+                    PreferencesDialog,
+                    {
+                      session: self.session,
+                      handleClose,
+                    },
+                  ])
+                }
+              },
+            },
           ],
         },
       ] as Menu[],
       adminMode,
     }))
     .actions(self => ({
+      /**
+       * #action
+       */
       setMenus(newMenus: Menu[]) {
         self.menus = newMenus
       },
       /**
+       * #action
        * Add a top-level menu
        * @param menuName - Name of the menu to insert.
        * @returns The new length of the top-level menus array
@@ -608,6 +645,7 @@ export default function RootModel(
         return self.menus.push({ label: menuName, menuItems: [] })
       },
       /**
+       * #action
        * Insert a top-level menu
        * @param menuName - Name of the menu to insert.
        * @param position - Position to insert menu. If negative, counts from th
@@ -624,6 +662,7 @@ export default function RootModel(
         return self.menus.length
       },
       /**
+       * #action
        * Add a menu item to a top-level menu
        * @param menuName - Name of the top-level menu to append to.
        * @param menuItem - Menu item to append.
@@ -638,6 +677,7 @@ export default function RootModel(
         return menu.menuItems.push(menuItem)
       },
       /**
+       * #action
        * Insert a menu item into a top-level menu
        * @param menuName - Name of the top-level menu to insert into
        * @param menuItem - Menu item to insert
@@ -658,6 +698,7 @@ export default function RootModel(
         return menu.menuItems.length
       },
       /**
+       * #action
        * Add a menu item to a sub-menu
        * @param menuPath - Path to the sub-menu to add to, starting with the
        * top-level menu (e.g. `['File', 'Insert']`).
@@ -689,6 +730,7 @@ export default function RootModel(
         return subMenu.push(menuItem)
       },
       /**
+       * #action
        * Insert a menu item into a sub-menu
        * @param menuPath - Path to the sub-menu to add to, starting with the
        * top-level menu (e.g. `['File', 'Insert']`).

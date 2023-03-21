@@ -6,15 +6,18 @@ import {
   AccordionDetails,
   AccordionSummary,
   Divider,
+  Link,
   Tooltip,
   Typography,
 } from '@mui/material'
 import { makeStyles } from 'tss-react/mui'
-import ExpandMore from '@mui/icons-material/ExpandMore'
 import { DataGrid, GridCellParams } from '@mui/x-data-grid'
 import { observer } from 'mobx-react'
 import isObject from 'is-object'
 import { IAnyStateTreeNode } from 'mobx-state-tree'
+
+// icons
+import ExpandMore from '@mui/icons-material/ExpandMore'
 
 // locals
 import {
@@ -66,7 +69,7 @@ export const useStyles = makeStyles()(theme => ({
     padding: theme.spacing(1),
   },
   expandIcon: {
-    color: '#FFFFFF',
+    color: theme.palette.tertiary?.contrastText || '#fff',
   },
   field: {
     display: 'flex',
@@ -74,7 +77,7 @@ export const useStyles = makeStyles()(theme => ({
   },
   fieldDescription: {
     '&:hover': {
-      background: 'yellow',
+      background: theme.palette.mode === 'dark' ? '#e65100' : 'yellow',
     },
   },
   fieldName: {
@@ -82,7 +85,7 @@ export const useStyles = makeStyles()(theme => ({
     minWidth: 90,
     borderBottom: '1px solid #0003',
     fontSize: 12,
-    background: theme.palette.grey[200],
+    background: theme.palette.action.disabledBackground,
     marginRight: theme.spacing(1),
     padding: theme.spacing(0.5),
   },
@@ -97,8 +100,8 @@ export const useStyles = makeStyles()(theme => ({
     wordBreak: 'break-word',
     maxHeight: 300,
     padding: theme.spacing(0.5),
-    background: theme.palette.grey[100],
-    border: `1px solid ${theme.palette.grey[300]}`,
+    background: theme.palette.action.disabledBackground,
+    border: `1px solid ${theme.palette.action.disabledBackground}`,
     boxSizing: 'border-box',
     overflow: 'auto',
   },
@@ -115,7 +118,7 @@ export function BaseCard({
     <Accordion
       expanded={expanded}
       onChange={() => setExpanded(s => !s)}
-      TransitionProps={{ unmountOnExit: true }}
+      TransitionProps={{ unmountOnExit: true, timeout: 150 }}
     >
       <AccordionSummary
         expandIcon={<ExpandMore className={classes.expandIcon} />}
@@ -163,7 +166,7 @@ export const BasicValue = ({ value }: { value: string | React.ReactNode }) => {
       {React.isValidElement(value) ? (
         value
       ) : isLink ? (
-        <SanitizedHTML html={`<a href="${value}">${value}</a>`} />
+        <Link href={`${value}`}>{`${value}`}</Link>
       ) : (
         <SanitizedHTML
           html={isObject(value) ? JSON.stringify(value) : String(value)}
@@ -173,7 +176,7 @@ export const BasicValue = ({ value }: { value: string | React.ReactNode }) => {
   )
 }
 
-export const SimpleValue = ({
+export function SimpleValue({
   name,
   value,
   description,
@@ -185,7 +188,7 @@ export const SimpleValue = ({
   value: any
   prefix?: string[]
   width?: number
-}) => {
+}) {
   const { classes } = useStyles()
   return value !== null && value !== undefined ? (
     <div className={classes.field}>
@@ -200,7 +203,7 @@ export const SimpleValue = ({
   ) : null
 }
 
-const ArrayValue = ({
+function ArrayValue({
   name,
   value,
   description,
@@ -210,7 +213,7 @@ const ArrayValue = ({
   name: string
   value: any[]
   prefix?: string[]
-}) => {
+}) {
   const { classes } = useStyles()
   if (value.length === 1) {
     return isObject(value[0]) ? (
@@ -260,7 +263,7 @@ function Position(props: BaseProps) {
     '1': '+',
   }
   const str = strandMap[strand] ? `(${strandMap[strand]})` : ''
-  // @ts-ignore
+  // @ts-expect-error
   const loc = assembleLocString(feature as ParsedLocString)
   return <>{`${loc} ${str}`}</>
 }
@@ -321,16 +324,6 @@ export const BaseCoreDetails = (props: BaseProps) => {
   )
 }
 
-interface AttributeProps {
-  attributes: Record<string, any>
-  omit?: string[]
-  omitSingleLevel?: string[]
-  formatter?: (val: unknown, key: string) => React.ReactNode
-  descriptions?: Record<string, React.ReactNode>
-  prefix?: string[]
-  hideUris?: boolean
-}
-
 export function UriLink({
   value,
 }: {
@@ -340,18 +333,22 @@ export function UriLink({
   return <SanitizedHTML html={`<a href="${href}">${href}</a>`} />
 }
 
-const DataGridDetails = ({
+function DataGridDetails({
   value,
   prefix,
   name,
 }: {
   name: string
   prefix?: string[]
-  value: Record<string, any>
-}) => {
+  value: Record<string, any>[]
+}) {
   const keys = Object.keys(value[0]).sort()
   const unionKeys = new Set(keys)
-  value.forEach((val: any) => Object.keys(val).forEach(k => unionKeys.add(k)))
+  for (const val of value) {
+    for (const k of Object.keys(val)) {
+      unionKeys.add(k)
+    }
+  }
   if (unionKeys.size < keys.length + 5) {
     // avoids key 'id' from being used in row data
     const rows = Object.entries(value).map(([k, val]) => {
@@ -360,7 +357,7 @@ const DataGridDetails = ({
         id: k, // used by material UI
         identifier: id, // renamed from id to identifier
         ...rest,
-      }
+      } as { [key: string]: unknown }
     })
 
     // avoids key 'id' from being used in column names, and tries
@@ -465,7 +462,15 @@ function UriAttribute({
   )
 }
 
-export function Attributes(props: AttributeProps) {
+export function Attributes(props: {
+  attributes: Record<string, any>
+  omit?: string[]
+  omitSingleLevel?: string[]
+  formatter?: (val: unknown, key: string) => React.ReactNode
+  descriptions?: Record<string, React.ReactNode>
+  prefix?: string[]
+  hideUris?: boolean
+}) {
   const {
     attributes,
     omit = [],
@@ -476,13 +481,13 @@ export function Attributes(props: AttributeProps) {
     prefix = [],
   } = props
 
-  const omits = [...omit, ...globalOmit, ...omitSingleLevel]
+  const omits = new Set([...omit, ...globalOmit, ...omitSingleLevel])
   const { __jbrowsefmt, ...rest } = attributes
   const formattedAttributes = { ...rest, ...__jbrowsefmt }
 
   const maxLabelWidth = generateMaxWidth(
     Object.entries(formattedAttributes).filter(
-      ([k, v]) => v !== undefined && !omits.includes(k),
+      ([k, v]) => v !== undefined && !omits.has(k),
     ),
     prefix,
   )
@@ -490,7 +495,7 @@ export function Attributes(props: AttributeProps) {
   return (
     <>
       {Object.entries(formattedAttributes)
-        .filter(([k, v]) => v !== undefined && !omits.includes(k))
+        .filter(([k, v]) => v !== undefined && !omits.has(k))
         .map(([key, value]) => {
           const description = accessNested([...prefix, key], descriptions)
           if (Array.isArray(value)) {
@@ -580,15 +585,15 @@ interface PanelDescriptor {
   Component: React.FC<any>
 }
 
-export const FeatureDetails = (props: {
+export function FeatureDetails(props: {
   model: IAnyStateTreeNode
   feature: SimpleFeatureSerializedNoId
   depth?: number
   omit?: string[]
   formatter?: (val: unknown, key: string) => React.ReactNode
-}) => {
+}) {
   const { omit = [], model, feature, depth = 0 } = props
-  const { name = '', id = '', type = '', subfeatures } = feature
+  const { mate, name = '', id = '', type = '', subfeatures } = feature
   const pm = getEnv(model).pluginManager
   const session = getSession(model)
 
@@ -601,12 +606,12 @@ export const FeatureDetails = (props: {
     <BaseCard title={generateTitle(name, id, type)}>
       <Typography>Core details</Typography>
       <CoreDetails {...props} />
-      {feature.mate ? (
+      {mate ? (
         <>
           <Divider />
           <Typography>Mate details</Typography>
-          {/* @ts-ignore */}
-          <CoreDetails {...props} feature={feature.mate} />
+          {/* @ts-expect-error */}
+          <CoreDetails {...props} feature={mate} />
         </>
       ) : null}
       <Divider />
@@ -651,7 +656,7 @@ export const FeatureDetails = (props: {
   )
 }
 
-const BaseFeatureDetails = observer(({ model }: BaseInputProps) => {
+export default observer(function ({ model }: BaseInputProps) {
   const { featureData } = model
 
   if (!featureData) {
@@ -662,14 +667,8 @@ const BaseFeatureDetails = observer(({ model }: BaseInputProps) => {
   // setting null is not allowed by jexl so we set it to undefined to hide. see
   // config guide. this replacement happens both here and when snapshotting the
   // featureData
-  const feature = JSON.parse(
-    JSON.stringify(featureData, (_, v) =>
-      typeof v === 'undefined' ? null : v,
-    ),
+  const g = JSON.parse(
+    JSON.stringify(featureData, (_, v) => (v === undefined ? null : v)),
   )
-  return isEmpty(feature) ? null : (
-    <FeatureDetails model={model} feature={feature} />
-  )
+  return isEmpty(g) ? null : <FeatureDetails model={model} feature={g} />
 })
-
-export default BaseFeatureDetails

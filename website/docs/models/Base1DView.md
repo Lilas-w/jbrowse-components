@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[packages/core/util/Base1DViewModel.ts](https://github.com/GMOD/jbrowse-components/blob/main/packages/core/util/Base1DViewModel.ts)
 
 ## Docs
 
@@ -200,8 +205,8 @@ setFeatures: (features: Feature[]) => void
 
 #### action: showAllRegions
 
-this makes a zoomed out view that shows all displayedRegions that makes
-the overview bar square with the scale bar
+this makes a zoomed out view that shows all displayedRegions that makes the
+overview bar square with the scale bar
 
 ```js
 // type signature
@@ -226,7 +231,7 @@ zoomIn: () => void
 
 ```js
 // type signature
-zoomTo: (newBpPerPx: number, offset?: number) => number
+zoomTo: (bpPerPx: number, offset?: number) => number
 ```
 
 #### action: scrollTo
@@ -254,8 +259,8 @@ scroll: (distance: number) => number
 
 #### action: moveTo
 
-offset is the base-pair-offset in the displayed region, index is the index of the
-displayed region in the linear genome view
+offset is the base-pair-offset in the displayed region, index is the index of
+the displayed region in the linear genome view
 
 ```js
 // type signature

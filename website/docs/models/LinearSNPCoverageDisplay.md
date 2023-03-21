@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/alignments/src/LinearSNPCoverageDisplay/models/model.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/alignments/src/LinearSNPCoverageDisplay/models/model.ts)
 
 ## Docs
 
@@ -56,17 +61,7 @@ drawArcs: types.maybe(types.boolean)
 // type signature
 IOptionalIType<IModelType<{ flagInclude: IOptionalIType<ISimpleType<number>, [undefined]>; flagExclude: IOptionalIType<ISimpleType<number>, [undefined]>; readName: IMaybe<...>; tagFilter: IMaybe<...>; }, {}, _NotCustomized, _NotCustomized>, [...]>
 // code
-filterBy: types.optional(
-          types.model({
-            flagInclude: types.optional(types.number, 0),
-            flagExclude: types.optional(types.number, 1540),
-            readName: types.maybe(types.string),
-            tagFilter: types.maybe(
-              types.model({ tag: types.string, value: types.string }),
-            ),
-          }),
-          {},
-        )
+filterBy: types.optional(FilterModel, {})
 ```
 
 #### property: colorBy

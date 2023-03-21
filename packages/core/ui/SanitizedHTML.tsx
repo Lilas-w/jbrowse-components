@@ -30,6 +30,8 @@ const htmlTags = [
   'strong',
   'table',
   'tbody',
+  'sup',
+  'sub',
   'td',
   'tfoot',
   'th',
@@ -70,7 +72,7 @@ export default function SanitizedHTML({ html }: { html: string }) {
   }
 
   return (
-    <div
+    <span
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: dompurify.sanitize(value),

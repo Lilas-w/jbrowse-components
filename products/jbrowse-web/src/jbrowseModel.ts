@@ -1,4 +1,6 @@
 import {
+  AnyConfigurationModel,
+  AnyConfigurationSchemaType,
   ConfigurationSchema,
   readConfObject,
 } from '@jbrowse/core/configuration'
@@ -14,17 +16,15 @@ import {
   cast,
 } from 'mobx-state-tree'
 import { toJS } from 'mobx'
-import { SessionStateModel } from './sessionModelFactory'
-import {
-  AnyConfigurationModel,
-  AnyConfigurationSchemaType,
-} from '@jbrowse/core/configuration/configurationSchema'
 import clone from 'clone'
 
+// locals
+import { SessionStateModel } from './sessionModelFactory'
+
 // poke some things for testing (this stuff will eventually be removed)
-// @ts-ignore
+// @ts-expect-error
 window.getSnapshot = getSnapshot
-// @ts-ignore
+// @ts-expect-error
 window.resolveIdentifier = resolveIdentifier
 
 function removeAttr(obj: Record<string, unknown>, attr: string) {
@@ -138,6 +138,10 @@ export default function JBrowseWeb(
         /**
          * #slot
          */
+        extraThemes: { type: 'frozen', defaultValue: {} },
+        /**
+         * #slot
+         */
         logoPath: {
           type: 'fileLocation',
           defaultValue: { uri: '', locationType: 'UriLocation' },
@@ -202,7 +206,7 @@ export default function JBrowseWeb(
           sequence: {
             type: 'ReferenceSequenceTrack',
             trackId: `${name}-${Date.now()}`,
-            ...(assemblyConf.sequence || {}),
+            ...assemblyConf.sequence,
           },
         })
         return self.assemblies[length - 1]
@@ -267,19 +271,17 @@ export default function JBrowseWeb(
         return self.tracks.splice(idx, 1)
       },
       setDefaultSessionConf(sessionConf: AnyConfigurationModel) {
-        let newDefault
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if (getParent<any>(self).session.name === sessionConf.name) {
-          newDefault = getSnapshot(sessionConf)
-        } else {
-          newDefault = toJS(sessionConf)
-        }
+        const newDefault =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          getParent<any>(self).session.name === sessionConf.name
+            ? getSnapshot(sessionConf)
+            : toJS(sessionConf)
 
         if (!newDefault.name) {
           throw new Error(`unable to set default session to ${newDefault.name}`)
         }
 
-        // @ts-ignore complains about name missing, but above line checks this
+        // @ts-expect-error complains about name missing, but above line checks this
         self.defaultSession = cast(newDefault)
       },
       addPlugin(pluginDefinition: PluginDefinition) {

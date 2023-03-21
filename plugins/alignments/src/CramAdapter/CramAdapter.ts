@@ -8,6 +8,7 @@ import { checkAbortSignal, Region, Feature } from '@jbrowse/core/util'
 import { openLocation } from '@jbrowse/core/util/io'
 import { ObservableCreate } from '@jbrowse/core/util/rxjs'
 import { toArray } from 'rxjs/operators'
+import { firstValueFrom } from 'rxjs'
 import CramSlightlyLazyFeature from './CramSlightlyLazyFeature'
 
 interface Header {
@@ -103,15 +104,16 @@ export default class CramAdapter extends BaseFeatureDataAdapter {
       throw new Error('unknown')
     }
 
-    const seqChunks = await sequenceAdapter
-      .getFeatures({
-        refName,
-        start,
-        end,
-        assemblyName: '',
-      })
-      .pipe(toArray())
-      .toPromise()
+    const seqChunks = await firstValueFrom(
+      sequenceAdapter
+        .getFeatures({
+          refName,
+          start,
+          end,
+          assemblyName: '',
+        })
+        .pipe(toArray()),
+    )
 
     const sequence = seqChunks
       .sort((a, b) => a.get('start') - b.get('start'))
@@ -122,7 +124,7 @@ export default class CramAdapter extends BaseFeatureDataAdapter {
         const trimEnd = Math.min(end - chunkStart, chunkEnd - chunkStart)
         const trimLength = trimEnd - trimStart
         const chunkSeq = chunk.get('seq') || chunk.get('residues')
-        return chunkSeq.substr(trimStart, trimLength)
+        return chunkSeq.slice(trimStart, trimStart + trimLength)
       })
       .join('')
 
@@ -251,7 +253,7 @@ export default class CramAdapter extends BaseFeatureDataAdapter {
 
       if (tagFilter) {
         filtered = filtered.filter(record => {
-          // @ts-ignore
+          // @ts-expect-error
           const val = record[tagFilter.tag]
           return val === '*' ? val !== undefined : val === tagFilter.value
         })

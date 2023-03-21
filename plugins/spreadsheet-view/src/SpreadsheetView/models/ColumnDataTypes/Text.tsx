@@ -31,7 +31,7 @@ const OPERATIONS = [
 // NOTE: assembly names, if present, are ignored in all of these predicates
 const OPERATION_PREDICATES = {
   contains: (textInCell, stringToFind) => {
-    return textInCell.toLowerCase().indexOf(stringToFind) !== -1
+    return textInCell.toLowerCase().includes(stringToFind)
   },
   equals: (textInCell, stringToFind) => {
     return textInCell.toLowerCase() === stringToFind
@@ -107,7 +107,6 @@ const FilterReactComponent = observer(
                 <IconButton
                   aria-label="clear filter"
                   onClick={() => filterModel.setString('')}
-                  color="secondary"
                 >
                   <ClearIcon />
                 </IconButton>

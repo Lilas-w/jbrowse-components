@@ -4,8 +4,12 @@ title: DotplotRenderer
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[plugins/dotplot-view/src/DotplotRenderer/configSchema.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/dotplot-view/src/DotplotRenderer/configSchema.ts)
 
 ## Docs
 
@@ -18,7 +22,7 @@ color: {
       type: 'color',
       description:
         'the color of each feature in a synteny, used with colorBy:default',
-      defaultValue: 'black',
+      defaultValue: '#f0f',
       contextVariable: ['feature'],
     }
 ```

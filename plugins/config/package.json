@@ -1,6 +1,6 @@
 {
   "name": "@jbrowse/plugin-config",
-  "version": "2.2.1",
+  "version": "2.4.1",
   "description": "JBrowse 2 config utilities",
   "keywords": [
     "jbrowse",
@@ -46,11 +46,10 @@
     "mobx": "^6.0.0",
     "mobx-react": "^7.0.0",
     "mobx-state-tree": "^5.0.0",
-    "prop-types": "^15.0.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
-    "rxjs": "^6.0.0",
-    "tss-react": "^3.0.0"
+    "rxjs": "^7.0.0",
+    "tss-react": "^4.0.0"
   },
   "publishConfig": {
     "access": "public"

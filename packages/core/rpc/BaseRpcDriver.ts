@@ -43,22 +43,13 @@ export async function watchWorker(
   rpcDriverClassName: string,
 ) {
   // after first ping succeeds, apply wait for timeout
-  return new Promise((_resolve, reject) => {
-    function delay() {
-      setTimeout(async () => {
-        try {
-          await worker.call('ping', [], {
-            timeout: 500 * 60 * 1000, // 原pingTime*2,影响debug时长，改成500min
-            rpcDriverClassName,
-          })
-          delay()
-        } catch (e) {
-          reject(e)
-        }
-      }, pingTime)
-    }
-    delay()
-  })
+  while (true) {
+    await worker.call('ping', [], {
+      timeout: pingTime * 2,
+      rpcDriverClassName,
+    })
+    await new Promise(resolve => setTimeout(resolve, pingTime))
+  }
 }
 
 function detectHardwareConcurrency() {
@@ -129,7 +120,7 @@ export default abstract class BaseRpcDriver {
   filterArgs<THING_TYPE>(thing: THING_TYPE, sessionId: string): THING_TYPE {
     if (Array.isArray(thing)) {
       return thing
-        .filter(isClonable)
+        .filter(thing => isClonable(thing))
         .map(t => this.filterArgs(t, sessionId)) as unknown as THING_TYPE
     }
     if (typeof thing === 'object' && thing !== null) {
@@ -162,7 +153,7 @@ export default abstract class BaseRpcDriver {
 
   async remoteAbort(sessionId: string, functionName: string, signalId: number) {
     const worker = await this.getWorker(sessionId)
-    worker.call(
+    await worker.call(
       functionName,
       { signalId },
       { timeout: 500 * 60 * 1000, rpcDriverClassName: this.name }, // 原1000000，影响debug，改成500min
@@ -176,7 +167,11 @@ export default abstract class BaseRpcDriver {
       readConfObject(this.config, 'workerCount') ||
       clamp(1, Math.max(1, hardwareConcurrency - 1), 5)
 
-    return [...new Array(workerCount)].map(() => new LazyWorker(this))
+    const workers = []
+    for (let i = 0; i < workerCount; i++) {
+      workers.push(new LazyWorker(this))
+    }
+    return workers
   }
 
   getWorkerPool() {
@@ -198,12 +193,7 @@ export default abstract class BaseRpcDriver {
       workerNumber = workerAssignment
     }
 
-    // console.log(`${sessionId} -> worker ${workerNumber}`)
-    const worker = workers[workerNumber].getWorker()
-    if (!worker) {
-      throw new Error('no web workers registered for RPC')
-    }
-    return worker
+    return workers[workerNumber].getWorker()
   }
 
   async call(

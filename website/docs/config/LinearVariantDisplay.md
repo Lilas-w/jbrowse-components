@@ -4,14 +4,17 @@ title: LinearVariantDisplay
 toplevel: true
 ---
 
-Note: this document is automatically generated from configuration objects in
-our source code. See [Config guide](/docs/config_guide) for more info
+Note: this document is automatically generated from configuration objects in our
+source code. See [Config guide](/docs/config_guide) for more info
+
+## Source file
+
+[plugins/variants/src/LinearVariantDisplay/configSchema.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/variants/src/LinearVariantDisplay/configSchema.ts)
 
 ## Docs
 
-mostly empty, this display type is very much
-like a `FeatureTrack` with a `LinearBasicDisplay` except it has a custom
-feature details widget
+mostly empty, this display type is very much like a `FeatureTrack` with a
+`LinearBasicDisplay` except it has a custom feature details widget
 
 ## LinearVariantDisplay - Derives from
 

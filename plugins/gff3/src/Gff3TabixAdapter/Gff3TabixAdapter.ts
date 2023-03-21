@@ -68,7 +68,7 @@ export default class extends BaseFeatureDataAdapter {
   public getFeatures(query: Region, opts: BaseOptions = {}) {
     return ObservableCreate<Feature>(async observer => {
       const metadata = await this.gff.getMetadata()
-      this.getFeaturesHelper(query, opts, metadata, observer, true)
+      await this.getFeaturesHelper(query, opts, metadata, observer, true)
     }, opts.signal)
   }
 
@@ -111,7 +111,7 @@ export default class extends BaseFeatureDataAdapter {
         if (maxEnd > query.end || minStart < query.start) {
           // make a new feature callback to only return top-level features
           // in the original query range
-          this.getFeaturesHelper(
+          await this.getFeaturesHelper(
             { ...query, start: minStart, end: maxEnd },
             opts,
             metadata,
@@ -211,7 +211,7 @@ export default class extends BaseFeatureDataAdapter {
     if (data.phase === null) {
       delete f.score
     }
-    const defaultFields = [
+    const defaultFields = new Set([
       'start',
       'end',
       'seq_id',
@@ -220,11 +220,11 @@ export default class extends BaseFeatureDataAdapter {
       'source',
       'phase',
       'strand',
-    ]
+    ])
     const dataAttributes = data.attributes || {}
-    Object.keys(dataAttributes).forEach(a => {
+    for (const a of Object.keys(dataAttributes)) {
       let b = a.toLowerCase()
-      if (defaultFields.includes(b)) {
+      if (defaultFields.has(b)) {
         // add "suffix" to tag name if it already exists
         // reproduces behavior of NCList
         b += '2'
@@ -236,14 +236,14 @@ export default class extends BaseFeatureDataAdapter {
         }
         f[b] = attr
       }
-    })
+    }
     f.refName = f.seq_id
 
     // the SimpleFeature constructor takes care of recursively inflating subfeatures
-    if (data.child_features && data.child_features.length) {
-      f.subfeatures = data.child_features
-        .map(childLocs => childLocs.map(childLoc => this.featureData(childLoc)))
-        .flat()
+    if (data.child_features && data.child_features.length > 0) {
+      f.subfeatures = data.child_features.flatMap(childLocs =>
+        childLocs.map(childLoc => this.featureData(childLoc)),
+      )
     }
 
     delete f.child_features

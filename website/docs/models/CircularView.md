@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/circular-view/src/CircularView/models/CircularView.ts](https://github.com/GMOD/jbrowse-components/blob/main/plugins/circular-view/src/CircularView/models/CircularView.ts)
 
 ## Docs
 
@@ -40,7 +45,7 @@ offsetRadians: -Math.PI / 2
 // type signature
 number
 // code
-bpPerPx: 2000000
+bpPerPx: 200
 ```
 
 #### property: tracks
@@ -131,11 +136,11 @@ scrollY: 0
 
 ### CircularView - Getters
 
-#### getter: staticSlices
+#### getter: width
 
 ```js
 // type
-any[]
+number
 ```
 
 #### getter: visibleSection
@@ -255,12 +260,12 @@ any
 
 #### getter: elidedRegions
 
-this is displayedRegions, post-processed to
-elide regions that are too small to see reasonably
+this is displayedRegions, post-processed to elide regions that are too small to
+see reasonably
 
 ```js
 // type
-any[]
+SliceRegion[]
 ```
 
 #### getter: assemblyNames
@@ -277,11 +282,29 @@ string[]
 any
 ```
 
+#### getter: staticSlices
+
+```js
+// type
+any[]
+```
+
 #### getter: visibleStaticSlices
 
 ```js
 // type
 any[]
+```
+
+### CircularView - Methods
+
+#### method: menuItems
+
+return the view menu items
+
+```js
+// type signature
+menuItems: () => MenuItem[]
 ```
 
 ### CircularView - Actions
@@ -431,4 +454,13 @@ hideTrack: (trackId: string) => number
 ```js
 // type signature
 toggleFitToWindowLock: () => boolean
+```
+
+#### action: exportSvg
+
+creates an svg export and save using FileSaver
+
+```js
+// type signature
+exportSvg: (opts?: ExportSvgOptions) => Promise<void>
 ```

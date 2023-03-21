@@ -5,8 +5,13 @@ toplevel: true
 ---
 
 Note: this document is automatically generated from mobx-state-tree objects in
-our source code. See [Core concepts and intro to pluggable
-elements](/docs/developer_guide/) for more info
+our source code. See
+[Core concepts and intro to pluggable elements](/docs/developer_guide/) for more
+info
+
+## Source file
+
+[plugins/linear-genome-view/src/BaseLinearDisplay/models/BaseLinearDisplayModel.tsx](https://github.com/GMOD/jbrowse-components/blob/main/plugins/linear-genome-view/src/BaseLinearDisplay/models/BaseLinearDisplayModel.tsx)
 
 ## Docs
 
@@ -14,19 +19,18 @@ extends `BaseDisplay`
 
 ### BaseLinearDisplay - Properties
 
-#### property: height
+#### property: heightPreConfig
 
 ```js
 // type signature
-IOptionalIType<ISimpleType<number>, [undefined]>
+IMaybe<ISimpleType<number>>
 // code
-height: types.optional(
+heightPreConfig: types.maybe(
           types.refinement(
             'displayHeight',
             types.number,
             n => n >= minDisplayHeight,
           ),
-          defaultDisplayHeight,
         )
 ```
 
@@ -77,8 +81,8 @@ any
 
 #### getter: renderDelay
 
-how many milliseconds to wait for the display to
-"settle" before re-rendering a block
+how many milliseconds to wait for the display to "settle" before re-rendering a
+block
 
 ```js
 // type
@@ -94,8 +98,8 @@ React.FC<any>
 
 #### getter: selectedFeatureId
 
-returns a string feature ID if the globally-selected object
-is probably a feature
+returns a string feature ID if the globally-selected object is probably a
+feature
 
 ```js
 // type
@@ -104,8 +108,8 @@ string
 
 #### getter: DisplayMessageComponent
 
-if a display-level message should be displayed instead of the blocks,
-make this return a react component
+if a display-level message should be displayed instead of the blocks, make this
+return a react component
 
 ```js
 // type
@@ -114,8 +118,8 @@ any
 
 #### getter: features
 
-a CompositeMap of `featureId -> feature obj` that
-just looks in all the block data for that feature
+a CompositeMap of `featureId -> feature obj` that just looks in all the block
+data for that feature
 
 ```js
 // type
@@ -191,7 +195,8 @@ region is too large if:
 
 - stats are ready
 - region is greater than 20kb (don't warn when zoomed in less than that)
-- and bytes is greater than max allowed bytes or density greater than max density
+- and bytes is greater than max allowed bytes or density greater than max
+  density
 
 ```js
 // type
@@ -200,8 +205,8 @@ boolean
 
 #### getter: regionTooLargeReason
 
-only shows a message of bytes requested is defined, the feature density
-based stats don't produce any helpful message besides to zoom in
+only shows a message of bytes requested is defined, the feature density based
+stats don't produce any helpful message besides to zoom in
 
 ```js
 // type
@@ -250,7 +255,7 @@ renderProps: () => any
 
 ```js
 // type signature
-renderSvg: (opts: ExportSvgOptions & { overrideHeight: number; }) => Promise<Element>
+renderSvg: (opts: ExportSvgOptions & { overrideHeight: number; theme: ThemeOptions; }) => Promise<Element>
 ```
 
 ### BaseLinearDisplay - Actions
