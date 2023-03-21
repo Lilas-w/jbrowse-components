@@ -9,11 +9,7 @@ interface Cluster {
 const vectDistance = (a: Point, b: Point): number => {
   let total = 0
   for (let i = 0; i < a.length; i++) {
-    if (a[i] === b[i]) {
-      total += 0
-    } else {
-      total += 1
-    }
+    total += a[i] === b[i] ? 0 : 1;
   }
   return Math.sqrt(total)
 }

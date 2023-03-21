@@ -92,7 +92,8 @@ export interface RenderArgsDeserialized extends BoxRenderArgsDeserialized {
     right1?: number
     left2?: number
     right2?: number
-    probability?: number
+    probability1?: number
+    probability2?: number
   }
   showSoftClip: boolean
   highResolutionScaling: number
@@ -1151,11 +1152,7 @@ export default class PileupRenderer extends BoxRendererType {
       if (!drawSNPsMuted) {
         let baseColor = '#C8C8C8'
         // C->T，G->A是红色，C->C G->G是蓝色，其他base为灰色
-        if (fbase === 'T' || fbase === 'A') {
-          baseColor = '#f44336' // red
-        } else {
-          baseColor = '#2196f3' // blue
-        }
+        baseColor = (fbase === 'T' || fbase === 'A') ? '#f44336' : '#2196f3'; // red: blue
 
         fillRect(ctx, leftPx, topPx, widthPx, heightPx, canvasWidth, baseColor)
         if (widthPx >= charWidth && heightPx >= heightLim) {

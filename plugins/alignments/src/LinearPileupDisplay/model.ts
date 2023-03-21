@@ -112,7 +112,8 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             right1: types.maybe(types.number),
             left2: types.maybe(types.number),
             right2: types.maybe(types.number),
-            probability: types.maybe(types.number),
+            probability1: types.maybe(types.number),
+            probability2: types.maybe(types.number),
           }),
         ),
         /**
@@ -423,7 +424,8 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
         right1?: number,
         left2?: number,
         right2?: number,
-        probability?: number,
+        probability1?: number,
+        probability2?: number,
       ) {
         const { centerLineInfo } = getContainingView(self) as LGV
         if (!centerLineInfo) {
@@ -446,7 +448,8 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
           right1,
           left2,
           right2,
-          probability,
+          probability1,
+          probability2
         }
         self.ready = false
       },

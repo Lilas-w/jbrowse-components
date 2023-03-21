@@ -1,4 +1,4 @@
-import { Mismatch } from './MismatchParser'
+import { Mismatch } from '../MismatchParser'
 
 export interface FoodieMatch {
   start: number
@@ -56,37 +56,35 @@ function getBaseProbability(xg: string, arr: string[]): number[] {
   const TProbability = Number((Tcount / arr.length).toFixed(2))
   const GProbability = Number((Gcount / arr.length).toFixed(2))
   const AProbability = Number((Acount / arr.length).toFixed(2))
-  if (xg === 'CT') {
-    return [CProbability, TProbability]
-  } else {
-    return [GProbability, AProbability]
-  }
+  return xg === 'CT'
+    ? [CProbability, TProbability]
+    : [GProbability, AProbability]
 }
-export function getFoodieRangeOne(
-  mismatches: Mismatch[],
-  start: number,
-  seq: string,
-  xg: string,
-  left1: number,
-  right1: number,
-) {
-  let base = ''
-  // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
-  const foodieRangeOne = []
-  for (let i = left1 - start; i < right1 - start; i++) {
-    base = seq[i]
-    if (
-      (base === 'G' && xg === 'GA') ||
-      (base === 'C' && xg === 'CT') ||
-      (mismatches.length > 0 &&
-        ((base === 'T' && mismatches[0].altbase === 'C') ||
-          (base === 'A' && mismatches[0].altbase === 'G')))
-    ) {
-      foodieRangeOne.push(base)
-    }
-  }
-  return foodieRangeOne
-}
+// export function getFoodieRangeOne(
+//   mismatches: Mismatch[],
+//   start: number,
+//   seq: string,
+//   xg: string,
+//   left1: number,
+//   right1: number,
+// ) {
+//   let base = ''
+//   // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
+//   const foodieRangeOne = []
+//   for (let i = left1 - start; i < right1 - start; i++) {
+//     base = seq[i]
+//     if (
+//       (base === 'G' && xg === 'GA') ||
+//       (base === 'C' && xg === 'CT') ||
+//       (mismatches.length > 0 &&
+//         ((base === 'T' && mismatches[0].altbase === 'C') ||
+//           (base === 'A' && mismatches[0].altbase === 'G')))
+//     ) {
+//       foodieRangeOne.push(base)
+//     }
+//   }
+//   return foodieRangeOne
+// }
 
 
 export function getFoodieRange(

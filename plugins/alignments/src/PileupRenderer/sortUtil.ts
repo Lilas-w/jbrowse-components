@@ -2,13 +2,11 @@ import { doesIntersect2, Feature } from '@jbrowse/core/util'
 import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
-  getFoodieRangeOne,
   getFoodieCluster1,
   getFoodieCluster2,
   getFoodieCluster3,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
-import { constants } from 'buffer'
 
 interface SortObject {
   pos: number
@@ -18,7 +16,8 @@ interface SortObject {
   right1: number
   left2: number
   right2: number
-  probability: number
+  probability1: number
+  probability2: number
 }
 
 export const sortFeature = (
@@ -126,8 +125,8 @@ export const sortFeature = (
       const left2 = sortedBy.left2
       const right1 = sortedBy.right1
       const right2 = sortedBy.right2
-      const probability1 = sortedBy.probability
-      const probability2 = sortedBy.probability
+      const probability1 = sortedBy.probability1
+      const probability2 = sortedBy.probability2
       
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
