@@ -12,12 +12,13 @@ interface SortObject {
   pos: number
   type: string
   tag?: string
-  left1: number
-  right1: number
-  left2: number
-  right2: number
-  probability1: number
-  probability2: number
+  left1?: number
+  right1?: number
+  left2?: number
+  right2?: number
+  probability1?: number
+  probability2?: number
+  
 }
 
 export const sortFeature = (
@@ -121,12 +122,12 @@ export const sortFeature = (
       // const featuresHasFoodie2: Feature[] = []
       // const featuresHasFoodie3: Feature[] = []
       const featuresHasNoFoodie: Feature[] = []
-      const left1 = sortedBy.left1
-      const left2 = sortedBy.left2
-      const right1 = sortedBy.right1
-      const right2 = sortedBy.right2
-      const probability1 = sortedBy.probability1
-      const probability2 = sortedBy.probability2
+      const left1 = sortedBy.left1 as number
+      const left2 = sortedBy.left2 as number
+      const right1 = sortedBy.right1 as number
+      const right2 = sortedBy.right2 as number
+      const probability1 = sortedBy.probability1 as number
+      const probability2 = sortedBy.probability2 as number
       
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
