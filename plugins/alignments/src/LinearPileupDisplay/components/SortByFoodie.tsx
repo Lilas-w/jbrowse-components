@@ -55,8 +55,11 @@ function SortByFoodieDlg(props: {
       <DialogContent>
         <Typography>Set ranges</Typography>
         <Typography color="textSecondary">
-          Set Transcription Factor Binding site range by entering left pos and
-          right pos.
+          Set the Transcription Factor Binding Site range by entering left pos
+          and and and right pos. Reads overlap the centerline will participate
+          in sorting. Make sure the centerline is between two TFs. You can move
+          the position of the centerline between the two TFs to achieve a better
+          sorting effect.
         </Typography>
         <Box
           component="form"
@@ -70,7 +73,7 @@ function SortByFoodieDlg(props: {
             value={left1}
             onChange={event => setLeft1(event.target.value)}
             label="left1"
-            placeholder="Enter left pos of range1"
+            placeholder="eg:28552922"
             inputProps={{
               'data-testid': 'sort-foodie-left1-input',
             }}
@@ -82,7 +85,7 @@ function SortByFoodieDlg(props: {
             value={right1}
             onChange={event => setRight1(event.target.value)}
             label="right1"
-            placeholder="Enter right pos of range1"
+            placeholder="eg:28552945"
             inputProps={{
               'data-testid': 'sort-foodie-right1-input',
             }}
@@ -93,7 +96,7 @@ function SortByFoodieDlg(props: {
           <TextField
             value={left2}
             onChange={event => setLeft2(event.target.value)}
-            placeholder="Enter left pos of range2"
+            placeholder="eg:28553002"
             label="left2"
             inputProps={{
               'data-testid': 'sort-foodie-left2-input',
@@ -106,7 +109,7 @@ function SortByFoodieDlg(props: {
             value={right2}
             onChange={event => setRight2(event.target.value)}
             label="right2"
-            placeholder="Enter right pos of range2"
+            placeholder="eg:28553021"
             inputProps={{
               'data-testid': 'sort-foodie-right2-input',
             }}
@@ -118,8 +121,7 @@ function SortByFoodieDlg(props: {
 
         <Typography>Set probability</Typography>
         <Typography color="textSecondary">
-          Set the probability of C/G appearing in the input range (use decimal
-          form, eg.0.5)
+          Set the probability of C/G appearing in the input range1 and range2.
         </Typography>
         <Box
           component="form"
@@ -131,8 +133,9 @@ function SortByFoodieDlg(props: {
         >
           <TextField
             value={probability1}
+            label="probability1"
             onChange={event => setProbability1(event.target.value)}
-            placeholder="Enter probability of C/G"
+            placeholder="eg:0.5"
             inputProps={{
               'data-testid': 'sort-foodie-probability-input',
             }}
@@ -142,8 +145,9 @@ function SortByFoodieDlg(props: {
           />
           <TextField
             value={probability2}
+            label="probability2"
             onChange={event => setProbability2(event.target.value)}
-            placeholder="Enter probability of C/G"
+            placeholder="eg:0.5"
             inputProps={{
               'data-testid': 'sort-foodie-probability-input',
             }}
