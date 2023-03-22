@@ -87,6 +87,26 @@
         }
       },
       "assemblyNames": ["GRCh38.chr"]
+    },
+    {
+      "type": "FeatureTrack",
+      "trackId": "K562_DddB_merged.footprint.corrected.DNase.bo05.bf.bed",
+      "name": "K562_DddB_merged.footprint.corrected.DNase.bo05.bf.bed",
+      "adapter": {
+        "type": "BedTabixAdapter",
+        "bedGzLocation": {
+          "uri": "K562_DddB_merged.footprint.corrected.DNase.bo05.bf.bed.gz",
+          "locationType": "UriLocation"
+        },
+        "index": {
+          "location": {
+            "uri": "K562_DddB_merged.footprint.corrected.DNase.bo05.bf.bed.gz.tbi",
+            "locationType": "UriLocation"
+          },
+          "indexType": "TBI"
+        }
+      },
+      "assemblyNames": ["GRCh38.chr"]
     }
   ]
 }
