@@ -3,8 +3,8 @@ import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
   getFoodieCluster1,
-  getFoodieCluster2,
-  getFoodieCluster3,
+  getFoodieRangeOne,
+  getFoodieClusterOne,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 
@@ -18,7 +18,6 @@ interface SortObject {
   right2?: number
   probability1?: number
   probability2?: number
-  
 }
 
 export const sortFeature = (
@@ -29,7 +28,6 @@ export const sortFeature = (
   let featuresInCenterLine: Feature[] = []
   const featuresOutsideCenter: Feature[] = []
   const { pos, type } = sortedBy // pos是center line的位置坐标
-  
 
   // only sort on features that intersect center line, append those outside post-sort
   featureArray.forEach(innerArray => {
@@ -113,7 +111,7 @@ export const sortFeature = (
       break
     }
 
-    case 'Foodie sort': {
+    case 'Sort By Co-binding TFs': {
       // const foodieSortMap = new Map()
       // 计算矩阵起止
       // let min = Infinity
@@ -128,7 +126,7 @@ export const sortFeature = (
       const right2 = sortedBy.right2 as number
       const probability1 = sortedBy.probability1 as number
       const probability2 = sortedBy.probability2 as number
-      
+
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
         // 只看CT reads
@@ -177,7 +175,7 @@ export const sortFeature = (
             foodieRange1,
             foodieRange2,
             probability1,
-            probability2
+            probability2,
           )
           // const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
           // const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
@@ -207,7 +205,6 @@ export const sortFeature = (
           } else {
             featuresHasNoFoodie.push(feature)
           }
-
 
           // const baseArray: number[][] = []
           // for (let i = 0; i < foodieMatches.length; i += 1) {
@@ -267,7 +264,75 @@ export const sortFeature = (
       // for (let i = 0; i < indexArray.length; i++) {
       //   featuresInCenterLine[indexArray[i]] = tempArray[i];
       // }
+
+      break
     }
+
+    case 'Sort By Single TF':{ 
+        const featuresHasFoodie1: Feature[] = []
+        const featuresHasNoFoodie: Feature[] = []
+        const left1 = sortedBy.left1 as number
+        const right1 = sortedBy.right1 as number
+        const probability1 = sortedBy.probability1 as number
+
+        featuresInCenterLine.forEach(feature => {
+          const xg = getTag(feature, 'XG')
+          // 只看CT reads
+          if (xg === 'CT') {
+            const start = feature.get('start')
+            const mismatches = feature.get('mismatches') as Mismatch[]
+            const seq = feature.get('seq') as string
+
+            const foodieRangeOne = getFoodieRangeOne(
+              mismatches,
+              start,
+              seq,
+              xg,
+              left1,
+              right1,
+            )
+
+            // single bind flag
+            const flagOne = getFoodieClusterOne(
+              xg,
+              foodieRangeOne,
+              probability1,
+            )
+            if (flagOne) {
+              featuresHasFoodie1.push(feature)
+            } else {
+              featuresHasNoFoodie.push(feature)
+            }
+          } else if (xg === 'GA') {
+            const start = feature.get('start')
+            const mismatches = feature.get('mismatches') as Mismatch[]
+            const seq = feature.get('seq') as string
+
+            const foodieRangeOne = getFoodieRangeOne(
+              mismatches,
+              start,
+              seq,
+              xg,
+              left1,
+              right1,
+            )
+
+            // single bind flag
+            const flagOne = getFoodieClusterOne(
+              xg,
+              foodieRangeOne,
+              probability1,
+            )
+            if (flagOne) {
+              featuresHasFoodie1.push(feature)
+            } else {
+              featuresHasNoFoodie.push(feature)
+            }
+          }
+        })
+        featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
+      }
+      break
   }
 
   const sortedMap = new Map(

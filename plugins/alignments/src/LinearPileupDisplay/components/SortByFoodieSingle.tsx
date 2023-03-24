@@ -28,7 +28,7 @@ const useStyles = makeStyles()(theme => ({
   },
 }))
 
-function SortByFoodieDlg(props: {
+function SortByFoodieSingleDlg(props: {
   model: { setSortedBy: Function }
   handleClose: () => void
 }) {
@@ -36,14 +36,11 @@ function SortByFoodieDlg(props: {
   const { model, handleClose } = props
   const [left1, setLeft1] = useState('')
   const [right1, setRight1] = useState('')
-  const [left2, setLeft2] = useState('')
-  const [right2, setRight2] = useState('')
   const [probability1, setProbability1] = useState('')
-  const [probability2, setProbability2] = useState('')
   return (
     <Dialog open onClose={handleClose}>
       <DialogTitle>
-        Sort by transcription factor binding sites
+        Sort by single transcription factor binding site
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -53,13 +50,11 @@ function SortByFoodieDlg(props: {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Typography>Set ranges</Typography>
+        <Typography>Set range</Typography>
         <Typography color="textSecondary">
-          Set the transcription factor binding site ranges by entering left and
+          Set the transcription factor binding site range by entering left and
           right positions. Reads overlap the centerline will participate in
-          sorting. Make sure the centerline is between two TF binding sites. You
-          can move the position of the centerline between the two TF binding
-          sites to achieve a better sorting effect.
+          sorting. 
         </Typography>
         <Box
           component="form"
@@ -72,7 +67,7 @@ function SortByFoodieDlg(props: {
           <TextField
             value={left1}
             onChange={event => setLeft1(event.target.value)}
-            label="left1"
+            label="left"
             placeholder="eg:28552922"
             inputProps={{
               'data-testid': 'sort-foodie-left1-input',
@@ -83,7 +78,7 @@ function SortByFoodieDlg(props: {
           <TextField
             value={right1}
             onChange={event => setRight1(event.target.value)}
-            label="right1"
+            label="right"
             placeholder="eg:28552945"
             inputProps={{
               'data-testid': 'sort-foodie-right1-input',
@@ -91,33 +86,11 @@ function SortByFoodieDlg(props: {
             autoComplete="off"
             data-testid="sort-foodie-right1"
           />
-          <TextField
-            value={left2}
-            onChange={event => setLeft2(event.target.value)}
-            placeholder="eg:28553002"
-            label="left2"
-            inputProps={{
-              'data-testid': 'sort-foodie-left2-input',
-            }}
-            autoComplete="off"
-            data-testid="sort-foodie-left2"
-          />
-          <TextField
-            value={right2}
-            onChange={event => setRight2(event.target.value)}
-            label="right2"
-            placeholder="eg:28553021"
-            inputProps={{
-              'data-testid': 'sort-foodie-right2-input',
-            }}
-            autoComplete="off"
-            data-testid="sort-foodie-right2"
-          />
         </Box>
 
         <Typography>Set convert ratio</Typography>
         <Typography color="textSecondary">
-          Set convert ratio in the input range1 and range2.
+          Set convert ratio in the input range.
         </Typography>
         <Box
           component="form"
@@ -129,19 +102,8 @@ function SortByFoodieDlg(props: {
         >
           <TextField
             value={probability1}
-            label="ratio1"
+            label="ratio"
             onChange={event => setProbability1(event.target.value)}
-            placeholder="eg:0.5"
-            inputProps={{
-              'data-testid': 'sort-foodie-probability-input',
-            }}
-            autoComplete="off"
-            data-testid="sort-foodie-probability"
-          />
-          <TextField
-            value={probability2}
-            label="ratio2"
-            onChange={event => setProbability2(event.target.value)}
             placeholder="eg:0.5"
             inputProps={{
               'data-testid': 'sort-foodie-probability-input',
@@ -158,14 +120,14 @@ function SortByFoodieDlg(props: {
             autoFocus
             onClick={() => {
               model.setSortedBy(
-                'Sort By Co-binding TFs',
+                'Sort By Single TF',
                 '',
                 Number(left1),
                 Number(right1),
-                Number(left2),
-                Number(right2),
+                0,
+                0,
                 Number(probability1),
-                Number(probability2),
+                0
               )
               handleClose()
             }}
@@ -184,4 +146,4 @@ function SortByFoodieDlg(props: {
     </Dialog>
   )
 }
-export default observer(SortByFoodieDlg)
+export default observer(SortByFoodieSingleDlg)

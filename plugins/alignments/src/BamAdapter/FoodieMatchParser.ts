@@ -60,32 +60,31 @@ function getBaseProbability(xg: string, arr: string[]): number[] {
     ? [CProbability, TProbability]
     : [GProbability, AProbability]
 }
-// export function getFoodieRangeOne(
-//   mismatches: Mismatch[],
-//   start: number,
-//   seq: string,
-//   xg: string,
-//   left1: number,
-//   right1: number,
-// ) {
-//   let base = ''
-//   // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
-//   const foodieRangeOne = []
-//   for (let i = left1 - start; i < right1 - start; i++) {
-//     base = seq[i]
-//     if (
-//       (base === 'G' && xg === 'GA') ||
-//       (base === 'C' && xg === 'CT') ||
-//       (mismatches.length > 0 &&
-//         ((base === 'T' && mismatches[0].altbase === 'C') ||
-//           (base === 'A' && mismatches[0].altbase === 'G')))
-//     ) {
-//       foodieRangeOne.push(base)
-//     }
-//   }
-//   return foodieRangeOne
-// }
-
+export function getFoodieRangeOne(
+  mismatches: Mismatch[],
+  start: number,
+  seq: string,
+  xg: string,
+  left1: number,
+  right1: number,
+) {
+  let base = ''
+  // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
+  const foodieRangeOne = []
+  for (let i = left1 - start; i < right1 - start; i++) {
+    base = seq[i]
+    if (
+      (base === 'G' && xg === 'GA') ||
+      (base === 'C' && xg === 'CT') ||
+      (mismatches.length > 0 &&
+        ((base === 'T' && mismatches[0].altbase === 'C') ||
+          (base === 'A' && mismatches[0].altbase === 'G')))
+    ) {
+      foodieRangeOne.push(base)
+    }
+  }
+  return foodieRangeOne
+}
 
 export function getFoodieRange(
   mismatches: Mismatch[],
@@ -128,25 +127,27 @@ export function getFoodieRange(
   return [foodieRange1, foodieRange2]
 }
 
-// export function getFoodieClusterOne(xg: string, foodieRange1: string[]) {
-//   if (xg === 'CT') {
-//     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
+export function getFoodieClusterOne(
+  xg: string,
+  foodieRange1: string[],
+  probability: number,
+) {
+  if (xg === 'CT') {
+    const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-//     // const TProbability = getBaseProbability(xg, foodieRange)[1]
-//     if (CProbability1 >= 0.5 ) {
-//       return true
-//     }
-//   }
-//   if (xg === 'GA') {
-//     const GProbability1 = getBaseProbability(xg, foodieRange1)[0]
+    if (CProbability1 >= probability) {
+      return true
+    }
+  }
+  if (xg === 'GA') {
+    const GProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-//     // const AProbability = getBaseProbability(xg, foodieRange)[1]
-//     if (GProbability1 >= 0.5) {
-//       return true
-//     }
-//   }
-//   return false
-// }
+    if (GProbability1 >= probability) {
+      return true
+    }
+  }
+  return false
+}
 
 export function getFoodieCluster1(
   xg: string,
@@ -176,46 +177,46 @@ export function getFoodieCluster1(
   return false
 }
 
-export function getFoodieCluster2(
-  xg: string,
-  foodieRange1: string[],
-  foodieRange2: string[],
-) {
-  if (xg === 'CT') {
-    const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
+// export function getFoodieCluster2(
+//   xg: string,
+//   foodieRange1: string[],
+//   foodieRange2: string[],
+// ) {
+//   if (xg === 'CT') {
+//     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability1 >= 0.5) {
-      return true
-    }
-  }
-  if (xg === 'GA') {
-    const GProbability1 = getBaseProbability(xg, foodieRange2)[0]
+//     // const TProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (CProbability1 >= 0.5) {
+//       return true
+//     }
+//   }
+//   if (xg === 'GA') {
+//     const GProbability1 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
-    if (GProbability1 >= 0.5) {
-      return true
-    }
-  }
-  return false
-}
+//     // const AProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (GProbability1 >= 0.5) {
+//       return true
+//     }
+//   }
+//   return false
+// }
 
-export function getFoodieCluster3(xg: string, foodieRange2: string[]) {
-  if (xg === 'CT') {
-    const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
+// export function getFoodieCluster3(xg: string, foodieRange2: string[]) {
+//   if (xg === 'CT') {
+//     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
-    if (CProbability2 >= 0.5) {
-      return true
-    }
-  }
-  if (xg === 'GA') {
-    const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
+//     // const TProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (CProbability2 >= 0.5) {
+//       return true
+//     }
+//   }
+//   if (xg === 'GA') {
+//     const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
-    if (GProbability2 >= 0.5) {
-      return true
-    }
-  }
-  return false
-}
+//     // const AProbability = getBaseProbability(xg, foodieRange)[1]
+//     if (GProbability2 >= 0.5) {
+//       return true
+//     }
+//   }
+//   return false
+// }

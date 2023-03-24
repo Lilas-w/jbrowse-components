@@ -46,6 +46,7 @@ const FilterByTagDlg = lazy(() => import('../shared/FilterByTag'))
 const ColorByTagDlg = lazy(() => import('./components/ColorByTag'))
 const SortByTagDlg = lazy(() => import('./components/SortByTag'))
 const SortByFoodieDlg = lazy(() => import('./components/SortByFoodie'))
+const SortByFoodieSingleDlg = lazy(() => import('./components/SortByFoodieSingle'))
 const SetFeatureHeightDlg = lazy(() => import('./components/SetFeatureHeight'))
 const SetMaxHeightDlg = lazy(() => import('./components/SetMaxHeight'))
 const ModificationsDlg = lazy(() => import('./components/ColorByModifications'))
@@ -717,7 +718,6 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                   'Start location',
                   'Read strand',
                   'Base pair',
-                  // 'Foodie sort',
                 ].map(option => ({
                   label: option,
                   onClick: () => self.setSortedBy(option),
@@ -731,8 +731,17 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                     ])
                   },
                 },
-               {
-                  label: 'Foodie sort',
+                {
+                  label: 'Sort By Single TF',
+                  onClick: () => {
+                    getSession(self).queueDialog(handleClose => [
+                      SortByFoodieSingleDlg,
+                      { model: self, handleClose },
+                    ])
+                  },
+                },
+                {
+                  label: 'Sort By Co-binding TFs',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
                       SortByFoodieDlg,
