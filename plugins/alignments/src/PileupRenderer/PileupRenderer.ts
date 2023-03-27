@@ -816,7 +816,6 @@ export default class PileupRenderer extends BoxRendererType {
     drawSNPsMuted,
     drawIndels = true,
     showFoodieMatches,
-    theme,
   }: {
     ctx: CanvasRenderingContext2D
     feat: LayoutFeature
