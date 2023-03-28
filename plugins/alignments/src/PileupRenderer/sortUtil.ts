@@ -225,6 +225,34 @@ export const sortFeature = (
           //   }
           //   foodieSortMap.set(id, baseArray)
           // }
+        } else if (xg === 'GA') {
+          const start = feature.get('start')
+          const mismatches = feature.get('mismatches') as Mismatch[]
+          const seq = feature.get('seq') as string
+
+          const [foodieRange1, foodieRange2] = getFoodieRange(
+            mismatches,
+            start,
+            seq,
+            xg,
+            left1,
+            right1,
+            left2,
+            right2,
+          )
+          const flag1 = getFoodieCluster1(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability1,
+            probability2,
+          )
+          // co-binding
+          if (flag1) {
+            featuresHasFoodie1.push(feature)
+          } else {
+            featuresHasNoFoodie.push(feature)
+          }
         }
       })
       featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
