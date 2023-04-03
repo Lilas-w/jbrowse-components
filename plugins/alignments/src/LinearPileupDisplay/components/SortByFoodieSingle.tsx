@@ -120,7 +120,7 @@ function SortByFoodieSingleDlg(props: {
             autoFocus
             onClick={() => {
               model.setSortedBy(
-                'Sort By Single TF',
+                'single TF',
                 '',
                 Number(left1),
                 Number(right1),

@@ -158,7 +158,7 @@ function SortByFoodieDlg(props: {
             autoFocus
             onClick={() => {
               model.setSortedBy(
-                'Sort By Co-binding TFs',
+                'co-binding TFs',
                 '',
                 Number(left1),
                 Number(right1),

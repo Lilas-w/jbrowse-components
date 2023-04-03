@@ -46,7 +46,9 @@ const FilterByTagDlg = lazy(() => import('../shared/FilterByTag'))
 const ColorByTagDlg = lazy(() => import('./components/ColorByTag'))
 const SortByTagDlg = lazy(() => import('./components/SortByTag'))
 const SortByFoodieDlg = lazy(() => import('./components/SortByFoodie'))
-const SortByFoodieSingleDlg = lazy(() => import('./components/SortByFoodieSingle'))
+const SortByFoodieSingleDlg = lazy(
+  () => import('./components/SortByFoodieSingle'),
+)
 const SetFeatureHeightDlg = lazy(() => import('./components/SetFeatureHeight'))
 const SetMaxHeightDlg = lazy(() => import('./components/SetMaxHeight'))
 const ModificationsDlg = lazy(() => import('./components/ColorByModifications'))
@@ -115,6 +117,18 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             right2: types.maybe(types.number),
             probability1: types.maybe(types.number),
             probability2: types.maybe(types.number),
+            cluster1Length: types.maybe(types.number),
+            cluster2Length: types.maybe(types.number),
+            cluster3Length: types.maybe(types.number),
+            cluster4Length: types.maybe(types.number),
+          }),
+        ),
+        clusterNumber: types.maybe(
+          types.model({
+            cluster1Length: types.maybe(types.number),
+            cluster2Length: types.maybe(types.number),
+            cluster3Length: types.maybe(types.number),
+            cluster4Length: types.maybe(types.number),
           }),
         ),
         /**
@@ -450,7 +464,7 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
           left2,
           right2,
           probability1,
-          probability2
+          probability2,
         }
         self.ready = false
       },
@@ -462,6 +476,19 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       }) {
         self.filterBy = cast(filter)
       },
+      setClusterNumber(
+        cluster1Length?: number,
+        cluster2Length?: number,
+        cluster3Length?: number,
+        cluster4Length?: number,
+      ){
+        self.clusterNumber = {
+          cluster1Length,
+          cluster2Length,
+          cluster3Length,
+          cluster4Length,
+        }
+      }
     }))
     .actions(self => {
       // resets the sort object and refresh whole display on reload
@@ -714,14 +741,12 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
               icon: SortIcon,
               disabled: self.showSoftClipping,
               subMenu: [
-                ...[
-                  'Start location',
-                  'Read strand',
-                  'Base pair',
-                ].map(option => ({
-                  label: option,
-                  onClick: () => self.setSortedBy(option),
-                })),
+                ...['Start location', 'Read strand', 'Base pair'].map(
+                  option => ({
+                    label: option,
+                    onClick: () => self.setSortedBy(option),
+                  }),
+                ),
                 {
                   label: 'Sort by tag...',
                   onClick: () => {
@@ -732,7 +757,7 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                   },
                 },
                 {
-                  label: 'Sort By Single TF',
+                  label: 'Sort by single TF',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
                       SortByFoodieSingleDlg,
@@ -741,7 +766,7 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                   },
                 },
                 {
-                  label: 'Sort By Co-binding TFs',
+                  label: 'Sort by co-binding TFs',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
                       SortByFoodieDlg,

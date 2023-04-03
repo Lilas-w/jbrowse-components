@@ -3,10 +3,13 @@ import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
   getFoodieCluster1,
+  getFoodieCluster2,
+  getFoodieCluster3,
   getFoodieRangeOne,
   getFoodieClusterOne,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
+import model from '../LinearPileupDisplay/model'
 
 interface SortObject {
   pos: number
@@ -111,14 +114,14 @@ export const sortFeature = (
       break
     }
 
-    case 'Sort By Co-binding TFs': {
+    case 'co-binding TFs': {
       // const foodieSortMap = new Map()
       // 计算矩阵起止
       // let min = Infinity
       // let max = 0
       const featuresHasFoodie1: Feature[] = []
-      // const featuresHasFoodie2: Feature[] = []
-      // const featuresHasFoodie3: Feature[] = []
+      const featuresHasFoodie2: Feature[] = []
+      const featuresHasFoodie3: Feature[] = []
       const featuresHasNoFoodie: Feature[] = []
       const left1 = sortedBy.left1 as number
       const left2 = sortedBy.left2 as number
@@ -129,7 +132,6 @@ export const sortFeature = (
 
       featuresInCenterLine.forEach(feature => {
         const xg = getTag(feature, 'XG')
-        // 只看CT reads
         if (xg === 'CT') {
           const start = feature.get('start')
           const mismatches = feature.get('mismatches') as Mismatch[]
@@ -139,25 +141,6 @@ export const sortFeature = (
           //   mismatches,
           //   seq,
           //   xg,
-          // )
-
-          // const foodieRangeOne = getFoodieRangeOne(
-          //   mismatches,
-          //   start,
-          //   seq,
-          //   xg,
-          //   28552923,
-          //   28552950,)
-
-          // const [foodieRange1, foodieRange2] = getFoodieRange(
-          //   mismatches,
-          //   start,
-          //   seq,
-          //   xg,
-          //   28552923,
-          //   28552950,
-          //   28553003,
-          //   28553023,
           // )
 
           const [foodieRange1, foodieRange2] = getFoodieRange(
@@ -177,34 +160,38 @@ export const sortFeature = (
             probability1,
             probability2,
           )
-          // const flag2 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
-          // const flag3 = getFoodieCluster1(xg, foodieRange1, foodieRange2)
-
-          // single bind
-          // const flagOne = getFoodieClusterOne(xg, foodieRangeOne)
-          // if (flagOne) {
-          //   featuresHasFoodie1.push(feature)
-          // } else {
-          //   featuresHasNoFoodie.push(feature)
-          // }
+          const flag2 = getFoodieCluster2(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability1,
+            probability2,
+          )
+          const flag3 = getFoodieCluster3(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability1,
+            probability2,
+          )
 
           // 4 clusters
-          // if (flag1) {
-          //   featuresHasFoodie1.push(feature)
-          // } else if (flag2) {
-          //   featuresHasFoodie2.push(feature)
-          // } else if (flag3) {
-          //   featuresHasFoodie3.push(feature)
-          // } else {
-          //   featuresHasNoFoodie.push(feature)
-          // }
-
-          // co-binding
           if (flag1) {
             featuresHasFoodie1.push(feature)
+          } else if (flag2) {
+            featuresHasFoodie2.push(feature)
+          } else if (flag3) {
+            featuresHasFoodie3.push(feature)
           } else {
             featuresHasNoFoodie.push(feature)
           }
+
+          // // co-binding
+          // if (flag1) {
+          //   featuresHasFoodie1.push(feature)
+          // } else {
+          //   featuresHasNoFoodie.push(feature)
+          // }
 
           // const baseArray: number[][] = []
           // for (let i = 0; i < foodieMatches.length; i += 1) {
@@ -247,16 +234,45 @@ export const sortFeature = (
             probability1,
             probability2,
           )
-          // co-binding
+          const flag2 = getFoodieCluster2(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability1,
+            probability2,
+          )
+          const flag3 = getFoodieCluster3(
+            xg,
+            foodieRange1,
+            foodieRange2,
+            probability1,
+            probability2,
+          )
+
+          // 4 clusters
           if (flag1) {
             featuresHasFoodie1.push(feature)
+          } else if (flag2) {
+            featuresHasFoodie2.push(feature)
+          } else if (flag3) {
+            featuresHasFoodie3.push(feature)
           } else {
             featuresHasNoFoodie.push(feature)
           }
         }
       })
-      featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-
+      // //co-binding
+      // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
+      console.log('Cluster1:' + featuresHasFoodie1.length);
+      console.log('Cluster2:' + featuresHasFoodie2.length);
+      console.log('Cluster3:' + featuresHasFoodie3.length);
+      console.log('Cluster4:' + featuresHasNoFoodie.length);
+      featuresInCenterLine = featuresHasFoodie1
+        .concat(featuresHasFoodie2)
+        .concat(featuresHasFoodie3)
+        .concat(featuresHasNoFoodie)
+      console.log('Total:' + featuresInCenterLine.length);
+    
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
       // const matrixKey = Array.from(foodieSortMap.keys())
@@ -296,7 +312,8 @@ export const sortFeature = (
       break
     }
 
-    case 'Sort By Single TF':{ 
+    case 'single TF':
+      {
         const featuresHasFoodie1: Feature[] = []
         const featuresHasNoFoodie: Feature[] = []
         const left1 = sortedBy.left1 as number
