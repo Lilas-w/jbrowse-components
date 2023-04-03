@@ -117,10 +117,6 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             right2: types.maybe(types.number),
             probability1: types.maybe(types.number),
             probability2: types.maybe(types.number),
-            cluster1Length: types.maybe(types.number),
-            cluster2Length: types.maybe(types.number),
-            cluster3Length: types.maybe(types.number),
-            cluster4Length: types.maybe(types.number),
           }),
         ),
         clusterNumber: types.maybe(
