@@ -119,14 +119,6 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             probability2: types.maybe(types.number),
           }),
         ),
-        clusterNumber: types.maybe(
-          types.model({
-            cluster1Length: types.maybe(types.number),
-            cluster2Length: types.maybe(types.number),
-            cluster3Length: types.maybe(types.number),
-            cluster4Length: types.maybe(types.number),
-          }),
-        ),
         /**
          * #property
          */
@@ -472,19 +464,6 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       }) {
         self.filterBy = cast(filter)
       },
-      setClusterNumber(
-        cluster1Length?: number,
-        cluster2Length?: number,
-        cluster3Length?: number,
-        cluster4Length?: number,
-      ){
-        self.clusterNumber = {
-          cluster1Length,
-          cluster2Length,
-          cluster3Length,
-          cluster4Length,
-        }
-      }
     }))
     .actions(self => {
       // resets the sort object and refresh whole display on reload
