@@ -1289,9 +1289,9 @@ export default class PileupRenderer extends BoxRendererType {
 
     const featureMap =
       sortedBy?.type && region.start === sortedBy.pos
-        ? sortFeature(features, sortedBy)
+        ? sortFeature(features, sortedBy).sortedFeatures
         : features
-
+        
     const heightPx = readConfObject(config, 'height')
     const displayMode = readConfObject(config, 'displayMode')
     return iterMap(
