@@ -9,7 +9,6 @@ import {
   getFoodieClusterOne,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
-import model from '../LinearPileupDisplay/model'
 
 interface SortObject {
   pos: number
@@ -23,13 +22,25 @@ interface SortObject {
   probability2?: number
 }
 
+interface SortFeaturesResult {
+  sortedFeatures: Map<string, Feature>
+  featuresHasFoodie1Length?: number
+  featuresHasFoodie2Length?: number
+  featuresHasFoodie3Length?: number
+  featuresHasNoFoodieLength?: number
+}
+
 export const sortFeature = (
   features: Map<string, Feature>,
   sortedBy: SortObject,
-) => {
+): SortFeaturesResult => {
   const featureArray = Array.from(features.values())
   let featuresInCenterLine: Feature[] = []
   const featuresOutsideCenter: Feature[] = []
+  const featuresHasFoodie1: Feature[] = []
+  const featuresHasFoodie2: Feature[] = []
+  const featuresHasFoodie3: Feature[] = []
+  const featuresHasNoFoodie: Feature[] = []
   const { pos, type } = sortedBy // pos是center line的位置坐标
 
   // only sort on features that intersect center line, append those outside post-sort
@@ -119,10 +130,10 @@ export const sortFeature = (
       // 计算矩阵起止
       // let min = Infinity
       // let max = 0
-      const featuresHasFoodie1: Feature[] = []
-      const featuresHasFoodie2: Feature[] = []
-      const featuresHasFoodie3: Feature[] = []
-      const featuresHasNoFoodie: Feature[] = []
+      // const featuresHasFoodie1: Feature[] = []
+      // const featuresHasFoodie2: Feature[] = []
+      // const featuresHasFoodie3: Feature[] = []
+      // const featuresHasNoFoodie: Feature[] = []
       const left1 = sortedBy.left1 as number
       const left2 = sortedBy.left2 as number
       const right1 = sortedBy.right1 as number
@@ -263,16 +274,16 @@ export const sortFeature = (
       })
       // //co-binding
       // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-      console.log('Cluster1:' + featuresHasFoodie1.length);
-      console.log('Cluster2:' + featuresHasFoodie2.length);
-      console.log('Cluster3:' + featuresHasFoodie3.length);
-      console.log('Cluster4:' + featuresHasNoFoodie.length);
+      console.log('Cluster1:' + featuresHasFoodie1.length)
+      console.log('Cluster2:' + featuresHasFoodie2.length)
+      console.log('Cluster3:' + featuresHasFoodie3.length)
+      console.log('Cluster4:' + featuresHasNoFoodie.length)
       featuresInCenterLine = featuresHasFoodie1
         .concat(featuresHasFoodie2)
         .concat(featuresHasFoodie3)
         .concat(featuresHasNoFoodie)
-      console.log('Total:' + featuresInCenterLine.length);
-    
+      console.log('Total:' + featuresInCenterLine.length)
+
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
       // const matrixKey = Array.from(foodieSortMap.keys())
@@ -380,12 +391,30 @@ export const sortFeature = (
       break
   }
 
-  const sortedMap = new Map(
-    [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
-      feature.id(),
-      feature,
-    ]),
-  )
+  // const sortedMap = new Map(
+  //   [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
+  //     feature.id(),
+  //     feature,
+  //   ]),
+  // )
 
-  return sortedMap
+  // return sortedMap
+
+  const result: SortFeaturesResult = {
+    sortedFeatures: new Map(
+      [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
+        feature.id(),
+        feature,
+      ]),
+    ),
+  }
+
+  if (sortedBy.type === 'co-binding TFs') {
+    result.featuresHasFoodie1Length = featuresHasFoodie1.length
+    result.featuresHasFoodie2Length = featuresHasFoodie2.length
+    result.featuresHasFoodie3Length = featuresHasFoodie3.length
+    result.featuresHasNoFoodieLength = featuresHasNoFoodie.length
+  }
+  
+  return result;
 }
