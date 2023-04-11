@@ -134,6 +134,17 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
          * #property
          */
         filterBy: types.optional(FilterModel, {}),
+        /**
+         * #property
+         */
+        clustersCounts: types.maybe(
+          types.model({
+            featuresHasFoodie1Length: types.maybe(types.number),
+            featuresHasFoodie2Length: types.maybe(types.number),
+            featuresHasFoodie3Length: types.maybe(types.number),
+            featuresHasNoFoodieLength: types.maybe(types.number),
+          }),
+        ),
       }),
     )
     .volatile(() => ({
@@ -231,6 +242,22 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
        */
       setFeatureUnderMouse(feat?: Feature) {
         self.featureUnderMouseVolatile = feat
+      },
+      /**
+       * #action
+       */
+      setclustersCounts(
+        featuresHasFoodie1Length: number,
+        featuresHasFoodie2Length: number,
+        featuresHasFoodie3Length: number,
+        featuresHasNoFoodieLength: number,
+      ) {
+        self.clustersCounts = {
+          featuresHasFoodie1Length,
+          featuresHasFoodie2Length,
+          featuresHasFoodie3Length,
+          featuresHasNoFoodieLength,
+        }
       },
     }))
     .actions(self => ({

@@ -177,10 +177,11 @@ function PileupRendering(props: {
   return (
     <div
       className="PileupRendering"
-      data-testid={`pileup-${sortedBy || colorBy
-        ? `${sortedBy?.type || ''}${colorBy?.type || ''}${colorBy?.tag || ''}`
-        : 'normal'
-        }`}
+      data-testid={`pileup-${
+        sortedBy || colorBy
+          ? `${sortedBy?.type || ''}${colorBy?.type || ''}${colorBy?.tag || ''}`
+          : 'normal'
+      }`}
       style={{ position: 'relative', width: canvasWidth, height }}
     >
       <PrerenderedCanvas
@@ -203,8 +204,8 @@ function PileupRendering(props: {
         onMouseMove={event => mouseMove(event)}
         onClick={event => onClick(event)}
         onContextMenu={event => onContextMenu(event)}
-        onFocus={() => { }}
-        onBlur={() => { }}
+        onFocus={() => {}}
+        onBlur={() => {}}
       />
     </div>
   )
