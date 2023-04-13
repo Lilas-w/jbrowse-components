@@ -554,6 +554,15 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       /**
        * #getter
        */
+      get foodieMatchesSetting() {
+        return self.showFoodieMatches !== undefined
+          ? self.showFoodieMatches
+          : readConfObject(self.rendererConfig, 'showFoodieMatches')
+      },
+
+      /**
+       * #getter
+       */
       get mismatchAlphaSetting() {
         return readConfObject(self.rendererConfig, 'mismatchAlpha')
       },
