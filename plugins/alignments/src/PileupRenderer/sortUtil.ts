@@ -274,6 +274,7 @@ export const sortFeature = (
       })
       // //co-binding
       // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
+      console.log('Total Counts:' + featuresInCenterLine.length)
       console.log('Cluster1:' + featuresHasFoodie1.length)
       console.log('Cluster2:' + featuresHasFoodie2.length)
       console.log('Cluster3:' + featuresHasFoodie3.length)
@@ -282,7 +283,6 @@ export const sortFeature = (
         .concat(featuresHasFoodie2)
         .concat(featuresHasFoodie3)
         .concat(featuresHasNoFoodie)
-      console.log('Total:' + featuresInCenterLine.length)
 
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
