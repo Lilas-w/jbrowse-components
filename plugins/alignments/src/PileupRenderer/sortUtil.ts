@@ -1,4 +1,4 @@
-import { doesIntersect2, Feature } from '@jbrowse/core/util'
+import { doesIntersect2, Feature, isContainedWithin} from '@jbrowse/core/util'
 import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
@@ -42,6 +42,12 @@ export const sortFeature = (
   const featuresHasFoodie3: Feature[] = []
   const featuresHasNoFoodie: Feature[] = []
   const { pos, type } = sortedBy // pos是center line的位置坐标
+  const featuresCoverTwoTFs: Feature[] = []
+  const featuresNotCoverTwoTFs: Feature[] = []
+  const left1 = sortedBy.left1 as number
+  const left2 = sortedBy.left2 as number
+  const right1 = sortedBy.right1 as number
+  const right2 = sortedBy.right2 as number
 
   // only sort on features that intersect center line, append those outside post-sort
   featureArray.forEach(innerArray => {
@@ -52,6 +58,20 @@ export const sortFeature = (
       featuresInCenterLine.push(innerArray)
     } else {
       featuresOutsideCenter.push(innerArray)
+    }
+  })
+
+  // only sort on features that cover two TFs
+  featureArray.forEach(innerArray => {
+    const feature = innerArray
+    const start = feature.get('start')
+    const end = feature.get('end')
+    const left = left1 < left2 ? left1 : left2
+    const right = right1 > right2 ? right1 : right2
+    if (isContainedWithin(left, right, start, end)){
+      featuresCoverTwoTFs.push(innerArray)
+    } else {
+      featuresNotCoverTwoTFs.push(innerArray)
     }
   })
 
@@ -127,21 +147,20 @@ export const sortFeature = (
 
     case 'co-binding TFs': {
       // const foodieSortMap = new Map()
-      // 计算矩阵起止
       // let min = Infinity
       // let max = 0
       // const featuresHasFoodie1: Feature[] = []
       // const featuresHasFoodie2: Feature[] = []
       // const featuresHasFoodie3: Feature[] = []
       // const featuresHasNoFoodie: Feature[] = []
-      const left1 = sortedBy.left1 as number
-      const left2 = sortedBy.left2 as number
-      const right1 = sortedBy.right1 as number
-      const right2 = sortedBy.right2 as number
+      // const left1 = sortedBy.left1 as number
+      // const left2 = sortedBy.left2 as number
+      // const right1 = sortedBy.right1 as number
+      // const right2 = sortedBy.right2 as number
       const probability1 = sortedBy.probability1 as number
       const probability2 = sortedBy.probability2 as number
 
-      featuresInCenterLine.forEach(feature => {
+      featuresCoverTwoTFs.forEach(feature => {
         const xg = getTag(feature, 'XG')
         if (xg === 'CT') {
           const start = feature.get('start')
@@ -274,15 +293,17 @@ export const sortFeature = (
       })
       // //co-binding
       // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-      console.log('Cluster1:' + featuresHasFoodie1.length)
-      console.log('Cluster2:' + featuresHasFoodie2.length)
-      console.log('Cluster3:' + featuresHasFoodie3.length)
-      console.log('Cluster4:' + featuresHasNoFoodie.length)
+      console.log('Total features Counts:' + featureArray.length)
+      console.log('Cluster1-Cobind:' + featuresHasFoodie1.length)
+      console.log('Cluster2-left:' + featuresHasFoodie2.length)
+      console.log('Cluster3-right:' + featuresHasFoodie3.length)
+      console.log('Cluster4-Nobind:' + featuresHasNoFoodie.length)
+      console.log('Cluster5-NotCoverTwo:' + featuresNotCoverTwoTFs.length)
+      
       featuresInCenterLine = featuresHasFoodie1
         .concat(featuresHasFoodie2)
         .concat(featuresHasFoodie3)
         .concat(featuresHasNoFoodie)
-      console.log('Total:' + featuresInCenterLine.length)
 
       // const matrixLen = max - min + 1
       // const matrix: number[][] = []
