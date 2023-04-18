@@ -293,12 +293,13 @@ export const sortFeature = (
       })
       // //co-binding
       // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-      console.log('Total features Counts:' + featureArray.length)
+      console.log('Total features Covered:' + featuresCoverTwoTFs.length)
       console.log('Cluster1-Cobind:' + featuresHasFoodie1.length)
       console.log('Cluster2-left:' + featuresHasFoodie2.length)
       console.log('Cluster3-right:' + featuresHasFoodie3.length)
       console.log('Cluster4-Nobind:' + featuresHasNoFoodie.length)
-      console.log('Cluster5-NotCoverTwo:' + featuresNotCoverTwoTFs.length)
+      console.log('Cluster5-NotCover:' + featuresNotCoverTwoTFs.length)
+      console.log('Total features:' + featureArray.length)
       
       featuresInCenterLine = featuresHasFoodie1
         .concat(featuresHasFoodie2)
