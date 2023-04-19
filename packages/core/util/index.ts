@@ -525,6 +525,19 @@ function roundToNearestPointOne(num: number) {
  * @param region -
  * @param bpPerPx -
  */
+/**
+ * The function converts a given breakpoint value to pixel value based on a specified range and
+ * breakpoint per pixel ratio.
+ * @param {number} bp - `bp` is a number representing a value in "breakpoints". In web development,
+ * breakpoints are commonly used to define different screen sizes or device types, and are often
+ * associated with CSS media queries.
+ * @param {number} bpPerPx - bpPerPx is a number that represents the number of breakpoints (bp) per
+ * pixel. It is used to convert a given breakpoint value (bp) to a pixel value (px).
+ * @returns a number that represents the pixel value of a given breakpoint (`bp`) based on the provided
+ * parameters. The `bp` value is subtracted from either the `end` or `start` value (depending on
+ * whether the `reversed` parameter is true or false) and then divided by `bpPerPx`. The resulting
+ * value is then rounded to the nearest tenth using the `
+ */
 export function bpToPx(
   bp: number,
   {
@@ -564,6 +577,20 @@ export function cartesianToPolar(x: number, y: number) {
   return [rho, theta] as [number, number]
 }
 
+/**
+ * The above code exports two functions that convert base pair spans to pixel spans for a given region
+ * and base pairs per pixel.
+ * @param {Feature} feature - A genomic feature, such as a gene or a mutation, represented as a data
+ * object with 'start' and 'end' properties indicating its genomic coordinates.
+ * @param region - The region parameter is an object that specifies the start and end positions of a
+ * genomic region, as well as an optional boolean value indicating whether the region is reversed.
+ * @param {number} bpPerPx - bpPerPx stands for base pairs per pixel and represents the number of
+ * genomic base pairs that are equivalent to one pixel on the screen. It is used to convert genomic
+ * coordinates (in base pairs) to pixel coordinates on the screen.
+ * @returns The `featureSpanPx` function returns an array of two numbers representing the start and end
+ * positions of a genomic feature in pixels, based on its start and end positions in base pairs, a
+ * given region, and a specified base pairs per pixel ratio.
+ */
 export function featureSpanPx(
   feature: Feature,
   region: { start: number; end: number; reversed?: boolean },
@@ -572,6 +599,26 @@ export function featureSpanPx(
   return bpSpanPx(feature.get('start'), feature.get('end'), region, bpPerPx)
 }
 
+/**
+ * The function calculates the pixel span of a genomic region given its left and right base pair
+ * positions and the base pairs per pixel.
+ * @param {number} leftBp - `leftBp` is a number representing the left boundary of a genomic region in
+ * base pairs (bp).
+ * @param {number} rightBp - `rightBp` is a number representing the genomic position of the right
+ * boundary of a region in base pairs (bp). It is used as an input parameter in the `bpSpanPx` function
+ * to calculate the corresponding pixel coordinates of the region based on the `bpPerPx` parameter,
+ * which
+ * @param region - The `region` parameter is an object that represents a genomic region. It has two
+ * properties: `start` and `end`, which are the start and end positions of the region in base pairs. It
+ * may also have an optional `reversed` property, which indicates whether the region is reversed or
+ * @param {number} bpPerPx - bpPerPx stands for "base pairs per pixel" and represents the number of DNA
+ * base pairs that are equivalent to one pixel on the screen. This parameter is used to convert genomic
+ * coordinates (measured in base pairs) to pixel coordinates on the screen.
+ * @returns The function `bpSpanPx` returns an array of two numbers, which represent the start and end
+ * positions in pixels of a genomic region defined by its left and right boundaries in base pairs. The
+ * function takes as input the left and right boundaries in base pairs, the genomic region object
+ * containing the start and end positions in base pairs, and the number of base pairs per pixel.
+ */
 export function bpSpanPx(
   leftBp: number,
   rightBp: number,

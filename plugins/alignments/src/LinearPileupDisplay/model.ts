@@ -235,6 +235,13 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       },
     }))
     .actions(self => ({
+      /* The above code is defining an `afterAttach` method that runs when the component is attached to
+      the DOM. Within this method, there are two `autorun` functions that run asynchronously. The
+      first `autorun` function updates various maps and renders the sorted region if there is one.
+      The second `autorun` function synchronizes the `featureUnderMouse` property with the
+      `featureIdUnderMouse` property by fetching feature details from the server. The `addDisposer`
+      function is used to dispose of the `autorun` functions when the component is detached from the
+      DOM. */
       afterAttach() {
         addDisposer(
           self,
