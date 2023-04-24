@@ -1347,6 +1347,25 @@ export default class PileupRenderer extends BoxRendererType {
       layout,
     })
 
+     /** only when sort by co-binding TFs, render 4 numbers besides 4 clusters in page
+     * 1. number of featuresHasFoodie1Length from sortFeature
+     * 2. number of featuresHasFoodie2Length from sortFeature
+     * 3. number of featuresHasFoodie3Length from sortFeature
+     * 4. number of featuresHasNoFoodieLength from sortFeature
+     */    
+     if (renderProps.sortedBy?.type === 'co-binding TFs') {
+      const {
+        featuresHasFoodie1Length,
+        featuresHasFoodie2Length,
+        featuresHasFoodie3Length,
+        featuresHasNoFoodieLength,
+      } = sortFeature(features, renderProps.sortedBy)
+      renderProps.featuresHasFoodie1Length = featuresHasFoodie1Length
+      renderProps.featuresHasFoodie2Length = featuresHasFoodie2Length
+      renderProps.featuresHasFoodie3Length = featuresHasFoodie3Length
+      renderProps.featuresHasNoFoodieLength = featuresHasNoFoodieLength
+    }
+
     // only need reference sequence if there are features and only for some
     // cases
     const regionSequence =
