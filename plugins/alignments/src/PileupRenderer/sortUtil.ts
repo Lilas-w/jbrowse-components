@@ -9,6 +9,7 @@ import {
   getFoodieClusterOne,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
+import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 
 interface SortObject {
   pos: number
@@ -291,16 +292,42 @@ export const sortFeature = (
           }
         }
       })
+      featuresHasFoodie1.forEach(feature => {
+        if (feature instanceof BamSlightlyLazyFeature){
+          feature['cluster_id'] = 1
+          feature['cluster_length'] = featuresHasFoodie1.length
+        }
+      })
+      featuresHasFoodie2.forEach(feature => {
+        if (feature instanceof BamSlightlyLazyFeature){
+          feature['cluster_id'] = 2
+          feature['cluster_length'] = featuresHasFoodie2.length
+
+        }
+      })
+      featuresHasFoodie3.forEach(feature => {
+        if (feature instanceof BamSlightlyLazyFeature){
+          feature['cluster_id'] = 3
+          feature['cluster_length'] = featuresHasFoodie3.length
+        }
+      })
+      featuresHasNoFoodie.forEach(feature => {
+        if (feature instanceof BamSlightlyLazyFeature){
+          feature['cluster_id'] = 4
+          feature['cluster_length'] = featuresHasNoFoodie.length
+        }
+      })
+
       // //co-binding
       // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-      console.log('Total features Covered:' + featuresCoverTwoTFs.length)
-      console.log('Cluster1-Cobind:' + featuresHasFoodie1.length)
-      console.log('Cluster2-left:' + featuresHasFoodie2.length)
-      console.log('Cluster3-right:' + featuresHasFoodie3.length)
-      console.log('Cluster4-Nobind:' + featuresHasNoFoodie.length)
-      console.log('Cluster5-NotCover:' + featuresNotCoverTwoTFs.length)
-      console.log('Total features:' + featureArray.length)
-      
+      // console.log('Total features Covered:' + featuresCoverTwoTFs.length)
+      // console.log('Cluster1-Cobind:' + featuresHasFoodie1.length)
+      // console.log('Cluster2-left:' + featuresHasFoodie2.length)
+      // console.log('Cluster3-right:' + featuresHasFoodie3.length)
+      // console.log('Cluster4-Nobind:' + featuresHasNoFoodie.length)
+      // console.log('Cluster5-NotCover:' + featuresNotCoverTwoTFs.length)
+      // console.log('Total features:' + featureArray.length)
+
       featuresInCenterLine = featuresHasFoodie1
         .concat(featuresHasFoodie2)
         .concat(featuresHasFoodie3)

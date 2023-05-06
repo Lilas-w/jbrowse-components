@@ -16,6 +16,8 @@ export default class BamSlightlyLazyFeature implements Feature {
     private record: BamRecord,
     private adapter: BamAdapter,
     private ref?: string,
+    private cluster_id?: number,
+    private cluster_length?: number,
   ) {}
 
   _get_name() {
@@ -145,5 +147,13 @@ export default class BamSlightlyLazyFeature implements Feature {
   _get_clipPos() {
     const cigar = this.get('CIGAR') || ''
     return getClip(cigar, this.get('strand'))
+  }
+
+  _get_cluster_id(){
+    return this.cluster_id
+  }
+
+  _get_cluster_length(){
+    return this.cluster_length
   }
 }
