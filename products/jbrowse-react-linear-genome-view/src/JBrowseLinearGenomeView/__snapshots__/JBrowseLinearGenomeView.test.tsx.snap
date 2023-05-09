@@ -166,7 +166,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                 class="css-1fs11k8-overview"
               >
                 <svg
-                  class="css-1fsr3xw-overviewSvg"
+                  class="css-191b84s-overviewSvg"
                   height="48"
                 >
                   <polygon
@@ -246,7 +246,7 @@ exports[`<JBrowseLinearGenomeView /> renders successfully 1`] = `
                       />
                     </button>
                     <div
-                      class="MuiAutocomplete-root css-4xbbh5-MuiAutocomplete-root"
+                      class="MuiAutocomplete-root css-1xnbq41-MuiAutocomplete-root"
                       data-testid="autocomplete"
                       style="width: 175px;"
                     >
