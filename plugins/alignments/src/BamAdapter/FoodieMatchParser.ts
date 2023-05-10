@@ -9,18 +9,13 @@ export function getFoodieMatches(
   mismatches: Mismatch[],
   seq: string,
   xg: string,
-) {
-  const seqArr = seq.split('')
-  const len = seqArr.length
+): FoodieMatch[] {
+  // why more T->T and less C->T?
   const foodieMatchRecords: FoodieMatch[] = []
-  const mismatchesPos = []
-  for (let i = 0; i < mismatches.length; i++) {
-    mismatchesPos.push(mismatches[i].start)
-  }
-  let base = ''
-  for (let start = 0; start < len; start++) {
-    base = seq[start]
-    if (start === mismatchesPos[0]) {
+  const mismatchesPos = mismatches.map(mismatch => mismatch.start)
+  for (let i = 0; i < seq.length; i++) {
+    const base = seq[i]
+    if (i === mismatchesPos[0]) {
       mismatches.shift()
       continue
     } else if (
@@ -30,7 +25,7 @@ export function getFoodieMatches(
         ((base === 'T' && mismatches[0].altbase === 'C') ||
           (base === 'A' && mismatches[0].altbase === 'G')))
     ) {
-      foodieMatchRecords.push({ start, base })
+      foodieMatchRecords.push({ start: i, base })
     }
   }
   return foodieMatchRecords
@@ -208,8 +203,7 @@ export function getFoodieCluster3(
   foodieRange1: string[],
   foodieRange2: string[],
   probability1: number,
-  probability2: number) 
-  {
+  probability2: number) {
   if (xg === 'CT') {
     const CProbability2 = getBaseProbability(xg, foodieRange1)[0]
 
