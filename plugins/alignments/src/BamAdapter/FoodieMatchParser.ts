@@ -11,9 +11,10 @@ export function getFoodieMatches(
   xg: string,
 ): FoodieMatch[] {
   const foodieMatchRecords: FoodieMatch[] = []
+  const mismatchMap = new Map(mismatches.map(m => [m.start, m]))
   for (let i = 0; i < seq.length; i++) {
     const base = seq[i]
-    const mismatch = mismatches.find(m => m.start === i)
+    const mismatch = mismatchMap.get(i)
     if (
       (base === 'G' && xg === 'GA') ||
       (base === 'C' && xg === 'CT') ||
