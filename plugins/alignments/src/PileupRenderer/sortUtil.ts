@@ -5,7 +5,6 @@ import {
   getFoodieCluster1,
   getFoodieCluster2,
   getFoodieCluster3,
-  getFoodieRangeOne,
   getFoodieClusterOne,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
@@ -174,13 +173,19 @@ export const sortFeature = (
           //   xg,
           // )
 
-          const [foodieRange1, foodieRange2] = getFoodieRange(
+          const foodieRange1 = getFoodieRange(
             mismatches,
             start,
             seq,
             xg,
             left1,
             right1,
+          )
+          const foodieRange2 = getFoodieRange(
+            mismatches,
+            start,
+            seq,
+            xg,
             left2,
             right2,
           )
@@ -216,45 +221,24 @@ export const sortFeature = (
           } else {
             featuresHasNoFoodie.push(feature)
           }
-
-          // // co-binding
-          // if (flag1) {
-          //   featuresHasFoodie1.push(feature)
-          // } else {
-          //   featuresHasNoFoodie.push(feature)
-          // }
-
-          // const baseArray: number[][] = []
-          // for (let i = 0; i < foodieMatches.length; i += 1) {
-          //   const foodieMatch = foodieMatches[i]
-          //   // absolute position
-          //   const fstart = start + foodieMatch.start
-          //   if (i === 0) {
-          //     min = fstart < min ? fstart : min
-          //   }
-          //   if (i === foodieMatches.length - 1) {
-          //     max = fstart > max ? fstart : max
-          //   }
-          //   const fbase = foodieMatch.base
-          //   if (fbase === 'T') {
-          //     baseArray.push([fstart, foodieMatch.start, 1])
-          //   } else {
-          //     baseArray.push([fstart, foodieMatch.start, 0])
-          //   }
-          //   foodieSortMap.set(id, baseArray)
-          // }
         } else if (xg === 'GA') {
           const start = feature.get('start')
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
 
-          const [foodieRange1, foodieRange2] = getFoodieRange(
+          const foodieRange1 = getFoodieRange(
             mismatches,
             start,
             seq,
             xg,
             left1,
             right1,
+          )
+          const foodieRange2 = getFoodieRange(
+            mismatches,
+            start,
+            seq,
+            xg,
             left2,
             right2,
           )
@@ -388,7 +372,7 @@ export const sortFeature = (
             const mismatches = feature.get('mismatches') as Mismatch[]
             const seq = feature.get('seq') as string
 
-            const foodieRangeOne = getFoodieRangeOne(
+            const foodieRangeOne = getFoodieRange(
               mismatches,
               start,
               seq,
@@ -413,7 +397,7 @@ export const sortFeature = (
             const mismatches = feature.get('mismatches') as Mismatch[]
             const seq = feature.get('seq') as string
 
-            const foodieRangeOne = getFoodieRangeOne(
+            const foodieRange = getFoodieRange(
               mismatches,
               start,
               seq,
@@ -423,12 +407,8 @@ export const sortFeature = (
             )
 
             // single bind flag
-            const flagOne = getFoodieClusterOne(
-              xg,
-              foodieRangeOne,
-              probability1,
-            )
-            if (flagOne) {
+            const flag = getFoodieClusterOne(xg, foodieRange, probability1)
+            if (flag) {
               featuresHasFoodie1.push(feature)
             } else {
               featuresHasNoFoodie.push(feature)

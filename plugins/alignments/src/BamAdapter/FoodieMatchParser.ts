@@ -11,70 +11,47 @@ export function getFoodieMatches(
   xg: string,
 ): FoodieMatch[] {
   const foodieMatchRecords: FoodieMatch[] = []
-  const mismatchMap = new Map(mismatches.map(m => [m.start, m]))
+  const mismatchMap = buildMismatchMap(mismatches)
   for (let i = 0; i < seq.length; i++) {
     const base = seq[i]
     const mismatch = mismatchMap.get(i)
-    if (
-      (base === 'G' && xg === 'GA') ||
-      (base === 'C' && xg === 'CT') ||
-      (mismatch && ((base === 'T' && mismatch.altbase === 'C') ||
-          (base === 'A' && mismatch.altbase === 'G')))
-    ) {
+    if (isFoodieMatch(base, xg, mismatch)) {
       foodieMatchRecords.push({ start: i, base })
     }
   }
   return foodieMatchRecords
 }
 
+function buildMismatchMap(mismatches: Mismatch[]): Map<number, Mismatch> {
+  return new Map(mismatches.map(m => [m.start, m]))
+}
+
+function isFoodieMatch(base: string, xg: string, mismatch?: Mismatch) {
+  return (
+    (base === 'G' && xg === 'GA') ||
+    (base === 'C' && xg === 'CT') ||
+    (mismatch &&
+      mismatch.altbase &&
+      ((base === 'T' && mismatch.altbase === 'C') ||
+      (base === 'A' && mismatch.altbase === 'G')))
+  );
+}
+
+type BaseCounts = { [key in 'C' | 'T' | 'G' | 'A']: number };
+
 function getBaseProbability(xg: string, arr: string[]): number[] {
-  let Ccount = 0
-  let Tcount = 0
-  let Gcount = 0
-  let Acount = 0
+  const counts: BaseCounts = { C: 0, T: 0, G: 0, A: 0 };
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] === 'C') {
-      Ccount += 1
-    } else if (arr[i] === 'T') {
-      Tcount += 1
-    } else if (arr[i] === 'G') {
-      Gcount += 1
-    } else if (arr[i] === 'A') {
-      Acount += 1
-    }
+    counts[arr[i] as keyof BaseCounts]++;
   }
-  const CProbability = Number((Ccount / arr.length).toFixed(2))
-  const TProbability = Number((Tcount / arr.length).toFixed(2))
-  const GProbability = Number((Gcount / arr.length).toFixed(2))
-  const AProbability = Number((Acount / arr.length).toFixed(2))
+  const total = arr.length;
+  const CProbability = counts.C / total;
+  const TProbability = counts.T / total;
+  const GProbability = counts.G / total;
+  const AProbability = counts.A / total;
   return xg === 'CT'
     ? [CProbability, TProbability]
     : [GProbability, AProbability]
-}
-export function getFoodieRangeOne(
-  mismatches: Mismatch[],
-  start: number,
-  seq: string,
-  xg: string,
-  left1: number,
-  right1: number,
-) {
-  let base = ''
-  // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
-  const foodieRangeOne = []
-  for (let i = left1 - start; i < right1 - start; i++) {
-    base = seq[i]
-    if (
-      (base === 'G' && xg === 'GA') ||
-      (base === 'C' && xg === 'CT') ||
-      (mismatches.length > 0 &&
-        ((base === 'T' && mismatches[0].altbase === 'C') ||
-          (base === 'A' && mismatches[0].altbase === 'G')))
-    ) {
-      foodieRangeOne.push(base)
-    }
-  }
-  return foodieRangeOne
 }
 
 export function getFoodieRange(
@@ -82,40 +59,19 @@ export function getFoodieRange(
   start: number,
   seq: string,
   xg: string,
-  left1: number,
-  right1: number,
-  left2: number,
-  right2: number,
+  left: number,
+  right: number,
 ) {
-  let base = ''
-  // 从符合featureInCenterLine的单条read中取至少含有4个红蓝base的区域
-  const foodieRange1 = []
-  const foodieRange2 = []
-  for (let i = left1 - start; i < right1 - start; i++) {
-    base = seq[i]
-    if (
-      (base === 'G' && xg === 'GA') ||
-      (base === 'C' && xg === 'CT') ||
-      (mismatches.length > 0 &&
-        ((base === 'T' && mismatches[0].altbase === 'C') ||
-          (base === 'A' && mismatches[0].altbase === 'G')))
-    ) {
-      foodieRange1.push(base)
+  // get all foodie matches in the footprint range
+  const foodieRangeOne = []
+  for (let i = left - start; i < right - start; i++) {
+    const base = seq[i]
+    const mismatch = buildMismatchMap(mismatches).get(i)
+    if (isFoodieMatch(base, xg, mismatch)) {
+      foodieRangeOne.push(base)
     }
   }
-  for (let i = left2 - start; i < right2 - start; i++) {
-    base = seq[i]
-    if (
-      (base === 'G' && xg === 'GA') ||
-      (base === 'C' && xg === 'CT') ||
-      (mismatches.length > 0 &&
-        ((base === 'T' && mismatches[0].altbase === 'C') ||
-          (base === 'A' && mismatches[0].altbase === 'G')))
-    ) {
-      foodieRange2.push(base)
-    }
-  }
-  return [foodieRange1, foodieRange2]
+  return foodieRangeOne
 }
 
 export function getFoodieClusterOne(
