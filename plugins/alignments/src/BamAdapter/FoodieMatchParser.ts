@@ -10,20 +10,15 @@ export function getFoodieMatches(
   seq: string,
   xg: string,
 ): FoodieMatch[] {
-  // why more T->T and less C->T?
   const foodieMatchRecords: FoodieMatch[] = []
-  const mismatchesPos = mismatches.map(mismatch => mismatch.start)
   for (let i = 0; i < seq.length; i++) {
     const base = seq[i]
-    if (i === mismatchesPos[0]) {
-      mismatches.shift()
-      continue
-    } else if (
+    const mismatch = mismatches.find(m => m.start === i)
+    if (
       (base === 'G' && xg === 'GA') ||
       (base === 'C' && xg === 'CT') ||
-      (mismatches.length > 0 &&
-        ((base === 'T' && mismatches[0].altbase === 'C') ||
-          (base === 'A' && mismatches[0].altbase === 'G')))
+      (mismatch && ((base === 'T' && mismatch.altbase === 'C') ||
+          (base === 'A' && mismatch.altbase === 'G')))
     ) {
       foodieMatchRecords.push({ start: i, base })
     }
