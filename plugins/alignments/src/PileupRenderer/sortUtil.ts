@@ -5,7 +5,7 @@ import {
   getFoodieCluster1,
   getFoodieCluster2,
   getFoodieCluster3,
-  getFoodieClusterOne,
+  getFoodieSingleCluster,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
@@ -22,18 +22,11 @@ interface SortObject {
   probability2?: number
 }
 
-interface SortFeaturesResult {
-  sortedFeatures: Map<string, Feature>
-  featuresHasFoodie1Length?: number
-  featuresHasFoodie2Length?: number
-  featuresHasFoodie3Length?: number
-  featuresHasNoFoodieLength?: number
-}
 
 export const sortFeature = (
   features: Map<string, Feature>,
   sortedBy: SortObject,
-): SortFeaturesResult => {
+) => {
   const featureArray = Array.from(features.values())
   let featuresInCenterLine: Feature[] = []
   const featuresOutsideCenter: Feature[] = []
@@ -146,17 +139,6 @@ export const sortFeature = (
     }
 
     case 'co-binding TFs': {
-      // const foodieSortMap = new Map()
-      // let min = Infinity
-      // let max = 0
-      // const featuresHasFoodie1: Feature[] = []
-      // const featuresHasFoodie2: Feature[] = []
-      // const featuresHasFoodie3: Feature[] = []
-      // const featuresHasNoFoodie: Feature[] = []
-      // const left1 = sortedBy.left1 as number
-      // const left2 = sortedBy.left2 as number
-      // const right1 = sortedBy.right1 as number
-      // const right2 = sortedBy.right2 as number
       const probability1 = sortedBy.probability1 as number
       const probability2 = sortedBy.probability2 as number
 
@@ -166,12 +148,6 @@ export const sortFeature = (
           const start = feature.get('start')
           const mismatches = feature.get('mismatches') as Mismatch[]
           const seq = feature.get('seq') as string
-
-          // const foodieMatches: FoodieMatch[] = getFoodieMatches(
-          //   mismatches,
-          //   seq,
-          //   xg,
-          // )
 
           const foodieRange1 = getFoodieRange(
             mismatches,
@@ -302,56 +278,10 @@ export const sortFeature = (
         }
       })
 
-      // //co-binding
-      // featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-      // console.log('Total features Covered:' + featuresCoverTwoTFs.length)
-      // console.log('Cluster1-Cobind:' + featuresHasFoodie1.length)
-      // console.log('Cluster2-left:' + featuresHasFoodie2.length)
-      // console.log('Cluster3-right:' + featuresHasFoodie3.length)
-      // console.log('Cluster4-Nobind:' + featuresHasNoFoodie.length)
-      // console.log('Cluster5-NotCover:' + featuresNotCoverTwoTFs.length)
-      // console.log('Total features:' + featureArray.length)
-
       featuresInCenterLine = featuresHasFoodie1
         .concat(featuresHasFoodie2)
         .concat(featuresHasFoodie3)
         .concat(featuresHasNoFoodie)
-
-      // const matrixLen = max - min + 1
-      // const matrix: number[][] = []
-      // const matrixKey = Array.from(foodieSortMap.keys())
-      // for (let i = 0; i < matrixKey.length; i++) {
-      //   const id = matrixKey[i]
-      //   const baseArray = foodieSortMap.get(id)
-      //   const matrixArr: number[] = []
-      //   // 绝对位置填充0的矩阵（无法区分红T蓝C）
-      //   for (let j = 0; j < matrixLen; j++) {
-      //     if (baseArray.length > 0 && baseArray[0][1] === j) {
-      //       matrixArr.push(baseArray[0][0])
-      //       baseArray.shift()
-      //     } else {
-      //       matrixArr.push(0)
-      //     }
-      //   }
-      //   matrix.push(matrixArr)
-      // }
-
-      // // ml-hclust.js
-      // const { agnes } = require('ml-hclust');
-      // const tree = agnes(matrix, {
-      //   method: 'ward',
-      // })
-      // const indexArray = tree.indices();
-
-      // // reorder featuresInCenterLine according to indexArray
-      // const tempArray = []
-      // for (let i = 0; i < featuresInCenterLine.length; i++) {
-      //   tempArray.push(featuresInCenterLine[i])
-      // }
-      // featuresInCenterLine.length = 0
-      // for (let i = 0; i < indexArray.length; i++) {
-      //   featuresInCenterLine[indexArray[i]] = tempArray[i];
-      // }
 
       break
     }
@@ -366,7 +296,6 @@ export const sortFeature = (
 
         featuresInCenterLine.forEach(feature => {
           const xg = getTag(feature, 'XG')
-          // 只看CT reads
           if (xg === 'CT') {
             const start = feature.get('start')
             const mismatches = feature.get('mismatches') as Mismatch[]
@@ -382,12 +311,12 @@ export const sortFeature = (
             )
 
             // single bind flag
-            const flagOne = getFoodieClusterOne(
+            const flag = getFoodieSingleCluster(
               xg,
               foodieRangeOne,
               probability1,
             )
-            if (flagOne) {
+            if (flag) {
               featuresHasFoodie1.push(feature)
             } else {
               featuresHasNoFoodie.push(feature)
@@ -407,7 +336,7 @@ export const sortFeature = (
             )
 
             // single bind flag
-            const flag = getFoodieClusterOne(xg, foodieRange, probability1)
+            const flag = getFoodieSingleCluster(xg, foodieRange, probability1)
             if (flag) {
               featuresHasFoodie1.push(feature)
             } else {
@@ -419,31 +348,11 @@ export const sortFeature = (
       }
       break
   }
-
-  // const sortedMap = new Map(
-  //   [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
-  //     feature.id(),
-  //     feature,
-  //   ]),
-  // )
-
-  // return sortedMap
-
-  const result: SortFeaturesResult = {
-    sortedFeatures: new Map(
-      [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
-        feature.id(),
-        feature,
-      ]),
-    ),
-  }
-
-  if (sortedBy.type === 'co-binding TFs') {
-    result.featuresHasFoodie1Length = featuresHasFoodie1.length
-    result.featuresHasFoodie2Length = featuresHasFoodie2.length
-    result.featuresHasFoodie3Length = featuresHasFoodie3.length
-    result.featuresHasNoFoodieLength = featuresHasNoFoodie.length
-  }
-  
-  return result;
+  const sortedMap = new Map(
+    [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
+      feature.id(),
+      feature,
+    ]),
+  )
+  return sortedMap
 }

@@ -5,6 +5,7 @@ export interface FoodieMatch {
   base: string
 }
 
+// get C/G/C->T/G->A to draw red and blue foodie bases 
 export function getFoodieMatches(
   mismatches: Mismatch[],
   seq: string,
@@ -54,6 +55,7 @@ function getBaseProbability(xg: string, arr: string[]): number[] {
     : [GProbability, AProbability]
 }
 
+// get all foodie matches in the input footprint range
 export function getFoodieRange(
   mismatches: Mismatch[],
   start: number,
@@ -62,7 +64,6 @@ export function getFoodieRange(
   left: number,
   right: number,
 ) {
-  // get all foodie matches in the footprint range
   const foodieRangeOne = []
   for (let i = left - start; i < right - start; i++) {
     const base = seq[i]
@@ -74,20 +75,20 @@ export function getFoodieRange(
   return foodieRangeOne
 }
 
-export function getFoodieClusterOne(
+export function getFoodieSingleCluster(
   xg: string,
-  foodieRange1: string[],
+  foodieRange: string[],
   probability: number,
 ) {
   if (xg === 'CT') {
-    const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
+    const CProbability1 = getBaseProbability(xg, foodieRange)[0]
 
     if (CProbability1 >= probability) {
       return true
     }
   }
   if (xg === 'GA') {
-    const GProbability1 = getBaseProbability(xg, foodieRange1)[0]
+    const GProbability1 = getBaseProbability(xg, foodieRange)[0]
 
     if (GProbability1 >= probability) {
       return true
@@ -107,7 +108,6 @@ export function getFoodieCluster1(
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
     const CProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
     if (CProbability1 >= probability1 && CProbability2 >= probability2) {
       return true
     }
@@ -116,7 +116,6 @@ export function getFoodieCluster1(
     const GProbability1 = getBaseProbability(xg, foodieRange2)[0]
     const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
     if (GProbability1 >= probability1 && GProbability2 >= probability2) {
       return true
     }
@@ -134,7 +133,6 @@ export function getFoodieCluster2(
   if (xg === 'CT') {
     const CProbability1 = getBaseProbability(xg, foodieRange1)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
     if (CProbability1 >= probability1) {
       return true
     }
@@ -142,7 +140,6 @@ export function getFoodieCluster2(
   if (xg === 'GA') {
     const GProbability1 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
     if (GProbability1 >= probability2) {
       return true
     }
@@ -159,7 +156,6 @@ export function getFoodieCluster3(
   if (xg === 'CT') {
     const CProbability2 = getBaseProbability(xg, foodieRange1)[0]
 
-    // const TProbability = getBaseProbability(xg, foodieRange)[1]
     if (CProbability2 >= probability1) {
       return true
     }
@@ -167,7 +163,6 @@ export function getFoodieCluster3(
   if (xg === 'GA') {
     const GProbability2 = getBaseProbability(xg, foodieRange2)[0]
 
-    // const AProbability = getBaseProbability(xg, foodieRange)[1]
     if (GProbability2 >= probability2) {
       return true
     }
