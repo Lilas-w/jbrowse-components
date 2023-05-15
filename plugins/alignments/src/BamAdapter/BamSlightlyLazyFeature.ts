@@ -32,6 +32,14 @@ export default class BamSlightlyLazyFeature implements Feature {
     return this.record.get('mq')
   }
 
+  _get_cluster_id(){
+    return this.cluster_id
+  }
+
+  _get_cluster_length(){
+    return this.cluster_length
+  }
+  
   _get_flags(): string {
     return this.record.flags
   }
@@ -147,13 +155,5 @@ export default class BamSlightlyLazyFeature implements Feature {
   _get_clipPos() {
     const cigar = this.get('CIGAR') || ''
     return getClip(cigar, this.get('strand'))
-  }
-
-  _get_cluster_id(){
-    return this.cluster_id
-  }
-
-  _get_cluster_length(){
-    return this.cluster_length
   }
 }

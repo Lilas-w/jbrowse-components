@@ -55,6 +55,14 @@ export default class CramSlightlyLazyFeature implements Feature {
     return this._store.samHeader.readGroups?.[this.record.readGroupId]
   }
 
+  _get_cluster_id(){
+    return this.cluster_id
+  }
+
+  _get_cluster_length(){
+    return this.cluster_length
+  }
+
   _get_qual() {
     return (this.record.qualityScores || []).join(' ')
   }
@@ -188,13 +196,5 @@ export default class CramSlightlyLazyFeature implements Feature {
     const qual = this.qualRaw()
     const start = this.get('start')
     return readFeaturesToMismatches(readFeatures, start, qual)
-  }
-
-  _get_cluster_id(){
-    return this.cluster_id
-  }
-
-  _get_cluster_length(){
-    return this.cluster_length
   }
 }
