@@ -178,7 +178,7 @@ connections: types.array(pluginManager.pluggableConfigSchemaType('connection'))
 #### slot: defaultSession
 
 ```js
-defaultSession: types.optional(types.frozen(Session), {
+defaultSession: types.optional(types.frozen(), {
   name: `New session`,
 })
 ```
