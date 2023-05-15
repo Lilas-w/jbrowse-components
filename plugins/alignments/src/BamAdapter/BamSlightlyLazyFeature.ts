@@ -16,8 +16,8 @@ export default class BamSlightlyLazyFeature implements Feature {
     private record: BamRecord,
     private adapter: BamAdapter,
     private ref?: string,
-    private cluster_id?: number,
-    private cluster_length?: number,
+    public cluster_id?: number,
+    public cluster_length?: number,
   ) {}
 
   _get_name() {

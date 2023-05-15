@@ -9,6 +9,7 @@ import {
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
+import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
 
 interface SortObject {
   pos: number
@@ -253,26 +254,34 @@ export const sortFeature = (
         }
       })
       featuresHasFoodie1.forEach(feature => {
-        if (feature instanceof BamSlightlyLazyFeature){
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature
+        ) {
           feature['cluster_id'] = 1
           feature['cluster_length'] = featuresHasFoodie1.length
         }
       })
       featuresHasFoodie2.forEach(feature => {
-        if (feature instanceof BamSlightlyLazyFeature){
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature){
           feature['cluster_id'] = 2
           feature['cluster_length'] = featuresHasFoodie2.length
-
         }
       })
       featuresHasFoodie3.forEach(feature => {
-        if (feature instanceof BamSlightlyLazyFeature){
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature){
           feature['cluster_id'] = 3
           feature['cluster_length'] = featuresHasFoodie3.length
         }
       })
       featuresHasNoFoodie.forEach(feature => {
-        if (feature instanceof BamSlightlyLazyFeature){
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature){
           feature['cluster_id'] = 4
           feature['cluster_length'] = featuresHasNoFoodie.length
         }
