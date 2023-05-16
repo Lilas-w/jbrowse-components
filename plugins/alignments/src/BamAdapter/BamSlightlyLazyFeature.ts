@@ -16,6 +16,8 @@ export default class BamSlightlyLazyFeature implements Feature {
     private record: BamRecord,
     private adapter: BamAdapter,
     private ref?: string,
+    public cluster_id?: number,
+    public cluster_length?: number,
   ) {}
 
   _get_name() {
@@ -30,6 +32,14 @@ export default class BamSlightlyLazyFeature implements Feature {
     return this.record.get('mq')
   }
 
+  _get_cluster_id(){
+    return this.cluster_id
+  }
+
+  _get_cluster_length(){
+    return this.cluster_length
+  }
+  
   _get_flags(): string {
     return this.record.flags
   }

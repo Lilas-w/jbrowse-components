@@ -19,21 +19,6 @@ extends `BaseDisplay`
 
 ### BaseLinearDisplay - Properties
 
-#### property: heightPreConfig
-
-```js
-// type signature
-IMaybe<ISimpleType<number>>
-// code
-heightPreConfig: types.maybe(
-          types.refinement(
-            'displayHeight',
-            types.number,
-            n => n >= minDisplayHeight,
-          ),
-        )
-```
-
 #### property: blockState
 
 updated via autorun
@@ -45,22 +30,13 @@ IMapType<IModelType<{ key: ISimpleType<string>; region: IModelType<{ refName: IS
 blockState: types.map(BlockState)
 ```
 
-#### property: userBpPerPxLimit
+#### property: configuration
 
 ```js
 // type signature
-IMaybe<ISimpleType<number>>
+ConfigurationSchemaType<{ maxFeatureScreenDensity: { type: string; description: string; defaultValue: number; }; fetchSizeLimit: { type: string; defaultValue: number; description: string; }; height: { type: string; defaultValue: number; description: string; }; mouseover: { ...; }; }, ConfigurationSchemaOptions<...>>
 // code
-userBpPerPxLimit: types.maybe(types.number)
-```
-
-#### property: userByteSizeLimit
-
-```js
-// type signature
-IMaybe<ISimpleType<number>>
-// code
-userByteSizeLimit: types.maybe(types.number)
+configuration: ConfigurationReference(configSchema)
 ```
 
 ### BaseLinearDisplay - Getters
@@ -154,81 +130,7 @@ any
 ;(id: string) => LayoutRecord
 ```
 
-#### getter: currentBytesRequested
-
-```js
-// type
-number
-```
-
-#### getter: currentFeatureScreenDensity
-
-```js
-// type
-number
-```
-
-#### getter: maxFeatureScreenDensity
-
-```js
-// type
-any
-```
-
-#### getter: featureDensityStatsReady
-
-```js
-// type
-boolean
-```
-
-#### getter: maxAllowableBytes
-
-```js
-// type
-number
-```
-
-#### getter: regionTooLarge
-
-region is too large if:
-
-- stats are ready
-- region is greater than 20kb (don't warn when zoomed in less than that)
-- and bytes is greater than max allowed bytes or density greater than max
-  density
-
-```js
-// type
-boolean
-```
-
-#### getter: regionTooLargeReason
-
-only shows a message of bytes requested is defined, the feature density based
-stats don't produce any helpful message besides to zoom in
-
-```js
-// type
-string
-```
-
 ### BaseLinearDisplay - Methods
-
-#### method: regionCannotBeRenderedText
-
-```js
-// type signature
-regionCannotBeRenderedText: (_region: Region) =>
-  '' | 'Force load to see features'
-```
-
-#### method: regionCannotBeRendered
-
-```js
-// type signature
-regionCannotBeRendered: (_region: Region) => Element
-```
 
 #### method: trackMenuItems
 
@@ -260,55 +162,6 @@ renderSvg: (opts: ExportSvgOptions & { overrideHeight: number; theme: ThemeOptio
 
 ### BaseLinearDisplay - Actions
 
-#### action: setMessage
-
-```js
-// type signature
-setMessage: (message: string) => void
-```
-
-#### action: getFeatureDensityStats
-
-```js
-// type signature
-getFeatureDensityStats: () => Promise<FeatureDensityStats>
-```
-
-#### action: setFeatureDensityStatsP
-
-```js
-// type signature
-setFeatureDensityStatsP: (arg: any) => void
-```
-
-#### action: setFeatureDensityStats
-
-```js
-// type signature
-setFeatureDensityStats: (featureDensityStats?: FeatureDensityStats) => void
-```
-
-#### action: clearFeatureDensityStats
-
-```js
-// type signature
-clearFeatureDensityStats: () => void
-```
-
-#### action: setHeight
-
-```js
-// type signature
-setHeight: (displayHeight: number) => number
-```
-
-#### action: resizeHeight
-
-```js
-// type signature
-resizeHeight: (distance: number) => number
-```
-
 #### action: setScrollTop
 
 ```js
@@ -316,25 +169,11 @@ resizeHeight: (distance: number) => number
 setScrollTop: (scrollTop: number) => void
 ```
 
-#### action: setFeatureDensityStatsLimit
-
-```js
-// type signature
-setFeatureDensityStatsLimit: (stats?: FeatureDensityStats) => void
-```
-
 #### action: addBlock
 
 ```js
 // type signature
 addBlock: (key: string, block: BaseBlock) => void
-```
-
-#### action: setCurrBpPerPx
-
-```js
-// type signature
-setCurrBpPerPx: (n: number) => void
 ```
 
 #### action: deleteBlock
@@ -363,13 +202,6 @@ clearFeatureSelection: () => void
 ```js
 // type signature
 setFeatureIdUnderMouse: (feature?: string) => void
-```
-
-#### action: reload
-
-```js
-// type signature
-reload: () => void
 ```
 
 #### action: setContextMenuFeature

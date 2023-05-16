@@ -74,7 +74,7 @@ const PileupRenderer = ConfigurationSchema(
     height: {
       type: 'number',
       description: 'the height of each feature in a pileup alignment',
-      defaultValue: 7,
+      defaultValue: 1,
       contextVariable: ['feature'],
     },
     /**
@@ -83,7 +83,7 @@ const PileupRenderer = ConfigurationSchema(
     noSpacing: {
       type: 'boolean',
       description: 'remove spacing between features',
-      defaultValue: false,
+      defaultValue: true,
     },
     /**
      * #slot
@@ -102,6 +102,9 @@ const PileupRenderer = ConfigurationSchema(
       defaultValue: false,
       description: 'Fade low quality mismatches',
     },
+    /**
+     * #slot
+     */
     showFoodieMatches: {
       type: 'boolean',
       defaultValue: false,

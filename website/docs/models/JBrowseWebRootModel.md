@@ -11,26 +11,20 @@ info
 
 ## Source file
 
-[products/jbrowse-web/src/rootModel.ts](https://github.com/GMOD/jbrowse-components/blob/main/products/jbrowse-web/src/rootModel.ts)
+[products/jbrowse-web/src/rootModel/rootModel.ts](https://github.com/GMOD/jbrowse-components/blob/main/products/jbrowse-web/src/rootModel/rootModel.ts)
 
 ## Docs
 
-note that many properties of the root model are available through the session,
-which may be preferable since using getSession() is better relied on than
-getRoot()
+composed of
+
+- BaseRootModel
+- InternetAccountsMixin
+
+note: many properties of the root model are available through the session, and
+we generally prefer using the session model (via e.g. getSession) over the root
+model (via e.g. getRoot) in plugin code
 
 ### JBrowseWebRootModel - Properties
-
-#### property: jbrowse
-
-`jbrowse` is a mapping of the config.json into the in-memory state tree
-
-```js
-// type signature
-ISnapshotProcessor<IModelType<{ configuration: AnyConfigurationSchemaType; plugins: IArrayType<IType<PluginDefinition, PluginDefinition, PluginDefinition>>; ... 5 more ...; defaultSession: IOptionalIType<...>; }, { ...; } & { ...; }, _NotCustomized, _NotCustomized>, _NotCustomized, Record<...>>
-// code
-jbrowse: jbrowseWebFactory(pluginManager, Session, assemblyConfigSchema)
-```
 
 #### property: configPath
 
@@ -39,47 +33,6 @@ jbrowse: jbrowseWebFactory(pluginManager, Session, assemblyConfigSchema)
 IMaybe<ISimpleType<string>>
 // code
 configPath: types.maybe(types.string)
-```
-
-#### property: session
-
-`session` encompasses the currently active state of the app, including views
-open, tracks open in those views, etc.
-
-```js
-// type signature
-IMaybe<ISnapshotProcessor<IModelType<{ id: IOptionalIType<ISimpleType<string>, [undefined]>; name: ISimpleType<string>; margin: IType<number, number, number>; ... 11 more ...; drawerPosition: IOptionalIType<...>; }, { ...; } & ... 9 more ... & { ...; }, _NotCustomized, _NotCustomized>, _NotCustomized, _NotCustomized>>
-// code
-session: types.maybe(Session)
-```
-
-#### property: assemblyManager
-
-```js
-// type signature
-IOptionalIType<IModelType<{ assemblies: IArrayType<IModelType<{ configuration: IMaybe<IReferenceType<IAnyType>>; }, { error: unknown; loaded: boolean; loadingP: Promise<void>; volatileRegions: BasicRegion[]; refNameAliases: RefNameAliases; lowerCaseRefNameAliases: RefNameAliases; cytobands: Feature[]; } & ... 4 more...
-// code
-assemblyManager: types.optional(AssemblyManager, {})
-```
-
-#### property: version
-
-```js
-// type signature
-IMaybe<ISimpleType<string>>
-// code
-version: types.maybe(types.string)
-```
-
-#### property: internetAccounts
-
-```js
-// type signature
-IArrayType<IAnyType>
-// code
-internetAccounts: types.array(
-        pluginManager.pluggableMstType('internet account', 'stateModel'),
-      )
 ```
 
 #### property: history
@@ -145,7 +98,84 @@ localStorageId: (name: string) => string
 
 ```js
 // type signature
-setSession: (sessionSnapshot?: ModelCreationType<ExtractCFromProps<{ id: IOptionalIType<ISimpleType<string>, [undefined]>; name: ISimpleType<string>; margin: IType<number, number, number>; ... 11 more ...; drawerPosition: IOptionalIType<...>; }>>) => void
+setSession: (sessionSnapshot?: ModelCreationType<ExtractCFromProps<{ id: IOptionalIType<ISimpleType<string>, [undefined]>; name: ISimpleType<string>; margin: IType<number, number, number>; }>>) => void
+```
+
+#### action: setAssemblyEditing
+
+```js
+// type signature
+setAssemblyEditing: (flag: boolean) => void
+```
+
+#### action: setDefaultSessionEditing
+
+```js
+// type signature
+setDefaultSessionEditing: (flag: boolean) => void
+```
+
+#### action: setPluginsUpdated
+
+```js
+// type signature
+setPluginsUpdated: (flag: boolean) => void
+```
+
+#### action: setDefaultSession
+
+```js
+// type signature
+setDefaultSession: () => void
+```
+
+#### action: renameCurrentSession
+
+```js
+// type signature
+renameCurrentSession: (sessionName: string) => void
+```
+
+#### action: addSavedSession
+
+```js
+// type signature
+addSavedSession: (session: { name: string; }) => void
+```
+
+#### action: removeSavedSession
+
+```js
+// type signature
+removeSavedSession: (session: { name: string; }) => void
+```
+
+#### action: duplicateCurrentSession
+
+```js
+// type signature
+duplicateCurrentSession: () => void
+```
+
+#### action: activateSession
+
+```js
+// type signature
+activateSession: (name: string) => void
+```
+
+#### action: saveSessionToLocalStorage
+
+```js
+// type signature
+saveSessionToLocalStorage: () => void
+```
+
+#### action: setError
+
+```js
+// type signature
+setError: (error?: unknown) => void
 ```
 
 #### action: setMenus

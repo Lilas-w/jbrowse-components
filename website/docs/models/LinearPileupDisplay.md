@@ -32,7 +32,7 @@ type: types.literal('LinearPileupDisplay')
 
 ```js
 // type signature
-ITypeUnion<any, any, any>
+AnyConfigurationSchemaType
 // code
 configuration: ConfigurationReference(configSchema)
 ```
@@ -169,6 +169,13 @@ any
 Feature
 ```
 
+#### getter: renderReady
+
+```js
+// type
+boolean
+```
+
 #### getter: rendererTypeName
 
 ```js
@@ -189,7 +196,14 @@ string
 
 ```js
 // type signature
-contextMenuItems: () => { label: string; icon: (props: SvgIconProps<"svg", {}>) => Element; onClick: () => void; }[]
+contextMenuItems: () => { label: string; icon: (props: SvgIconProps) => Element; onClick: () => void; }[]
+```
+
+#### method: renderPropsPre
+
+```js
+// type signature
+renderPropsPre: () => any
 ```
 
 #### method: renderProps
@@ -208,11 +222,25 @@ trackMenuItems: () => (MenuDivider | MenuSubHeader | NormalMenuItem | CheckboxMe
 
 ### LinearPileupDisplay - Actions
 
-#### action: setReady
+#### action: setModificationsReady
 
 ```js
 // type signature
-setReady: (flag: boolean) => void
+setModificationsReady: (flag: boolean) => void
+```
+
+#### action: setTagsReady
+
+```js
+// type signature
+setTagsReady: (flag: boolean) => void
+```
+
+#### action: setSortReady
+
+```js
+// type signature
+setSortReady: (flag: boolean) => void
 ```
 
 #### action: setCurrSortBpPerPx

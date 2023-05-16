@@ -103,7 +103,6 @@ export interface AbstractSessionModel extends AbstractViewContainer {
   sessionConnections?: AnyConfigurationModel[]
   connectionInstances?: {
     name: string
-    connectionId: string
     tracks: AnyConfigurationModel[]
     configuration: AnyConfigurationModel
   }[]
@@ -166,6 +165,7 @@ export interface SessionWithWidgets extends AbstractSessionModel {
   minimized: boolean
   visibleWidget?: Widget
   widgets: Map<string, Widget>
+  hideAllWidgets: () => void
   activeWidgets: Map<string, Widget>
   addWidget(
     typeName: string,

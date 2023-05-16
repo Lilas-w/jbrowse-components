@@ -13,7 +13,7 @@ import { useDebouncedCallback } from '@jbrowse/core/util'
 
 // locals
 import { LinearGenomeViewModel } from '..'
-import TrackLabel from './TrackLabel'
+import TrackLabelContainer from './TrackLabelContainer'
 
 const useStyles = makeStyles()({
   root: {
@@ -33,9 +33,6 @@ const useStyles = makeStyles()({
     width: '100%',
     zIndex: 3,
   },
-  trackLabel: {
-    zIndex: 3,
-  },
 
   // aligns with block boundaries. check for example the breakpoint split view
   // demo to see if features align if wanting to change things
@@ -46,13 +43,7 @@ const useStyles = makeStyles()({
     height: '100%',
     width: '100%',
   },
-  trackLabelOffset: {
-    position: 'relative',
-    display: 'inline-block',
-  },
-  trackLabelOverlap: {
-    position: 'absolute',
-  },
+
   trackRenderingContainer: {
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -64,22 +55,6 @@ const useStyles = makeStyles()({
 })
 
 type LGV = LinearGenomeViewModel
-
-const TrackContainerLabel = observer(
-  ({ model, view }: { model: BaseTrackModel; view: LGV }) => {
-    const { classes, cx } = useStyles()
-    const display = model.displays[0]
-    const { trackLabel, trackLabelOverlap, trackLabelOffset } = classes
-    const labelStyle =
-      view.trackLabels !== 'overlapping' || display.prefersOffset
-        ? trackLabelOffset
-        : trackLabelOverlap
-
-    return view.trackLabels !== 'hidden' ? (
-      <TrackLabel track={model} className={cx(trackLabel, labelStyle)} />
-    ) : null
-  },
-)
 
 function TrackContainer({
   model,
@@ -93,7 +68,7 @@ function TrackContainer({
   const { horizontalScroll, draggingTrackId, moveTrack } = model
   const { height, RenderingComponent, DisplayBlurb } = display
   const trackId = getConf(track, 'trackId')
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
   const dimmed = draggingTrackId !== undefined && draggingTrackId !== display.id
   const minimized = track.minimized
   const debouncedOnDragEnter = useDebouncedCallback(() => {
@@ -111,8 +86,18 @@ function TrackContainer({
   }, [model.trackRefs, trackId])
 
   return (
-    <Paper className={classes.root} variant="outlined">
-      <TrackContainerLabel model={track} view={model} />
+    <Paper
+      ref={ref}
+      className={classes.root}
+      variant="outlined"
+      onClick={event => {
+        if (event.detail === 2 && !track.displays[0].featureIdUnderMouse) {
+          const left = ref.current?.getBoundingClientRect().left || 0
+          model.zoomTo(model.bpPerPx / 2, event.clientX - left, true)
+        }
+      }}
+    >
+      <TrackLabelContainer track={track} view={model} />
       <ErrorBoundary
         key={track.id}
         FallbackComponent={({ error }) => <ErrorMessage error={error} />}
@@ -127,7 +112,6 @@ function TrackContainer({
           {!minimized ? (
             <>
               <div
-                ref={ref}
                 className={classes.renderingComponentContainer}
                 style={{ transform: `scaleX(${model.scaleFactor})` }}
               >

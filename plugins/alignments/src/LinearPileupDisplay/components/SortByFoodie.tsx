@@ -131,7 +131,7 @@ function SortByFoodieDlg(props: {
             value={probability1}
             label="ratio1"
             onChange={event => setProbability1(event.target.value)}
-            placeholder="eg:0.5"
+            placeholder="eg:0.7"
             inputProps={{
               'data-testid': 'sort-foodie-probability-input',
             }}
@@ -142,7 +142,7 @@ function SortByFoodieDlg(props: {
             value={probability2}
             label="ratio2"
             onChange={event => setProbability2(event.target.value)}
-            placeholder="eg:0.5"
+            placeholder="eg:0.7"
             inputProps={{
               'data-testid': 'sort-foodie-probability-input',
             }}

@@ -12,7 +12,12 @@ import { readFeaturesToCIGAR, readFeaturesToMismatches } from './util'
 export default class CramSlightlyLazyFeature implements Feature {
   // uses parameter properties to automatically create fields on the class
   // https://www.typescriptlang.org/docs/handbook/classes.html#parameter-properties
-  constructor(private record: CramRecord, private _store: CramAdapter) {}
+  constructor(
+    private record: CramRecord,
+    private _store: CramAdapter,
+    public cluster_id?: number,
+    public cluster_length?: number,
+    ) {}
 
   _get_name() {
     return this.record.readName
@@ -47,8 +52,15 @@ export default class CramSlightlyLazyFeature implements Feature {
   }
 
   _read_group_id() {
-    const rg = this._store.samHeader.readGroups
-    return rg ? rg[this.record.readGroupId] : undefined
+    return this._store.samHeader.readGroups?.[this.record.readGroupId]
+  }
+
+  _get_cluster_id(){
+    return this.cluster_id
+  }
+
+  _get_cluster_length(){
+    return this.cluster_length
   }
 
   _get_qual() {
