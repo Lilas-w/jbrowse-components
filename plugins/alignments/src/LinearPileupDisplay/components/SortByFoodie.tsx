@@ -59,7 +59,8 @@ function SortByFoodieDlg(props: {
           right positions. Reads overlap the centerline will participate in
           sorting. Make sure the centerline is between two TF binding sites. You
           can move the position of the centerline between the two TF binding
-          sites to achieve a better sorting effect.
+          sites to achieve a better sorting effect.<br/>
+          You can check sorting result in feature details by click 
         </Typography>
         <Box
           component="form"

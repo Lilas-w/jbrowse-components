@@ -169,3 +169,7 @@ export function getFoodieCluster3(
   }
   return false
 }
+
+export function toPercentage(num1: number, num2: number) {
+  return Math.round((num1 / num2) * 10000) / 100 + '%'
+}
