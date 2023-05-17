@@ -50,11 +50,16 @@ function SortByFoodieSingleDlg(props: {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Typography>Set range</Typography>
+        <Typography>Set TF range</Typography>
         <Typography color="textSecondary">
           Set the transcription factor binding site range by entering left and
-          right positions. Reads overlap the centerline will participate in
-          sorting. 
+          right positions of TF. Reads cover TF will participate in sorting.
+          <br />
+          Ensure the centerLine is between TF range. You can check the sorting
+          results in feature details by clicking on any read in each cluster.
+          <br />
+          There are two kinds of <b>cluster_type</b>, and <b>percentage</b> means <b>cluster_size</b>/<b>total_reads</b>
+          .Total_reads means the number of all reads that cover the TF you input.
         </Typography>
         <Box
           component="form"
@@ -127,7 +132,7 @@ function SortByFoodieSingleDlg(props: {
                 0,
                 0,
                 Number(probability1),
-                0
+                0,
               )
               handleClose()
             }}

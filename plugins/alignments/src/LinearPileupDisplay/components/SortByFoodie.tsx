@@ -53,14 +53,17 @@ function SortByFoodieDlg(props: {
         </IconButton>
       </DialogTitle>
       <DialogContent>
-        <Typography>Set ranges</Typography>
+        <Typography>Set TF ranges</Typography>
         <Typography color="textSecondary">
-          Set the transcription factor binding site ranges by entering left and
-          right positions. Reads overlap the centerline will participate in
-          sorting. Make sure the centerline is between two TF binding sites. You
-          can move the position of the centerline between the two TF binding
-          sites to achieve a better sorting effect.<br/>
-          You can check sorting result in feature details by click 
+          To set the range of transcription factor binding sites, enter the left
+          and right positions of two TFs. <br />
+          Ensure that the centerline is between two TF binding sites. Reads that
+          cover two TFs will participate in sorting. You can check the sorting
+          results in feature details by clicking on any read in each cluster.
+          <br />
+          There are four kinds of <b>cluster_type</b>, and <b>percentage</b>{' '}
+          means <b>cluster_size</b>/<b>total_reads</b>.Total_reads means the
+          number of all reads that cover two TFs you input.
         </Typography>
         <Box
           component="form"
@@ -118,7 +121,7 @@ function SortByFoodieDlg(props: {
 
         <Typography>Set convert ratio</Typography>
         <Typography color="textSecondary">
-          Set convert ratio in the input range1 and range2.
+          Set convert ratio in the input TF range1 and TF range2.
         </Typography>
         <Box
           component="form"
