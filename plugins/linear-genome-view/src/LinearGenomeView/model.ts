@@ -131,6 +131,7 @@ export const WIDGET_HEIGHT = 32
 
 /**
  * #stateModel LinearGenomeView
+ * #category view
  */
 export function stateModelFactory(pluginManager: PluginManager) {
   return types
@@ -250,8 +251,7 @@ export function stateModelFactory(pluginManager: PluginManager) {
       // which is basically like an onLoad
       afterDisplayedRegionsSetCallbacks: [] as Function[],
       scaleFactor: 1,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      trackRefs: {} as { [key: string]: any },
+      trackRefs: {} as { [key: string]: HTMLDivElement },
       coarseDynamicBlocks: [] as BaseBlock[],
       coarseTotalBp: 0,
       leftOffset: undefined as undefined | BpOffset,
