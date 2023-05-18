@@ -6,6 +6,7 @@ import {
   getFoodieCluster2,
   getFoodieCluster3,
   getFoodieSingleCluster,
+  toPercentage,
 } from '../BamAdapter/FoodieMatchParser'
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
@@ -253,44 +254,64 @@ export const sortFeature = (
           }
         }
       })
+
+      featuresInCenterLine = featuresHasFoodie1
+      .concat(featuresHasFoodie2)
+      .concat(featuresHasFoodie3)
+      .concat(featuresHasNoFoodie)
+
+      const total = featuresInCenterLine.length
+      const len1 = featuresHasFoodie1.length
+      const len2 = featuresHasFoodie2.length
+      const len3 = featuresHasFoodie3.length
+      const len4 = featuresHasNoFoodie.length
+      const percent1 = toPercentage(len1, total)
+      const percent2 = toPercentage(len2, total)
+      const percent3 = toPercentage(len3, total)
+      const percent4 = toPercentage(len4, total)
+      
       featuresHasFoodie1.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
         ) {
-          feature['cluster_id'] = 1
-          feature['cluster_length'] = featuresHasFoodie1.length
+          feature['cluster_type'] = 'R11'
+          feature['cluster_size'] = len1
+          feature['total_reads'] = total
+          feature['percentage'] = percent1
         }
       })
       featuresHasFoodie2.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
-          feature instanceof CramSlightlyLazyFeature){
-          feature['cluster_id'] = 2
-          feature['cluster_length'] = featuresHasFoodie2.length
+          feature instanceof CramSlightlyLazyFeature
+        ){
+          feature['cluster_type'] = 'R10'
+          feature['cluster_size'] = len2
+          feature['total_reads'] = total
+          feature['percentage'] = percent2
         }
       })
       featuresHasFoodie3.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature){
-          feature['cluster_id'] = 3
-          feature['cluster_length'] = featuresHasFoodie3.length
+            feature['cluster_type'] = 'R01'
+            feature['cluster_size'] = len3
+            feature['total_reads'] = total
+            feature['percentage'] = percent3
         }
       })
       featuresHasNoFoodie.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature){
-          feature['cluster_id'] = 4
-          feature['cluster_length'] = featuresHasNoFoodie.length
+            feature['cluster_type'] = 'R00'
+            feature['cluster_size'] = len4
+            feature['total_reads'] = total
+            feature['percentage'] = percent4
         }
       })
-
-      featuresInCenterLine = featuresHasFoodie1
-        .concat(featuresHasFoodie2)
-        .concat(featuresHasFoodie3)
-        .concat(featuresHasNoFoodie)
 
       break
     }
@@ -354,6 +375,34 @@ export const sortFeature = (
           }
         })
         featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
+        const total = featuresInCenterLine.length
+        const len1 = featuresHasFoodie1.length
+        const len2 = featuresHasNoFoodie.length
+        const percent1 = toPercentage(len1, total)
+        const percent2 = toPercentage(len2, total)
+
+        featuresHasFoodie1.forEach(feature => {
+          if (
+            feature instanceof BamSlightlyLazyFeature ||
+            feature instanceof CramSlightlyLazyFeature){
+              feature['cluster_type'] = 'R1'
+              feature['cluster_size'] = len1
+              feature['total_reads'] = total
+              feature['percentage'] = percent1
+          }
+        })
+        
+        featuresHasNoFoodie.forEach(feature => {
+          if (
+            feature instanceof BamSlightlyLazyFeature ||
+            feature instanceof CramSlightlyLazyFeature){
+              feature['cluster_type'] = 'R0'
+              feature['cluster_size'] = len2
+              feature['total_reads'] = total
+              feature['percentage'] = percent2
+          }
+        })
+        
       }
       break
   }

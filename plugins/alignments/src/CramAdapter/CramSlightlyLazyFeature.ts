@@ -15,9 +15,11 @@ export default class CramSlightlyLazyFeature implements Feature {
   constructor(
     private record: CramRecord,
     private _store: CramAdapter,
-    public cluster_id?: number,
-    public cluster_length?: number,
-    ) {}
+    public cluster_type?: string,
+    public cluster_size?: number,
+    public total_reads?: number,
+    public percentage?: string,
+  ) {}
 
   _get_name() {
     return this.record.readName
@@ -55,12 +57,20 @@ export default class CramSlightlyLazyFeature implements Feature {
     return this._store.samHeader.readGroups?.[this.record.readGroupId]
   }
 
-  _get_cluster_id(){
-    return this.cluster_id
+  _get_cluster_type(){
+    return this.cluster_type
   }
 
-  _get_cluster_length(){
-    return this.cluster_length
+  _get_cluster_size(){
+    return this.cluster_size
+  }
+
+  _get_percentage(){
+    return this.percentage
+  }
+
+  _get_total_reads(){
+    return this.total_reads
   }
 
   _get_qual() {
