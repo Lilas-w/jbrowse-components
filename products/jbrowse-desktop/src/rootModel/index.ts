@@ -1,22 +1,28 @@
 import { types, Instance, IAnyType } from 'mobx-state-tree'
 import makeWorkerInstance from '../makeWorkerInstance'
-import assemblyConfigSchemaFactory from '@jbrowse/core/assemblyManager/assemblyConfigSchema'
+import assemblyConfigSchemaF, {
+  BaseAssemblyConfigSchema,
+} from '@jbrowse/core/assemblyManager/assemblyConfigSchema'
 import PluginManager from '@jbrowse/core/PluginManager'
 import RpcManager from '@jbrowse/core/rpc/RpcManager'
 
-import { RootModel } from '@jbrowse/product-core'
+import {
+  BaseRootModelFactory,
+  InternetAccountsRootModelMixin,
+} from '@jbrowse/product-core'
+import { HistoryManagementMixin, RootAppMenuMixin } from '@jbrowse/app-core'
 
 // locals
 import jobsModelFactory from '../indexJobsModel'
 import JBrowseDesktop from '../jbrowseModel'
-import Menus from './Menus'
-import SessionManagement from './Sessions'
-import { HistoryManagement } from './HistoryManagement'
+import { DesktopMenusMixin } from './Menus'
+import { DesktopSessionManagementMixin, getSaveSession } from './Sessions'
+import packageJSON from '../../package.json'
 
-type SessionModelFactory = (
-  pm: PluginManager,
-  assemblyConfigSchema: ReturnType<typeof assemblyConfigSchemaFactory>,
-) => IAnyType
+type SessionModelFactory = (args: {
+  pluginManager: PluginManager
+  assemblyConfigSchema: BaseAssemblyConfigSchema
+}) => IAnyType
 
 /**
  * #stateModel JBrowseDesktopRootModel
@@ -32,26 +38,34 @@ type SessionModelFactory = (
  * and we generally prefer using the session model (via e.g. getSession) over
  * the root model (via e.g. getRoot) in plugin code
  */
-export default function rootModelFactory(
-  pluginManager: PluginManager,
-  sessionModelFactory: SessionModelFactory,
-) {
-  const assemblyConfigSchema = assemblyConfigSchemaFactory(pluginManager)
-  const Session = sessionModelFactory(pluginManager, assemblyConfigSchema)
+export default function rootModelFactory({
+  pluginManager,
+  sessionModelFactory,
+}: {
+  pluginManager: PluginManager
+  sessionModelFactory: SessionModelFactory
+}) {
+  const assemblyConfigSchema = assemblyConfigSchemaF(pluginManager)
+  const sessionModelType = sessionModelFactory({
+    pluginManager,
+    assemblyConfigSchema,
+  })
+  const jbrowseModelType = JBrowseDesktop(pluginManager, assemblyConfigSchema)
   const JobsManager = jobsModelFactory(pluginManager)
   return types
     .compose(
       'JBrowseDesktopRootModel',
-      RootModel.BaseRootModel(
+      BaseRootModelFactory({
         pluginManager,
-        JBrowseDesktop(pluginManager, assemblyConfigSchema),
-        Session,
+        jbrowseModelType,
+        sessionModelType,
         assemblyConfigSchema,
-      ),
-      RootModel.InternetAccounts(pluginManager),
-      Menus(pluginManager),
-      SessionManagement(pluginManager),
-      HistoryManagement,
+      }),
+      InternetAccountsRootModelMixin(pluginManager),
+      DesktopMenusMixin(pluginManager),
+      DesktopSessionManagementMixin(pluginManager),
+      HistoryManagementMixin(),
+      RootAppMenuMixin(),
     )
     .props({
       /**
@@ -60,13 +74,13 @@ export default function rootModelFactory(
       jobsManager: types.maybe(JobsManager),
     })
     .volatile(self => ({
+      version: packageJSON.version,
+      adminMode: true,
       rpcManager: new RpcManager(
         pluginManager,
         self.jbrowse.configuration.rpc,
         {
-          WebWorkerRpcDriver: {
-            makeWorkerInstance,
-          },
+          WebWorkerRpcDriver: { makeWorkerInstance },
           MainThreadRpcDriver: {},
         },
       ),
@@ -80,6 +94,16 @@ export default function rootModelFactory(
        */
       setOpenNewSessionCallback(cb: (arg: string) => Promise<void>) {
         self.openNewSessionCallback = cb
+      },
+      /**
+       * #action
+       */
+      async setPluginsUpdated() {
+        const root = self as DesktopRootModel
+        if (root.session) {
+          await root.saveSession(getSaveSession(root))
+        }
+        await root.openNewSessionCallback(root.sessionPath)
       },
     }))
 }
