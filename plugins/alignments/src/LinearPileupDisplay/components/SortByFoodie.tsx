@@ -163,7 +163,7 @@ function SortByFoodieDlg(props: {
             onClick={() => {
               model.setSortedBy(
                 'co-binding TFs',
-                '',
+                'Co-binding TFs',
                 Number(left1),
                 Number(right1),
                 Number(left2),

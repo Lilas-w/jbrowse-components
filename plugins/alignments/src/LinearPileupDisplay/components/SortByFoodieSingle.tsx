@@ -126,7 +126,7 @@ function SortByFoodieSingleDlg(props: {
             onClick={() => {
               model.setSortedBy(
                 'single TF',
-                '',
+                'Single TF',
                 Number(left1),
                 Number(right1),
                 0,
