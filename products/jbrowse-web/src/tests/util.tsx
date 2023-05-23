@@ -41,12 +41,11 @@ export function getPluginManager(initialState?: any, adminMode = true) {
   const pluginManager = new PluginManager(corePlugins.map(P => new P()))
   pluginManager.createPluggableElements()
 
-  const JBrowseRootModel = JBrowseRootModelFactory(
+  const rootModel = JBrowseRootModelFactory({
     pluginManager,
     sessionModelFactory,
     adminMode,
-  )
-  const rootModel = JBrowseRootModel.create(
+  }).create(
     {
       jbrowse: initialState || configSnapshot,
       assemblyManager: {},
@@ -210,4 +209,17 @@ export async function mockConsoleWarn(fn: () => Promise<void>) {
   const consoleMock = jest.spyOn(console, 'warn').mockImplementation()
   await fn()
   consoleMock.mockRestore()
+}
+
+export function mockFile404(
+  str: string,
+  readBuffer: (request: Request) => Promise<Response>,
+) {
+  // @ts-expect-error
+  fetch.mockResponse(async request => {
+    if (request.url === str) {
+      return { status: 404 }
+    }
+    return readBuffer(request)
+  })
 }
