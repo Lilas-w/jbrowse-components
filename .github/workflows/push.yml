@@ -72,6 +72,12 @@ jobs:
           yarn build
           yarn test:e2e
         working-directory: component_tests/cgv
+      - name: Test embedded react-app
+        run: |
+          yarn
+          yarn build
+          yarn test:e2e
+        working-directory: component_tests/react-app
 
   buildjbrowseweb:
     name: Build only jbrowse-web and upload to s3 on node 16 and ubuntu-latest
@@ -126,6 +132,7 @@ jobs:
         run: |
           pwd
           aws s3 sync --delete storybook-static s3://jbrowse.org/storybook/lgv/$(echo ${{github.ref}} | cut -d "/" -f3-)
+          aws cloudfront create-invalidation --distribution-id E13LGELJOT4GQO --paths "/storybook/lgv/$(echo ${{github.ref}} | cut -d "/" -f3-)/*"
         working-directory: products/jbrowse-react-linear-genome-view
   storybook_app:
     name: Build and deploy static react app Storybook site to AWS S3
@@ -143,7 +150,7 @@ jobs:
           yarn storybook:build
         working-directory: products/jbrowse-react-app
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -152,6 +159,7 @@ jobs:
         run: |
           pwd
           aws s3 sync --delete storybook-static s3://jbrowse.org/storybook/app/$(echo ${{github.ref}} | cut -d "/" -f3-)
+          aws cloudfront create-invalidation --distribution-id E13LGELJOT4GQO --paths "/storybook/app/$(echo ${{github.ref}} | cut -d "/" -f3-)/*"
         working-directory: products/jbrowse-react-app
 
   storybook_cgv:
@@ -179,4 +187,5 @@ jobs:
         run: |
           pwd
           aws s3 sync --delete storybook-static s3://jbrowse.org/storybook/cgv/$(echo ${{github.ref}} | cut -d "/" -f3-)
+          aws cloudfront create-invalidation --distribution-id E13LGELJOT4GQO --paths "/storybook/cgv/$(echo ${{github.ref}} | cut -d "/" -f3-)/*"
         working-directory: products/jbrowse-react-circular-genome-view
