@@ -55,15 +55,15 @@ function SortByFoodieDlg(props: {
       <DialogContent>
         <Typography>Set TF ranges</Typography>
         <Typography color="textSecondary">
-          To set the range of transcription factor binding sites, enter the left
-          and right positions of two TFs. <br />
-          Ensure that the centerline is between two TF binding sites. Reads that
-          cover two TFs will participate in sorting. You can check the sorting
-          results in feature details by clicking on any read in each cluster.
-          <br />
-          There are four kinds of <b>cluster_type</b>, and <b>percentage</b>{' '}
-          means <b>cluster_size</b>/<b>total_reads</b>.Total_reads means the
-          number of all reads that cover two TFs you input.
+          To specify the range of transcription factor (TF) binding sites,
+          provide the left and right positions of two TFs. Make sure that the
+          centerline falls between the two TF binding sites. Reads encompassing
+          both TFs will be used for sorting. <br />
+          You can review the sorting results in the feature details by clicking
+          on any read within each cluster. There are four types of clusters:
+          R11, R10, R01, R00. The "percentage" value represents the ratio of
+          cluster_size to total_reads. "Total_reads" refers to the total number
+          of reads that cover the two TFs you have specified.
         </Typography>
         <Box
           component="form"
@@ -119,9 +119,9 @@ function SortByFoodieDlg(props: {
           />
         </Box>
 
-        <Typography>Set convert ratio</Typography>
+        <Typography>Set conversion ratio</Typography>
         <Typography color="textSecondary">
-          Set convert ratio in the input TF range1 and TF range2.
+          Specify the conversion ratio within the input TF range1 and TF range2.
         </Typography>
         <Box
           component="form"

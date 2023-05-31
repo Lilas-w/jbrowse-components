@@ -52,14 +52,15 @@ function SortByFoodieSingleDlg(props: {
       <DialogContent>
         <Typography>Set TF range</Typography>
         <Typography color="textSecondary">
-          Set the transcription factor binding site range by entering left and
-          right positions of TF. Reads cover TF will participate in sorting.
-          <br />
-          Ensure the centerLine is between TF range. You can check the sorting
-          results in feature details by clicking on any read in each cluster.
-          <br />
-          There are two kinds of <b>cluster_type</b>, and <b>percentage</b> means <b>cluster_size</b>/<b>total_reads</b>
-          .Total_reads means the number of all reads that cover the TF you input.
+          To specify the range of the transcription factor (TF) binding site,
+          provide the left and right positions of the TF. Reads covering the TF
+          will be included in the sorting process. Ensure that the centerline
+          falls between the TF range. <br />
+          You can review the sorting results in the feature details by selecting
+          any read within each cluster. There are two types of clusters: R1, R0.
+          The "percentage" value represents the ratio of cluster_size to
+          total_reads. "Total_reads" refers to the total count of all reads that
+          cover the specified TF.
         </Typography>
         <Box
           component="form"
@@ -93,9 +94,9 @@ function SortByFoodieSingleDlg(props: {
           />
         </Box>
 
-        <Typography>Set convert ratio</Typography>
+        <Typography>Set conversion ratio</Typography>
         <Typography color="textSecondary">
-          Set convert ratio in the input range.
+          Specify the conversion ratio within the input TF range.
         </Typography>
         <Box
           component="form"
@@ -125,8 +126,8 @@ function SortByFoodieSingleDlg(props: {
             autoFocus
             onClick={() => {
               model.setSortedBy(
-                'single TF',
-                'Single TF',
+                'individual TF',
+                'Individual TF',
                 Number(left1),
                 Number(right1),
                 0,
