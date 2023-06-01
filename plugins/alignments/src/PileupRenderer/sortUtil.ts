@@ -316,7 +316,7 @@ export const sortFeature = (
       break
     }
 
-    case 'individual TF':
+    case 'single TF':
       {
         const featuresHasFoodie1: Feature[] = []
         const featuresHasNoFoodie: Feature[] = []

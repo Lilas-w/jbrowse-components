@@ -668,7 +668,7 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                   },
                 },
                 {
-                  label: 'Sort by individual TF',
+                  label: 'Sort by single TF',
                   onClick: () => {
                     getSession(self).queueDialog(handleClose => [
                       SortByFoodieSingleDlg,
