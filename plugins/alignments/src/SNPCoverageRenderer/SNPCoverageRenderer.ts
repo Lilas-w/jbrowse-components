@@ -96,7 +96,7 @@ export default class SNPCoverageRenderer extends WiggleBaseRenderer {
 
     const { bases } = theme.palette
     const colorForBase: { [key: string]: string } = {
-      A: bases.A.main, // 突变上方对应的颜色 
+      A: bases.A.main, 
       C: bases.C.main,
       G: bases.G.main,
       T: bases.T.main,
@@ -106,6 +106,15 @@ export default class SNPCoverageRenderer extends WiggleBaseRenderer {
       total: readConfObject(cfg, 'color'),
       meth: 'red',
       unmeth: 'blue',
+    }
+
+    const colorForCluster: { [key: string]: string } = {
+      R11: 'blue',
+      R10: 'red',
+      R01: 'green',
+      R00: 'yellow',
+      R0: 'red',
+      R1: 'blue',
     }
 
     const feats = [...features.values()]
@@ -142,6 +151,7 @@ export default class SNPCoverageRenderer extends WiggleBaseRenderer {
       const feature = coverage[i]
       const [leftPx, rightPx] = featureSpanPx(feature, region, bpPerPx)
 
+      const cluster_type = feature.get('cluster_type') as string
       const score = feature.get('score') as number
       const snpinfo = feature.get('snpinfo') as SNPInfo
       const w = Math.max(rightPx - leftPx, 1)
@@ -152,11 +162,14 @@ export default class SNPCoverageRenderer extends WiggleBaseRenderer {
       for (let i = 0; i < keys.length; i++) {
         const base = keys[i]
         const { total } = snpinfo.cov[base]
-        ctx.fillStyle =
+        // ctx.fillStyle =
+        //   colorForBase[base] ||
+        //   modificationTagMap[base.replace('mod_', '')] ||
+        //   'black'
+        ctx.fillStyle = cluster_type ? colorForCluster[cluster_type]:
           colorForBase[base] ||
           modificationTagMap[base.replace('mod_', '')] ||
           'black'
-
         const height = toHeight(score)
         const bottom = toY(score) + height
         ctx.fillRect(
