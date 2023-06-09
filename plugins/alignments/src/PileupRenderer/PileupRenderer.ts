@@ -43,7 +43,7 @@ import {
 } from './PileupLayoutSession'
 import { BaseFeatureDataAdapter } from '@jbrowse/core/data_adapters/BaseAdapter'
 import { fillColor } from '../shared/color'
-import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchParser'
+import { FoodieMatch, getFoodieMatches } from '../BamAdapter/FoodieMatchAdapter'
 
 function fillRect(
   ctx: CanvasRenderingContext2D,

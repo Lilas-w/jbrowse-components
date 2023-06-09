@@ -7,7 +7,7 @@ import {
   getFoodieCluster3,
   getFoodieSingleCluster,
   toPercentage,
-} from '../BamAdapter/FoodieMatchParser'
+} from '../BamAdapter/FoodieMatchAdapter'
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
