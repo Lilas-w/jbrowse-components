@@ -278,7 +278,7 @@ export const sortFeature = (
           feature['cluster_type'] = 'R11'
           feature['cluster_size'] = len1
           feature['total_reads'] = total
-          feature['percentage'] = percent1
+          feature['percentage'] = percent1 || 0
         }
       })
       featuresHasFoodie2.forEach(feature => {
@@ -289,7 +289,7 @@ export const sortFeature = (
           feature['cluster_type'] = 'R10'
           feature['cluster_size'] = len2
           feature['total_reads'] = total
-          feature['percentage'] = percent2
+          feature['percentage'] = percent2 || 0
         }
       })
       featuresHasFoodie3.forEach(feature => {
@@ -299,7 +299,7 @@ export const sortFeature = (
             feature['cluster_type'] = 'R01'
             feature['cluster_size'] = len3
             feature['total_reads'] = total
-            feature['percentage'] = percent3
+            feature['percentage'] = percent3 || 0
         }
       })
       featuresHasNoFoodie.forEach(feature => {
@@ -309,10 +309,9 @@ export const sortFeature = (
             feature['cluster_type'] = 'R00'
             feature['cluster_size'] = len4
             feature['total_reads'] = total
-            feature['percentage'] = percent4
+            feature['percentage'] = percent4 || 0
         }
       })
-
       break
     }
 

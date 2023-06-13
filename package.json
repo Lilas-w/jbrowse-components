@@ -99,6 +99,7 @@
     "cross-spawn": "^7.0.1",
     "crypto-js": "^3.0.0",
     "dependency-graph": "^0.11.0",
+    "echarts": "^5.4.2",
     "electron": "24.1.2",
     "electron-builder": "^23.0.3",
     "electron-mock-ipc": "^0.3.8",
@@ -150,7 +151,5 @@
     "webpack-dev-server": "^4.7.3"
   },
   "version": "0.0.0",
-  "dependencies": {
-    "skmeans": "^0.11.3"
-  }
+  "dependencies": {}
 }
