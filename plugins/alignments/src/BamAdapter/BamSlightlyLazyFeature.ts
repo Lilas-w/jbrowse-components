@@ -9,18 +9,26 @@ import { BamRecord } from '@gmod/bam'
 import { getClip, getMismatches } from '../MismatchParser'
 import BamAdapter from './BamAdapter'
 
+export interface ClusterInfo {
+  cluster_type?: string;
+  cluster_size?: number;
+  total_reads?: number;
+  percentage?: string;
+}
+
 export default class BamSlightlyLazyFeature implements Feature {
   // uses parameter properties to automatically create fields on the class
   // https://www.typescriptlang.org/docs/handbook/classes.html#parameter-properties
+  cluster_info: ClusterInfo;
+
   constructor(
     private record: BamRecord,
     private adapter: BamAdapter,
     private ref?: string,
-    public cluster_type?: string,
-    public cluster_size?: number,
-    public total_reads?: number,
-    public percentage?: number,
-  ) {}
+    cluster_info?: ClusterInfo
+  ) {
+    this.cluster_info = cluster_info || {}
+  }
 
   _get_name() {
     return this.record.get('name')
@@ -34,20 +42,20 @@ export default class BamSlightlyLazyFeature implements Feature {
     return this.record.get('mq')
   }
 
-  _get_cluster_type(){
-    return this.cluster_type
+  _get_cluster_type() {
+    return this.cluster_info.cluster_type;
   }
 
-  _get_cluster_size(){
-    return this.cluster_size
+  _get_cluster_size() {
+    return this.cluster_info.cluster_size;
   }
 
-  _get_percentage(){
-    return this.percentage
+  _get_percentage() {
+    return this.cluster_info.percentage;
   }
 
-  _get_total_reads(){
-    return this.total_reads
+  _get_total_reads() {
+    return this.cluster_info.total_reads;
   }
 
   _get_flags(): string {
