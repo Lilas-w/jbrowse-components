@@ -31,6 +31,8 @@ export interface ClusterInfo {
   percentage: string;
 }
 
+let clusters: ClusterInfo[] = []
+
 export const sortFeature = (
   features: Map<string, Feature>,
   sortedBy: SortObject,
@@ -303,7 +305,9 @@ export const sortFeature = (
         total_reads: total,
         percentage: percent4,
       };
-      
+
+      clusters = [cluster1Info, cluster2Info, cluster3Info, cluster4Info]
+
       featuresHasFoodie1.forEach((feature) => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
@@ -421,7 +425,8 @@ export const sortFeature = (
           total_reads: total,
           percentage: percent2,
         };
-    
+        clusters = [cluster1Info, cluster2Info]
+
         featuresHasFoodie1.forEach((feature) => {
           if (
             feature instanceof BamSlightlyLazyFeature ||
@@ -450,3 +455,51 @@ export const sortFeature = (
   )
   return sortedMap
 }
+
+interface StackedChartData {
+  categories: string[];
+  series: {
+    name: string;
+    data: string[];
+  }[];
+}
+
+export const prepareData = (sortedBy: SortObject): StackedChartData => {
+  const categories: string[] = [];
+  const series: {
+    name: string;
+    data: string[];
+  }[] = [];
+
+  if (sortedBy.type === 'single TF') {
+    categories.push('TF');
+    const clusterNames = ['R1', 'R0'];
+    const clusterPercentages = clusterNames.map(name => {
+      const cluster = clusters.find(c => c.cluster_type === name)
+      return cluster ? cluster.percentage : '0';
+    });
+    series.push(
+      ...clusterNames.map((name, index) => ({
+        name,
+        data: [clusterPercentages[index]],
+      })),
+    )
+  } else if (sortedBy.type === 'co-binding TFs') {
+    categories.push('TF1', 'TF2');
+    const clusterNames = ['R11', 'R10', 'R01', 'R00'];
+    const clusterPercentages = clusterNames.map(name => {
+      const cluster = clusters.find(c => c.cluster_type === name);
+      return cluster ? cluster.percentage : '0';
+    });
+    series.push(
+      ...clusterNames.map((name, index) => ({
+        name,
+        data: [clusterPercentages[index]],
+      })),
+    );
+  }
+  return {
+    categories,
+    series,
+  };
+};
