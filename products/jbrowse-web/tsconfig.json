@@ -1,6 +1,9 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src"],
+  "include": [
+    "src",
+    "../../plugins/alignments/src/LinearPileupDisplay/components/StackedBarChart.tsx"
+  ],
   "compilerOptions": {
     "jsx": "react-jsx",
     "noEmit": true

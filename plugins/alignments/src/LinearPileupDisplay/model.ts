@@ -6,6 +6,7 @@ import {
   addDisposer,
   getSnapshot,
   Instance,
+  applySnapshot
 } from 'mobx-state-tree'
 import copy from 'copy-to-clipboard'
 import {
@@ -48,6 +49,7 @@ import {
 import { SimpleFeatureSerialized } from '@jbrowse/core/util/simpleFeature'
 import { createAutorun, modificationColors } from '../util'
 import { randomColor } from '../util'
+import { type } from 'os'
 
 // async
 const FilterByTagDlg = lazy(() => import('../shared/FilterByTag'))
@@ -76,6 +78,15 @@ export interface Filter {
   tagFilter?: { tag: string; value: string }
 }
 
+interface ISeriesDataItem {
+  name: string;
+  data: number[];
+}
+
+const SeriesDataItem = types.model('SeriesDataItem', {
+  name: types.string,
+  data: types.array(types.number),
+});
 /**
  * #stateModel LinearPileupDisplay
  * #category display
@@ -119,8 +130,13 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
          * #property
          */
         mismatchAlpha: types.maybe(types.boolean),
-
+        /**
+         * #property
+         */
         showFoodieMatches: types.maybe(types.boolean),
+        /**
+         * #property
+         */
         sortedBy: types.maybe(
           types.model({
             type: types.string,
@@ -136,6 +152,10 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             probability2: types.maybe(types.number),
           }),
         ),
+        /**
+         * #property
+         */
+        seriesData: types.optional(types.array(SeriesDataItem), []),
         /**
          * #property
          */
@@ -321,10 +341,18 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       toggleMismatchAlpha() {
         self.mismatchAlpha = !self.mismatchAlpha
       },
+      /**
+       * #action
+       */
       toggleFoodieMatches() {
         self.showFoodieMatches = !self.showFoodieMatches
       },
-
+      /**
+       * #action
+       */
+      setSeriesData(seriesData: ISeriesDataItem[]) {
+        applySnapshot(self.seriesData, seriesData);
+      },
       /**
        * #action
        */
