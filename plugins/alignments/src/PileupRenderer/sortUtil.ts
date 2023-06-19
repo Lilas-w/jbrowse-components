@@ -1,4 +1,4 @@
-import { doesIntersect2, Feature, isContainedWithin} from '@jbrowse/core/util'
+import { doesIntersect2, Feature, isContainedWithin } from '@jbrowse/core/util'
 import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
@@ -11,6 +11,7 @@ import {
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
+import { StackedBarChartData } from './StackedBarChartData'
 
 interface SortObject {
   pos: number
@@ -23,7 +24,6 @@ interface SortObject {
   probability1?: number
   probability2?: number
 }
-
 
 export const sortFeature = (
   features: Map<string, Feature>,
@@ -63,7 +63,7 @@ export const sortFeature = (
     const end = feature.get('end')
     const left = left1 < left2 ? left1 : left2
     const right = right1 > right2 ? right1 : right2
-    if (isContainedWithin(left, right, start, end)){
+    if (isContainedWithin(left, right, start, end)) {
       featuresCoverTwoTFs.push(innerArray)
     } else {
       featuresNotCoverTwoTFs.push(innerArray)
@@ -74,6 +74,7 @@ export const sortFeature = (
   switch (type) {
     case 'Start location': {
       featuresInCenterLine.sort((a, b) => a.get('start') - b.get('start'))
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -94,6 +95,7 @@ export const sortFeature = (
           (a, b) => (getTag(b, tag) || 0) - (getTag(a, tag) || 0),
         )
       }
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -128,7 +130,7 @@ export const sortFeature = (
           (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0)
         )
       })
-
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -137,6 +139,7 @@ export const sortFeature = (
       featuresInCenterLine.sort((a, b) =>
         a.get('strand') <= b.get('strand') ? 1 : -1,
       )
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -256,9 +259,9 @@ export const sortFeature = (
       })
 
       featuresInCenterLine = featuresHasFoodie1
-      .concat(featuresHasFoodie2)
-      .concat(featuresHasFoodie3)
-      .concat(featuresHasNoFoodie)
+        .concat(featuresHasFoodie2)
+        .concat(featuresHasFoodie3)
+        .concat(featuresHasNoFoodie)
 
       const total = featuresInCenterLine.length
       const len1 = featuresHasFoodie1.length
@@ -269,7 +272,14 @@ export const sortFeature = (
       const percent2 = toPercentage(len2, total)
       const percent3 = toPercentage(len3, total)
       const percent4 = toPercentage(len4, total)
-      
+
+      StackedBarChartData.seriesData = [
+        { name: 'R11', data: percent1 },
+        { name: 'R10', data: percent2 },
+        { name: 'R01', data: percent3 },
+        { name: 'R00', data: percent4 },
+      ]
+
       featuresHasFoodie1.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
@@ -285,7 +295,7 @@ export const sortFeature = (
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
-        ){
+        ) {
           feature['cluster_type'] = 'R10'
           feature['cluster_size'] = len2
           feature['total_reads'] = total
@@ -295,21 +305,23 @@ export const sortFeature = (
       featuresHasFoodie3.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
-          feature instanceof CramSlightlyLazyFeature){
-            feature['cluster_type'] = 'R01'
-            feature['cluster_size'] = len3
-            feature['total_reads'] = total
-            feature['percentage'] = percent3
+          feature instanceof CramSlightlyLazyFeature
+        ) {
+          feature['cluster_type'] = 'R01'
+          feature['cluster_size'] = len3
+          feature['total_reads'] = total
+          feature['percentage'] = percent3
         }
       })
       featuresHasNoFoodie.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
-          feature instanceof CramSlightlyLazyFeature){
-            feature['cluster_type'] = 'R00'
-            feature['cluster_size'] = len4
-            feature['total_reads'] = total
-            feature['percentage'] = percent4
+          feature instanceof CramSlightlyLazyFeature
+        ) {
+          feature['cluster_type'] = 'R00'
+          feature['cluster_size'] = len4
+          feature['total_reads'] = total
+          feature['percentage'] = percent4
         }
       })
 
@@ -381,28 +393,34 @@ export const sortFeature = (
         const percent1 = toPercentage(len1, total)
         const percent2 = toPercentage(len2, total)
 
+        StackedBarChartData.seriesData = [
+          { name: 'R1', data: percent1 },
+          { name: 'R0', data: percent2 },
+        ]
+
         featuresHasFoodie1.forEach(feature => {
           if (
             feature instanceof BamSlightlyLazyFeature ||
-            feature instanceof CramSlightlyLazyFeature){
-              feature['cluster_type'] = 'R1'
-              feature['cluster_size'] = len1
-              feature['total_reads'] = total
-              feature['percentage'] = percent1
+            feature instanceof CramSlightlyLazyFeature
+          ) {
+            feature['cluster_type'] = 'R1'
+            feature['cluster_size'] = len1
+            feature['total_reads'] = total
+            feature['percentage'] = percent1
           }
         })
-        
+
         featuresHasNoFoodie.forEach(feature => {
           if (
             feature instanceof BamSlightlyLazyFeature ||
-            feature instanceof CramSlightlyLazyFeature){
-              feature['cluster_type'] = 'R0'
-              feature['cluster_size'] = len2
-              feature['total_reads'] = total
-              feature['percentage'] = percent2
+            feature instanceof CramSlightlyLazyFeature
+          ) {
+            feature['cluster_type'] = 'R0'
+            feature['cluster_size'] = len2
+            feature['total_reads'] = total
+            feature['percentage'] = percent2
           }
         })
-        
       }
       break
   }

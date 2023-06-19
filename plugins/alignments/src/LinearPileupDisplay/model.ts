@@ -48,6 +48,7 @@ import {
 import { SimpleFeatureSerialized } from '@jbrowse/core/util/simpleFeature'
 import { createAutorun, modificationColors } from '../util'
 import { randomColor } from '../util'
+import { StackedBarChartData } from '../PileupRenderer/StackedBarChartData'
 
 // async
 const FilterByTagDlg = lazy(() => import('../shared/FilterByTag'))
@@ -295,6 +296,7 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
        */
       clearSelected() {
         self.sortedBy = undefined
+        StackedBarChartData.seriesData = []
       },
 
       /**
@@ -439,9 +441,9 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       get mismatchAlphaSetting() {
         return readConfObject(self.rendererConfig, 'mismatchAlpha')
       },
-      /** 
+      /**
        * #getter
-      */
+       */
       get foodieMatchesSetting() {
         return self.showFoodieMatches !== undefined
           ? self.showFoodieMatches
