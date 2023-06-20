@@ -1,4 +1,4 @@
-import { doesIntersect2, Feature, isContainedWithin} from '@jbrowse/core/util'
+import { doesIntersect2, Feature, isContainedWithin } from '@jbrowse/core/util'
 import { Mismatch } from '../MismatchParser'
 import {
   getFoodieRange,
@@ -11,6 +11,7 @@ import {
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
+import { StackedBarChartData } from './StackedBarChartData'
 
 interface SortObject {
   pos: number
@@ -25,13 +26,11 @@ interface SortObject {
 }
 
 export interface ClusterInfo {
-  cluster_type: string;
-  cluster_size: number;
-  total_reads: number;
-  percentage: string;
+  cluster_type: string
+  cluster_size: number
+  total_reads: number
+  percentage: string
 }
-
-let clusters: ClusterInfo[] = []
 
 export const sortFeature = (
   features: Map<string, Feature>,
@@ -71,7 +70,7 @@ export const sortFeature = (
     const end = feature.get('end')
     const left = left1 < left2 ? left1 : left2
     const right = right1 > right2 ? right1 : right2
-    if (isContainedWithin(left, right, start, end)){
+    if (isContainedWithin(left, right, start, end)) {
       featuresCoverTwoTFs.push(innerArray)
     } else {
       featuresNotCoverTwoTFs.push(innerArray)
@@ -82,6 +81,7 @@ export const sortFeature = (
   switch (type) {
     case 'Start location': {
       featuresInCenterLine.sort((a, b) => a.get('start') - b.get('start'))
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -102,6 +102,7 @@ export const sortFeature = (
           (a, b) => (getTag(b, tag) || 0) - (getTag(a, tag) || 0),
         )
       }
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -136,7 +137,7 @@ export const sortFeature = (
           (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0)
         )
       })
-
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -145,6 +146,7 @@ export const sortFeature = (
       featuresInCenterLine.sort((a, b) =>
         a.get('strand') <= b.get('strand') ? 1 : -1,
       )
+      StackedBarChartData.seriesData = []
       break
     }
 
@@ -264,9 +266,9 @@ export const sortFeature = (
       })
 
       featuresInCenterLine = featuresHasFoodie1
-      .concat(featuresHasFoodie2)
-      .concat(featuresHasFoodie3)
-      .concat(featuresHasNoFoodie)
+        .concat(featuresHasFoodie2)
+        .concat(featuresHasFoodie3)
+        .concat(featuresHasNoFoodie)
 
       const total = featuresInCenterLine.length
       const len1 = featuresHasFoodie1.length
@@ -283,169 +285,174 @@ export const sortFeature = (
         cluster_size: len1,
         total_reads: total,
         percentage: percent1,
-      };
-  
+      }
+
       const cluster2Info: ClusterInfo = {
         cluster_type: 'R10',
         cluster_size: len2,
         total_reads: total,
         percentage: percent2,
-      };
-  
+      }
+
       const cluster3Info: ClusterInfo = {
         cluster_type: 'R01',
         cluster_size: len3,
         total_reads: total,
         percentage: percent3,
-      };
-  
+      }
+
       const cluster4Info: ClusterInfo = {
         cluster_type: 'R00',
         cluster_size: len4,
         total_reads: total,
         percentage: percent4,
-      };
+      }
 
-      clusters = [cluster1Info, cluster2Info, cluster3Info, cluster4Info]
+      StackedBarChartData.seriesData = [
+        { name: 'R11', data: percent1 },
+        { name: 'R10', data: percent2 },
+        { name: 'R01', data: percent3 },
+        { name: 'R00', data: percent4 },
+      ]
 
-      featuresHasFoodie1.forEach((feature) => {
+      featuresHasFoodie1.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
         ) {
-          feature['cluster_info'] = cluster1Info;
+          feature['cluster_info'] = cluster1Info
         }
-      });
-  
-      featuresHasFoodie2.forEach((feature) => {
+      })
+
+      featuresHasFoodie2.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
         ) {
-          feature['cluster_info'] = cluster2Info;
+          feature['cluster_info'] = cluster2Info
         }
-      });
-  
-      featuresHasFoodie3.forEach((feature) => {
+      })
+
+      featuresHasFoodie3.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
         ) {
-          feature['cluster_info'] = cluster3Info;
+          feature['cluster_info'] = cluster3Info
         }
-      });
-  
-      featuresHasNoFoodie.forEach((feature) => {
+      })
+
+      featuresHasNoFoodie.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
           feature instanceof CramSlightlyLazyFeature
         ) {
-          feature['cluster_info'] = cluster4Info;
+          feature['cluster_info'] = cluster4Info
         }
-      });
-  
+      })
+
       break
     }
 
-    case 'single TF':
-      {
-        const featuresHasFoodie1: Feature[] = []
-        const featuresHasNoFoodie: Feature[] = []
-        const left1 = sortedBy.left1 as number
-        const right1 = sortedBy.right1 as number
-        const probability1 = sortedBy.probability1 as number
+    case 'single TF': {
+      const featuresHasFoodie1: Feature[] = []
+      const featuresHasNoFoodie: Feature[] = []
+      const left1 = sortedBy.left1 as number
+      const right1 = sortedBy.right1 as number
+      const probability1 = sortedBy.probability1 as number
 
-        featuresInCenterLine.forEach(feature => {
-          const xg = getTag(feature, 'XG')
-          if (xg === 'CT') {
-            const start = feature.get('start')
-            const mismatches = feature.get('mismatches') as Mismatch[]
-            const seq = feature.get('seq') as string
+      featuresInCenterLine.forEach(feature => {
+        const xg = getTag(feature, 'XG')
+        if (xg === 'CT') {
+          const start = feature.get('start')
+          const mismatches = feature.get('mismatches') as Mismatch[]
+          const seq = feature.get('seq') as string
 
-            const foodieRangeOne = getFoodieRange(
-              mismatches,
-              start,
-              seq,
-              xg,
-              left1,
-              right1,
-            )
+          const foodieRangeOne = getFoodieRange(
+            mismatches,
+            start,
+            seq,
+            xg,
+            left1,
+            right1,
+          )
 
-            // single bind flag
-            const flag = getFoodieSingleCluster(
-              xg,
-              foodieRangeOne,
-              probability1,
-            )
-            if (flag) {
-              featuresHasFoodie1.push(feature)
-            } else {
-              featuresHasNoFoodie.push(feature)
-            }
-          } else if (xg === 'GA') {
-            const start = feature.get('start')
-            const mismatches = feature.get('mismatches') as Mismatch[]
-            const seq = feature.get('seq') as string
-
-            const foodieRange = getFoodieRange(
-              mismatches,
-              start,
-              seq,
-              xg,
-              left1,
-              right1,
-            )
-
-            // single bind flag
-            const flag = getFoodieSingleCluster(xg, foodieRange, probability1)
-            if (flag) {
-              featuresHasFoodie1.push(feature)
-            } else {
-              featuresHasNoFoodie.push(feature)
-            }
+          // single bind flag
+          const flag = getFoodieSingleCluster(xg, foodieRangeOne, probability1)
+          if (flag) {
+            featuresHasFoodie1.push(feature)
+          } else {
+            featuresHasNoFoodie.push(feature)
           }
-        })
-        featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
-        const total = featuresInCenterLine.length
-        const len1 = featuresHasFoodie1.length
-        const len2 = featuresHasNoFoodie.length
-        const percent1 = toPercentage(len1, total)
-        const percent2 = toPercentage(len2, total)
+        } else if (xg === 'GA') {
+          const start = feature.get('start')
+          const mismatches = feature.get('mismatches') as Mismatch[]
+          const seq = feature.get('seq') as string
 
-        const cluster1Info: ClusterInfo = {
-          cluster_type: 'R1',
-          cluster_size: len1,
-          total_reads: total,
-          percentage: percent1,
-        };
-    
-        const cluster2Info: ClusterInfo = {
-          cluster_type: 'R0',
-          cluster_size: len2,
-          total_reads: total,
-          percentage: percent2,
-        };
-        clusters = [cluster1Info, cluster2Info]
+          const foodieRange = getFoodieRange(
+            mismatches,
+            start,
+            seq,
+            xg,
+            left1,
+            right1,
+          )
 
-        featuresHasFoodie1.forEach((feature) => {
-          if (
-            feature instanceof BamSlightlyLazyFeature ||
-            feature instanceof CramSlightlyLazyFeature
-          ) {
-            feature['cluster_info'] = cluster1Info;
+          // single bind flag
+          const flag = getFoodieSingleCluster(xg, foodieRange, probability1)
+          if (flag) {
+            featuresHasFoodie1.push(feature)
+          } else {
+            featuresHasNoFoodie.push(feature)
           }
-        });
-    
-        featuresHasNoFoodie.forEach((feature) => {
-          if (
-            feature instanceof BamSlightlyLazyFeature ||
-            feature instanceof CramSlightlyLazyFeature
-          ) {
-            feature['cluster_info'] = cluster2Info;
-          }
-        });
+        }
+      })
+      featuresInCenterLine = featuresHasFoodie1.concat(featuresHasNoFoodie)
+      const total = featuresInCenterLine.length
+      const len1 = featuresHasFoodie1.length
+      const len2 = featuresHasNoFoodie.length
+      const percent1 = toPercentage(len1, total)
+      const percent2 = toPercentage(len2, total)
+
+      StackedBarChartData.seriesData = [
+        { name: 'R1', data: percent1 },
+        { name: 'R0', data: percent2 },
+      ]
+
+      const cluster1Info: ClusterInfo = {
+        cluster_type: 'R1',
+        cluster_size: len1,
+        total_reads: total,
+        percentage: percent1,
       }
+
+      const cluster2Info: ClusterInfo = {
+        cluster_type: 'R0',
+        cluster_size: len2,
+        total_reads: total,
+        percentage: percent2,
+      }
+
+      featuresHasFoodie1.forEach(feature => {
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature
+        ) {
+          feature['cluster_info'] = cluster1Info
+        }
+      })
+
+      featuresHasNoFoodie.forEach(feature => {
+        if (
+          feature instanceof BamSlightlyLazyFeature ||
+          feature instanceof CramSlightlyLazyFeature
+        ) {
+          feature['cluster_info'] = cluster2Info
+        }
+      })
+
       break
+    }
   }
   const sortedMap = new Map(
     [...featuresInCenterLine, ...featuresOutsideCenter].map(feature => [
@@ -455,51 +462,3 @@ export const sortFeature = (
   )
   return sortedMap
 }
-
-interface StackedChartData {
-  categories: string[];
-  series: {
-    name: string;
-    data: string[];
-  }[];
-}
-
-export const prepareData = (sortedBy: SortObject): StackedChartData => {
-  const categories: string[] = [];
-  const series: {
-    name: string;
-    data: string[];
-  }[] = [];
-
-  if (sortedBy.type === 'single TF') {
-    categories.push('TF');
-    const clusterNames = ['R1', 'R0'];
-    const clusterPercentages = clusterNames.map(name => {
-      const cluster = clusters.find(c => c.cluster_type === name)
-      return cluster ? cluster.percentage : '0';
-    });
-    series.push(
-      ...clusterNames.map((name, index) => ({
-        name,
-        data: [clusterPercentages[index]],
-      })),
-    )
-  } else if (sortedBy.type === 'co-binding TFs') {
-    categories.push('TF1', 'TF2');
-    const clusterNames = ['R11', 'R10', 'R01', 'R00'];
-    const clusterPercentages = clusterNames.map(name => {
-      const cluster = clusters.find(c => c.cluster_type === name);
-      return cluster ? cluster.percentage : '0';
-    });
-    series.push(
-      ...clusterNames.map((name, index) => ({
-        name,
-        data: [clusterPercentages[index]],
-      })),
-    );
-  }
-  return {
-    categories,
-    series,
-  };
-};
