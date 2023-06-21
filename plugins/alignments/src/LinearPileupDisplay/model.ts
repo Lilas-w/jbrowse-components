@@ -59,6 +59,7 @@ const SortByFoodieDlg = lazy(() => import('./components/SortByFoodie'))
 const SortByFoodieSingleDlg = lazy(
   () => import('./components/SortByFoodieSingle'),
 )
+const StackedBarChartDlg = lazy(() => import('./components/StackedBarChart'))
 const SetFeatureHeightDlg = lazy(() => import('./components/SetFeatureHeight'))
 const SetMaxHeightDlg = lazy(() => import('./components/SetMaxHeight'))
 const ModificationsDlg = lazy(() => import('./components/ColorByModifications'))
@@ -78,15 +79,15 @@ export interface Filter {
   tagFilter?: { tag: string; value: string }
 }
 
-interface ISeriesDataItem {
-  name: string;
-  data: number[];
-}
+// interface ISeriesDataItem {
+//   name: string;
+//   data: number[];
+// }
 
-const SeriesDataItem = types.model('SeriesDataItem', {
-  name: types.string,
-  data: types.array(types.number),
-});
+// const SeriesDataItem = types.model('SeriesDataItem', {
+//   name: types.string,
+//   data: types.array(types.number),
+// });
 /**
  * #stateModel LinearPileupDisplay
  * #category display
@@ -152,10 +153,10 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
             probability2: types.maybe(types.number),
           }),
         ),
-        /**
-         * #property
-         */
-        seriesData: types.optional(types.array(SeriesDataItem), []),
+        // /**
+        //  * #property
+        //  */
+        // seriesData: types.optional(types.array(SeriesDataItem), []),
         /**
          * #property
          */
@@ -348,12 +349,12 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
       toggleFoodieMatches() {
         self.showFoodieMatches = !self.showFoodieMatches
       },
-      /**
-       * #action
-       */
-      setSeriesData(seriesData: ISeriesDataItem[]) {
-        applySnapshot(self.seriesData, seriesData);
-      },
+      // /**
+      //  * #action
+      //  */
+      // setSeriesData(seriesData: ISeriesDataItem[]) {
+      //   applySnapshot(self.seriesData, seriesData);
+      // },
       /**
        * #action
        */
@@ -719,6 +720,16 @@ function stateModelFactory(configSchema: AnyConfigurationSchemaType) {
                   onClick: () => self.clearSelected(),
                 },
               ],
+            },
+            {
+              label: 'Show stacked bar',
+              onClick: () => {
+                getSession(self).queueDialog(handleClose => [
+                  StackedBarChartDlg,
+                  { model: self, handleClose },
+                ])
+              },
+              icon: SortIcon,
             },
             {
               label: 'Color scheme',

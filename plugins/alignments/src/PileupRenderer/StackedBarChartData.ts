@@ -1,6 +1,6 @@
 export interface SeriesDataItem {
-  name: String
-  data: String
+  name: string
+  data: string
 }
 
 export class StackedBarChartData {

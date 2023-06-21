@@ -1,19 +1,19 @@
-import React, { useEffect, useRef } from 'react';
-import echarts, { EChartOption } from 'echarts/lib/echarts'
-import 'echarts/lib/chart/bar';
+import React, { useEffect, useRef } from 'react'
+import { observer } from 'mobx-react'
+import { Dialog, DialogContent, Typography } from '@mui/material'
+import * as echarts from 'echarts';
+import { StackedBarChartData } from '../../PileupRenderer/StackedBarChartData';
 
-interface StackedBarChartProps {
-  seriesData: { name: string; data: number[] }[];
-}
-
-const StackedBarChart: React.FC<StackedBarChartProps> = ({ seriesData }) => {
-  const chartRef = useRef<HTMLDivElement>(null);
+function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
+  const { model, handleClose } = props
+  const chartRef = useRef<HTMLDivElement | null>(null)
+  console.log(StackedBarChartData.seriesData);
 
   useEffect(() => {
     if (chartRef.current) {
-      const chart = echarts.init(chartRef.current);
+      const chart = echarts.init(chartRef.current)
 
-      const options: EChartOption = {
+      const option = {
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -28,36 +28,79 @@ const StackedBarChart: React.FC<StackedBarChartProps> = ({ seriesData }) => {
           containLabel: true
         },
         xAxis: [
-          {
-            type: 'category',
-            data: seriesData.map(series => series.name)
-          }
-        ],
+            {
+              type: 'category',
+              data: ['TF1', 'TF2'],
+              axisType: 'category', // Add this line
+            },
+          ],
         yAxis: [
           {
             type: 'value'
           }
         ],
-        series: seriesData.map(series => ({
-          name: series.name,
-          type: 'bar',
-          stack: 'Ad',
-          emphasis: {
-            focus: 'series'
+        series: [
+          {
+            name: 'R11',
+            type: 'bar',
+            stack: 'Ad',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [0.31, 0.31]
           },
-          data: series.data
-        }))
-      };
+          {
+            name: 'R10',
+            type: 'bar',
+            stack: 'Ad',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [0.25, 0.25]
+          },
+          {
+            name: 'R01',
+            type: 'bar',
+            stack: 'Ad',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [0, 0]
+          },
+          {
+            name: 'R00',
+            type: 'bar',
+            stack: 'Ad',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [0.44, 0.44]
+          }
+        ]
+      }
 
-      chart.setOption(options);
+      chart.setOption(option)
+      window.addEventListener('resize', () => {
+        chart.resize()
+      })
 
       return () => {
-        chart.dispose();
-      };
+        chart.dispose()
+        window.removeEventListener('resize', () => {
+          chart.resize()
+        })
+      }
     }
-  }, [seriesData]);
+  }, [])
 
-  return <div ref={chartRef} style={{ width: '100%', height: '400px' }} />;
-};
+  return (
+    <Dialog open onClose={handleClose} title="Show stacked bar">
+      <DialogContent>
+        <Typography>The stacked bar of the sorting clusters</Typography>
+        <div ref={chartRef} style={{ height: '300px' }} />
+      </DialogContent>
+    </Dialog>
+  )
+}
 
-export default StackedBarChart;
+export default observer(StackedBarChartDlg)

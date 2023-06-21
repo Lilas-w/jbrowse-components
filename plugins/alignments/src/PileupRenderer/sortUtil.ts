@@ -314,7 +314,6 @@ export const sortFeature = (
         { name: 'R01', data: percent3 },
         { name: 'R00', data: percent4 },
       ]
-
       featuresHasFoodie1.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
