@@ -31,7 +31,6 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
             {
               type: 'category',
               data: ['TF1', 'TF2'],
-              axisType: 'category', // Add this line
             },
           ],
         yAxis: [
