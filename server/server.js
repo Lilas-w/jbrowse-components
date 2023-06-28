@@ -1,12 +1,12 @@
 const express = require('express')
 const { Sequelize, DataTypes } = require('sequelize')
 
-const sequelize = new Sequelize('database', 'username', 'password', {
+const sequelize = new Sequelize('clusters', 'test', '2023', {
   host: 'localhost',
   dialect: 'mysql',
 })
 
-const Clusters = sequelize.define('Clusters', {
+const Clusters = sequelize.define('clusters', {
   name: {
     type: DataTypes.STRING,
     allowNull: true,
