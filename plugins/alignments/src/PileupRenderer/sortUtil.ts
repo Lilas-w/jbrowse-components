@@ -12,6 +12,7 @@ import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
 import { StackedBarChartData } from './StackedBarChartData'
+const { Clusters } = require('../../../../server/server')
 
 interface SortObject {
   pos: number
@@ -314,6 +315,40 @@ export const sortFeature = (
         { name: 'R01', data: percent3 },
         { name: 'R00', data: percent4 },
       ]
+
+      // Create records in the Clusters table
+      Clusters.create({ name: 'R11', percentage: percent1 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R11 cluster:', error)
+        })
+
+      Clusters.create({ name: 'R10', percentage: percent2 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R10 cluster:', error)
+        })
+
+      Clusters.create({ name: 'R01', percentage: percent3 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R01 cluster:', error)
+        })
+
+      Clusters.create({ name: 'R00', percentage: percent4 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R00 cluster:', error)
+        })
+
       featuresHasFoodie1.forEach(feature => {
         if (
           feature instanceof BamSlightlyLazyFeature ||
@@ -417,6 +452,23 @@ export const sortFeature = (
         { name: 'R1', data: percent1 },
         { name: 'R0', data: percent2 },
       ]
+
+      // Create records in the Clusters table
+      Clusters.create({ name: 'R1', percentage: percent1 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R11 cluster:', error)
+        })
+
+      Clusters.create({ name: 'R0', percentage: percent2 })
+        .then(() => {
+          // Success, do something if needed
+        })
+        .catch((error: any) => {
+          console.error('Error creating R10 cluster:', error)
+        })
 
       const cluster1Info: ClusterInfo = {
         cluster_type: 'R1',
