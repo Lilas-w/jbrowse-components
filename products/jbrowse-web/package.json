@@ -79,7 +79,8 @@
   },
   "devDependencies": {
     "echarts": "^5.4.2",
-    "echarts-for-react": "^3.0.2"
+    "echarts-for-react": "^3.0.2",
+    "axios": "^1.4.0"
   },
   "browserslist": {
     "production": [

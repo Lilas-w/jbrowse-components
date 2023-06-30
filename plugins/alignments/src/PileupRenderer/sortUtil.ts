@@ -12,7 +12,7 @@ import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
 import { StackedBarChartData } from './StackedBarChartData'
-const { Clusters } = require('../../../../server/server')
+import axios from 'axios'
 
 interface SortObject {
   pos: number
@@ -33,7 +33,7 @@ export interface ClusterInfo {
   percentage: string
 }
 
-export const sortFeature = (
+export const sortFeature = async (
   features: Map<string, Feature>,
   sortedBy: SortObject,
 ) => {
@@ -316,38 +316,16 @@ export const sortFeature = (
         { name: 'R00', data: percent4 },
       ]
 
-      // Create records in the Clusters table
-      Clusters.create({ name: 'R11', percentage: percent1 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R11 cluster:', error)
-        })
-
-      Clusters.create({ name: 'R10', percentage: percent2 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R10 cluster:', error)
-        })
-
-      Clusters.create({ name: 'R01', percentage: percent3 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R01 cluster:', error)
-        })
-
-      Clusters.create({ name: 'R00', percentage: percent4 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R00 cluster:', error)
-        })
+      try {
+        // Send a POST request to the backend endpoint to store the data
+        const response = await axios.post(
+          'http://localhost:3000/clusters',
+          StackedBarChartData,
+        )
+        console.log('Data stored on the server:', response.data);
+      } catch (error) {
+        console.error('Error storing data on the server:', error);
+      }
 
       featuresHasFoodie1.forEach(feature => {
         if (
@@ -453,22 +431,16 @@ export const sortFeature = (
         { name: 'R0', data: percent2 },
       ]
 
-      // Create records in the Clusters table
-      Clusters.create({ name: 'R1', percentage: percent1 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R11 cluster:', error)
-        })
-
-      Clusters.create({ name: 'R0', percentage: percent2 })
-        .then(() => {
-          // Success, do something if needed
-        })
-        .catch((error: any) => {
-          console.error('Error creating R10 cluster:', error)
-        })
+      try {
+        // Send a POST request to the backend endpoint to store the data
+        const response = await axios.post(
+          'http://localhost:3000/clusters',
+          StackedBarChartData,
+        )
+        console.log('Data stored on the server:', response.data);
+      } catch (error) {
+        console.error('Error storing data on the server:', error);
+      }
 
       const cluster1Info: ClusterInfo = {
         cluster_type: 'R1',
