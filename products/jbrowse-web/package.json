@@ -78,9 +78,7 @@
     "webpack": "^5.72.0"
   },
   "devDependencies": {
-    "echarts": "^5.4.2",
-    "echarts-for-react": "^3.0.2",
-    "axios": "^1.4.0"
+    "echarts": "^5.4.2"
   },
   "browserslist": {
     "production": [
