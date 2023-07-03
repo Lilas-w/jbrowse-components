@@ -11,7 +11,6 @@ import {
 import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
-import { StackedBarChartData } from './StackedBarChartData'
 
 interface SortObject {
   pos: number
@@ -32,24 +31,24 @@ export interface ClusterInfo {
   percentage: string
 }
 
-async function postDataToServer() {
+async function postDataToServer(data: {}) {
   try {
     const response = await fetch('http://localhost:3000/clusters', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(StackedBarChartData.seriesData),
-    });
+      body: JSON.stringify(data),
+    })
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error('Network response was not ok')
     }
 
-    const data = await response.json();
-    console.log('Data stored on the server:', data);
+    const resData = await response.json()
+    console.log('Data stored on the server:', resData)
   } catch (error) {
-    console.error('Error storing data on the server:', error);
+    console.error('Error storing data on the server:', error)
   }
 }
 
@@ -102,7 +101,6 @@ export const sortFeature = (
   switch (type) {
     case 'Start location': {
       featuresInCenterLine.sort((a, b) => a.get('start') - b.get('start'))
-      StackedBarChartData.seriesData = []
       break
     }
 
@@ -123,7 +121,6 @@ export const sortFeature = (
           (a, b) => (getTag(b, tag) || 0) - (getTag(a, tag) || 0),
         )
       }
-      StackedBarChartData.seriesData = []
       break
     }
 
@@ -158,7 +155,6 @@ export const sortFeature = (
           (acode ? acode.charCodeAt(0) : 0) - (bcode ? bcode.charCodeAt(0) : 0)
         )
       })
-      StackedBarChartData.seriesData = []
       break
     }
 
@@ -167,7 +163,6 @@ export const sortFeature = (
       featuresInCenterLine.sort((a, b) =>
         a.get('strand') <= b.get('strand') ? 1 : -1,
       )
-      StackedBarChartData.seriesData = []
       break
     }
 
@@ -329,22 +324,22 @@ export const sortFeature = (
         percentage: percent4,
       }
 
-      StackedBarChartData.seriesData = [
+      const clustersData = [
         { name: 'R11', percentage: percent1 },
         { name: 'R10', percentage: percent2 },
         { name: 'R01', percentage: percent3 },
         { name: 'R00', percentage: percent4 },
       ]
 
-      postDataToServer()
+      postDataToServer(clustersData)
         .then(() => {
-        // Success
+          // Success
           console.log('Data stored successfully')
         })
         .catch(error => {
-        // Error
+          // Error
           console.error('Error storing data:', error)
-        });
+        })
 
       featuresHasFoodie1.forEach(feature => {
         if (
@@ -445,20 +440,20 @@ export const sortFeature = (
       const percent1 = toPercentage(len1, total)
       const percent2 = toPercentage(len2, total)
 
-      StackedBarChartData.seriesData = [
+      const clustersData = [
         { name: 'R1', percentage: percent1 },
         { name: 'R0', percentage: percent2 },
       ]
 
-      postDataToServer()
+      postDataToServer(clustersData)
         .then(() => {
-        // Success
+          // Success
           console.log('Data stored successfully')
         })
         .catch(error => {
-        // Error
+          // Error
           console.error('Error storing data:', error)
-        });
+        })
 
       const cluster1Info: ClusterInfo = {
         cluster_type: 'R1',
