@@ -12,7 +12,6 @@ import { getTag } from '../util'
 import BamSlightlyLazyFeature from '../BamAdapter/BamSlightlyLazyFeature'
 import CramSlightlyLazyFeature from '../CramAdapter/CramSlightlyLazyFeature'
 import { StackedBarChartData } from './StackedBarChartData'
-import axios from 'axios'
 
 interface SortObject {
   pos: number
@@ -33,7 +32,28 @@ export interface ClusterInfo {
   percentage: string
 }
 
-export const sortFeature = async (
+async function postDataToServer() {
+  try {
+    const response = await fetch('http://localhost:3000/clusters', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(StackedBarChartData.seriesData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await response.json();
+    console.log('Data stored on the server:', data);
+  } catch (error) {
+    console.error('Error storing data on the server:', error);
+  }
+}
+
+export const sortFeature = (
   features: Map<string, Feature>,
   sortedBy: SortObject,
 ) => {
@@ -310,22 +330,21 @@ export const sortFeature = async (
       }
 
       StackedBarChartData.seriesData = [
-        { name: 'R11', data: percent1 },
-        { name: 'R10', data: percent2 },
-        { name: 'R01', data: percent3 },
-        { name: 'R00', data: percent4 },
+        { name: 'R11', percentage: percent1 },
+        { name: 'R10', percentage: percent2 },
+        { name: 'R01', percentage: percent3 },
+        { name: 'R00', percentage: percent4 },
       ]
 
-      try {
-        // Send a POST request to the backend endpoint to store the data
-        const response = await axios.post(
-          'http://localhost:3000/clusters',
-          StackedBarChartData,
-        )
-        console.log('Data stored on the server:', response.data);
-      } catch (error) {
-        console.error('Error storing data on the server:', error);
-      }
+      postDataToServer()
+        .then(() => {
+        // Success
+          console.log('Data stored successfully')
+        })
+        .catch(error => {
+        // Error
+          console.error('Error storing data:', error)
+        });
 
       featuresHasFoodie1.forEach(feature => {
         if (
@@ -427,20 +446,19 @@ export const sortFeature = async (
       const percent2 = toPercentage(len2, total)
 
       StackedBarChartData.seriesData = [
-        { name: 'R1', data: percent1 },
-        { name: 'R0', data: percent2 },
+        { name: 'R1', percentage: percent1 },
+        { name: 'R0', percentage: percent2 },
       ]
 
-      try {
-        // Send a POST request to the backend endpoint to store the data
-        const response = await axios.post(
-          'http://localhost:3000/clusters',
-          StackedBarChartData,
-        )
-        console.log('Data stored on the server:', response.data);
-      } catch (error) {
-        console.error('Error storing data on the server:', error);
-      }
+      postDataToServer()
+        .then(() => {
+        // Success
+          console.log('Data stored successfully')
+        })
+        .catch(error => {
+        // Error
+          console.error('Error storing data:', error)
+        });
 
       const cluster1Info: ClusterInfo = {
         cluster_type: 'R1',
