@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
-import { Dialog, DialogContent, Typography } from '@mui/material';
+import { DialogContent, Typography } from '@mui/material';
+import { Dialog } from '@jbrowse/core/ui';
 import * as echarts from 'echarts';
 
 function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
@@ -36,26 +37,34 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
     }));
   }
 
-  let xAxisData: string[] = [];
-  if (chartData.length === 2) {
-    xAxisData = ['TF1'];
-  } else if (chartData.length === 4) {
-    xAxisData = ['TF1', 'TF2'];
-  } else {
-    xAxisData = []; 
-  }
+  const xAxisNames: string[] = ['TF1', 'TF2'];
 
-  const seriesConfig = chartData.map(item => ({
-    name: item.name,
-    type: 'bar',
-    stack: 'Ad',
-    emphasis: {
-      itemStyle: {
-        opacity: 1,
+  let seriesConfig: {}[] = []
+  if (chartData.length === 2) {
+    seriesConfig = chartData.map(item => ({
+      name: item.name,
+      type: 'bar',
+      stack: 'Ad',
+      emphasis: {
+        itemStyle: {
+          opacity: 1,
+        },
       },
-    },
-    data: new Array(chartData.length).fill(parseFloat(item.percentage)),
-  }));  
+      data: [parseFloat(item.percentage)],
+    }));
+  } else if (chartData.length === 4){
+    seriesConfig = chartData.map(item => ({
+      name: item.name,
+      type: 'bar',
+      stack: 'Ad',
+      emphasis: {
+        itemStyle: {
+          opacity: 1,
+        },
+      },
+      data: [parseFloat(item.percentage), parseFloat(item.percentage)],
+    }));
+  }
 
   useEffect(() => {
     if (chartRef.current) {
@@ -77,7 +86,7 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
         },
         xAxis: {
           type: 'category',
-          data: xAxisData,
+          data: xAxisNames.slice(0, chartData.length / 2),
         },
         yAxis: {
           type: 'value',
@@ -98,13 +107,15 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
         window.removeEventListener('resize', resizeListener);
       };
     }
-  }, []);
+  }, [data]);
 
   return (
     <Dialog open onClose={handleClose} title="Show stacked bar">
       <DialogContent>
-        <Typography>The stacked bar of the sorting clusters</Typography>
-        <div ref={chartRef} style={{ height: '250px' }} />
+        <Typography>
+          The stacked bar(%) of the sorting clusters. Please sort by TF(s) first.
+        </Typography>
+        <div ref={chartRef} style={{ height: '300px' }} />
       </DialogContent>
     </Dialog>
   );
