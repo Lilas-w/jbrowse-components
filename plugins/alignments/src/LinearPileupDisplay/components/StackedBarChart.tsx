@@ -1,13 +1,61 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Dialog, DialogContent, Typography } from '@mui/material';
 import * as echarts from 'echarts';
-import { StackedBarChartData } from '../../PileupRenderer/StackedBarChartData';
 
 function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
   const { model, handleClose } = props;
+  const [data, setData] = useState([]);
   const chartRef = useRef<HTMLDivElement | null>(null);
-  console.log(StackedBarChartData.seriesData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/clusters');
+        if (response.ok) {
+          const jsonData = await response.json();
+          setData(jsonData);
+        } else {
+          console.error('Error fetching data:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData().catch(error => {
+      console.error('Error fetching data:', error);
+    });
+  }, []);
+
+  let chartData: { name: string, percentage: string }[] = []
+  if (data.length !== 0) {
+    chartData = data.map((item: { name: string, percentage: string }) => ({
+      name: item.name,
+      percentage: item.percentage
+    }));
+  }
+
+  let xAxisData: string[] = [];
+  if (chartData.length === 2) {
+    xAxisData = ['TF1'];
+  } else if (chartData.length === 4) {
+    xAxisData = ['TF1', 'TF2'];
+  } else {
+    xAxisData = []; 
+  }
+
+  const seriesConfig = chartData.map(item => ({
+    name: item.name,
+    type: 'bar',
+    stack: 'Ad',
+    emphasis: {
+      itemStyle: {
+        opacity: 1,
+      },
+    },
+    data: new Array(chartData.length).fill(parseFloat(item.percentage)),
+  }));  
 
   useEffect(() => {
     if (chartRef.current) {
@@ -29,57 +77,12 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
         },
         xAxis: {
           type: 'category',
-          data: ['TF1', 'TF2'],
+          data: xAxisData,
         },
         yAxis: {
           type: 'value',
         },
-        series: [
-          {
-            name: 'R11',
-            type: 'bar',
-            stack: 'Ad',
-            emphasis: {
-              itemStyle: {
-                opacity: 1,
-              },
-            },
-            data: [0.31, 0.31],
-          },
-          {
-            name: 'R10',
-            type: 'bar',
-            stack: 'Ad',
-            emphasis: {
-              itemStyle: {
-                opacity: 1,
-              },
-            },
-            data: [0.25, 0.25],
-          },
-          {
-            name: 'R01',
-            type: 'bar',
-            stack: 'Ad',
-            emphasis: {
-              itemStyle: {
-                opacity: 1,
-              },
-            },
-            data: [0, 0],
-          },
-          {
-            name: 'R00',
-            type: 'bar',
-            stack: 'Ad',
-            emphasis: {
-              itemStyle: {
-                opacity: 1,
-              },
-            },
-            data: [0.44, 0.44],
-          },
-        ],
+        series: seriesConfig,
       };
 
       chart.setOption(option);
@@ -101,7 +104,7 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
     <Dialog open onClose={handleClose} title="Show stacked bar">
       <DialogContent>
         <Typography>The stacked bar of the sorting clusters</Typography>
-        <div ref={chartRef} style={{ height: '300px' }} />
+        <div ref={chartRef} style={{ height: '250px' }} />
       </DialogContent>
     </Dialog>
   );

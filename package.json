@@ -152,5 +152,7 @@
     "webpack-dev-server": "^4.7.3"
   },
   "version": "0.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "echarts-for-react": "^3.0.2"
+  }
 }
