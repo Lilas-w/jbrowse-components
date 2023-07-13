@@ -31,24 +31,54 @@ export interface ClusterInfo {
   percentage: string
 }
 
-async function postDataToServer(data: {}) {
+async function getSessionID() {
   try {
-    const response = await fetch('http://localhost:3000/clusters', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    const response = await fetch('http://localhost:3000/session', {
+      method: 'GET',
     })
 
     if (!response.ok) {
       throw new Error('Network response was not ok')
     }
 
-    const resData = await response.json()
-    console.log('Data stored on the server:', resData)
+    const data = await response.json()
+    return data.sessionID
   } catch (error) {
-    console.error('Error storing data on the server:', error)
+    console.error('Error getting session ID:', error)
+    return null
+  }
+}
+
+async function postDataToServer(data: {}[]) {
+  try {
+    const sessionID = await getSessionID();
+
+    if (!sessionID) {
+      console.error('Session ID not available');
+      return;
+    }
+
+    const payload = {
+      sessionID: sessionID,
+      data: data,
+    };
+
+    const response = await fetch('http://localhost:3000/clusters', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const resData = await response.json();
+    console.log('Data stored on the server:', resData);
+  } catch (error) {
+    console.error('Error storing data on the server:', error);
   }
 }
 
