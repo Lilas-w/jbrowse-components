@@ -12,27 +12,20 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const sessionResponse = await fetch('http://localhost:3000/session');
-        if (sessionResponse.ok) {
-          const sessionData = await sessionResponse.json();
-          const sessionID = sessionData.sessionID;
-
-          const clustersResponse = await fetch(`http://localhost:3000/clusters/${sessionID}`);
-          if (clustersResponse.ok) {
-            const jsonData = await clustersResponse.json();
-            setData(jsonData);
-          } else {
-            console.error('Error fetching clusters:', clustersResponse.status);
-          }
+        const response = await fetch('http://localhost:3000/clusters', {
+          credentials: 'include', // Include cookies in the request
+        });
+        if (response.ok) {
+          const jsonData = await response.json();
+          setData(jsonData);
         } else {
-          console.error('Error fetching session ID:', sessionResponse.status);
+          console.error('Error fetching data:', response.status);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
-    fetchData().catch(error => {
+    fetchData().catch((error) => {
       console.error('Error fetching data:', error);
     });
   }, []);

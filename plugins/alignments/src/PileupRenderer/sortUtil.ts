@@ -31,44 +31,15 @@ export interface ClusterInfo {
   percentage: string
 }
 
-async function getSessionID() {
+async function postDataToServer(data: {}) {
   try {
-    const response = await fetch('http://localhost:3000/session', {
-      method: 'GET',
-    })
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    const data = await response.json()
-    return data.sessionID
-  } catch (error) {
-    console.error('Error getting session ID:', error)
-    return null
-  }
-}
-
-async function postDataToServer(data: {}[]) {
-  try {
-    const sessionID = await getSessionID();
-
-    if (!sessionID) {
-      console.error('Session ID not available');
-      return;
-    }
-
-    const payload = {
-      sessionID: sessionID,
-      data: data,
-    };
-
     const response = await fetch('http://localhost:3000/clusters', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
+      credentials: 'include', // Include cookies in the request
     });
 
     if (!response.ok) {
@@ -83,7 +54,7 @@ async function postDataToServer(data: {}[]) {
 }
 
 export const sortFeature = (
-  features: Map<string, Feature>,
+  features: Map<string, Feature>, 
   sortedBy: SortObject,
 ) => {
   const featureArray = Array.from(features.values())

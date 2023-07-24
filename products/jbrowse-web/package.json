@@ -78,7 +78,9 @@
     "webpack": "^5.72.0"
   },
   "devDependencies": {
-    "echarts": "^5.4.2"
+    "echarts": "^5.4.2",
+    "js-cookie": "^3.0.5",
+    "@types/js-cookie": "^3.0.3"
   },
   "browserslist": {
     "production": [
