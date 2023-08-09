@@ -108,6 +108,7 @@ function StackedBarChartDlg(props: { model: any; handleClose: () => void }) {
         window.removeEventListener('resize', resizeListener);
       };
     }
+    return undefined;
   }, [data]);
 
   return (
